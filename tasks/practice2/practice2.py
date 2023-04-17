@@ -13,7 +13,6 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
     return 'Добро пожаловать, ' + name
 
 
@@ -29,7 +28,6 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
     return round(random.uniform(100, 1000000), 2)
 
 
@@ -43,8 +41,7 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
-    return result
+    return len(phone_number) == 12 and phone_number[0:2] == '+7' and all(c.isdigit() for c in phone_number[2:])
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -60,7 +57,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    return True if current_amount >= float(transfer_amount) else False
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -78,8 +75,16 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
-    return result
+    lower_text_list = text.lower().strip().replace('\'', '').replace('"', '').split()
+
+    for word in uncultured_words:
+        lower_text_list = list(map(lambda w: w.replace(word.lower(), '#' * len(word)), lower_text_list))
+
+    lower_text_list[0] = lower_text_list[0].title()
+
+    new_text = ' '.join(lower_text_list)
+
+    return new_text
 
 
 def create_request_for_loan(user_info: str) -> str:
@@ -101,5 +106,9 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    info = user_info.split(',')
+    to_add = ['Фамилия: ', 'Имя: ', 'Отчество: ', 'Дата рождения: ', 'Запрошенная сумма: ']
+
+    result = '\n'.join([part[0] + part[1] for part in zip(to_add, info)])
+
     return result
