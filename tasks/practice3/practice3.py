@@ -58,13 +58,7 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :return: размер кешбека
     """
 
-    res = 0
-    for x in operations:
-        if x['category'] in special_category:
-            res += x['amount'] * 0.05
-        else:
-            res += x['amount'] * 0.01
-    return res
+    return result
 
 
 def get_path_to_file() -> Optional[Path]:
