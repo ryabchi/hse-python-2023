@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+import csv
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -27,8 +28,19 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
+    punctuation_marks = {'.', '?', '!', ',', ';', ':', '-', '(', ')'}
+    text_copy = text.lower()
+    for mark in punctuation_marks:
+        text_copy = text_copy.replace(mark, ' ')
 
-    return {}
+    possible_words_list = text_copy.split(" ")
+
+    words_list = [word for word in possible_words_list if word.isalpha() and len(word) > 1]
+    result = dict()
+
+    for correct_word in words_list:
+        result[correct_word] = words_list.count(correct_word)
+    return result
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -42,7 +54,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
 
     # пиши свой код здесь
 
-    return []
+    return [elem ** exp for elem in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,6 +69,12 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
+    result = 0
+    for dictionary in operations:
+        if dictionary['category'] in special_category:
+            result += dictionary['amount'] * 0.05
+        else:
+            result += dictionary['amount'] * 0.01
 
     return result
 
@@ -100,5 +118,23 @@ def csv_reader(header: str) -> int:
     """
 
     # пиши свой код здесь
+    with open(get_path_to_file(), 'r', newline="") as file:
+        reader = csv.reader(file)
 
-    return 0
+        headers = []
+        data = []
+        row_index = 0
+        for row in reader:
+            if row_index == 0:
+                headers = row
+            else:
+                data.append(row)
+            row_index += 1
+
+    column = headers.index(header)
+    data_set = set()
+    for row in data:
+        data_set.add(row[column])
+    return len(data_set)
+
+
