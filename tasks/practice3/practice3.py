@@ -26,9 +26,13 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    # пиши свой код здесь
-
-    return {}
+    result = dict()
+    for raw_word in text.split():
+        word = raw_word.strip(",").strip("!").strip("?").strip(".").lower()
+        if not word.isalpha():
+            continue
+        result[word] = 1 if word not in result else result[word] + 1
+    return result
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -40,9 +44,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :return: список натуральных чисел
     """
 
-    # пиши свой код здесь
-
-    return []
+    return [num ** exp for num in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -105,6 +107,12 @@ def csv_reader(header: str) -> int:
     :return: количество уникальных элементов в столбце
     """
 
-    # пиши свой код здесь
-
-    return 0
+    import csv
+    result = 0
+    f_path: Optional[Path] = get_path_to_file()
+    if f_path is not None:
+        with open(f_path) as file:
+            csv_r = csv.reader(file)
+            col_index = next(csv_r).index(header)
+            result = len(set([row[col_index] for row in csv_r]))
+    return result
