@@ -1,6 +1,6 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-
+import csv
 
 def count_words(text: str) -> Dict[str, int]:
     """
@@ -25,10 +25,21 @@ def count_words(text: str) -> Dict[str, int]:
              ключ - слово в нижнем регистре
              значение - количество вхождений слов в текст
     """
+    dictionary: Dict[str, int]
+    dictionary = {}
+    arr = text.split(' ')
+    for i in arr:
+        i = i.lower()
+        import string
+        for j in string.punctuation:
+            i = i.replace(j, '')
+        if (i.isalpha()):
+            if (dictionary.get(i, 0) == 0):
+                dictionary[i] = 1
+            else:
+                dictionary[i] += 1
 
-    # пиши свой код здесь
-
-    return {}
+    return dictionary
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -39,10 +50,11 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :param exp: в какую степень возвести числа в списке
     :return: список натуральных чисел
     """
+    result=list()
+    for i in numbers:
+        result.append(i**exp)
 
-    # пиши свой код здесь
-
-    return []
+    return result
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,7 +69,12 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
-
+    result=0
+    for i in operations:
+        if (i['category'] in special_category):
+            result += i['amount'] * 0.05
+        else:
+            result += i['amount'] * 0.01
     return result
 
 
@@ -99,6 +116,24 @@ def csv_reader(header: str) -> int:
     :return: количество уникальных элементов в столбце
     """
 
-    # пиши свой код здесь
+    read = csv.reader(open(get_path_to_file(), encoding='utf-8'), delimiter=",")
+    res_st = 0
+    i = 0
+    j = 0
+    result = 0
+    check = {}
+    for item in read:
+        if (j == 0):
+            for src in item:
+                if (src == header):
+                    res_st = i
+                    j = 1
+                    break
+                else:
+                    i += 1
+        else:
+            if (check.get(item[res_st], 0) == 0):
+                result += 1
+                check[item[res_st]] = 1
 
-    return 0
+    return result
