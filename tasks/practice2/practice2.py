@@ -1,4 +1,6 @@
 from typing import Iterable
+import random
+import re
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
@@ -13,7 +15,7 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
-    return greeting
+    return "Привет, " + name + "!"
 
 
 def get_amount() -> float:
@@ -29,7 +31,7 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
-    return amount
+    return round(random.uniform(100, 1000000), 2)
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -43,7 +45,7 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    return bool(re.match('\+7\d{10}$', phone_number))
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -59,7 +61,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    return current_amount >= float(transfer_amount)
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -78,7 +80,20 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
 
     # пиши код здесь
-    return result
+
+    text = text.lower()
+    text = re.sub("[A-Za-zА-Яа-я]", re.search("[A-Za-zА-Яа-я]", text).group().upper(), text, 1)
+
+    text = re.sub(" +", " ", text)
+    if text[0] == " ":
+        text = text[1:]
+    if text[-1] == " ":
+        text = text[:-1]
+
+    pattern = re.compile("|".join(uncultured_words), flags=re.IGNORECASE)
+    text = pattern.sub(lambda x: '#' * len(x.group()), text)
+    text = re.sub(r"\'|\"", "", text)
+    return text
 
 
 def create_request_for_loan(user_info: str) -> str:
@@ -101,4 +116,6 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
-    return result
+
+    ui = user_info.split(",")
+    return f"Фамилия: {ui[0]}\nИмя: {ui[1]}\nОтчество: {ui[2]}\nДата рождения: {ui[3]}\nЗапрошенная сумма: {ui[4]}"
