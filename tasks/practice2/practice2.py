@@ -1,4 +1,6 @@
 from typing import Iterable
+import random
+import re
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
@@ -13,6 +15,8 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
+    greeting = "Welcome to the club, " + name
+
     return greeting
 
 
@@ -29,7 +33,10 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
-    return amount
+
+    amount = random.uniform(100.0, 1_000_000.0)
+
+    return round(amount, 2)
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -43,7 +50,10 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+
+    result = re.match("^\\+7\\d{10}$", phone_number)
+
+    return bool(result)
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -59,7 +69,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    return current_amount >= float(transfer_amount)
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -78,7 +88,23 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
 
     # пиши код здесь
-    return result
+
+    # second rule
+    text = ' '.join(text.split())
+
+    # first rule
+    text = text.lower()
+    text = text.capitalize()
+
+    # third rule
+    text = re.sub("\"", "", text)
+    text = re.sub("\'", "", text)
+
+    # fourth rule
+    for bad_word in uncultured_words:
+        text = text.replace(bad_word, len(bad_word) * "#")
+
+    return text
 
 
 def create_request_for_loan(user_info: str) -> str:
@@ -101,4 +127,13 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
+    split_words = user_info.split(",")
+
+    result: str = \
+        "Фамилия: " + split_words[0] + "\n" + \
+        "Имя: " + split_words[1] + "\n" + \
+        "Отчество: " + split_words[2] + "\n" + \
+        "Дата рождения: " + split_words[3] + "\n" + \
+        "Запрошенная сумма: " + split_words[4]
+
     return result

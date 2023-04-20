@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 
@@ -27,8 +28,18 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
+    text = re.sub("[,.\'\"!?-]", " ", text)
+    text = text.split()
 
-    return {}
+    result = {}
+
+    for possible_word in text:
+        if not re.match(".*\\d.*", possible_word):
+            possible_word = possible_word.lower()
+            total_amount = result.get(possible_word, 0)
+            result[possible_word] = total_amount + 1
+
+    return result
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -42,7 +53,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
 
     # пиши свой код здесь
 
-    return []
+    return [pow(x, exp) for x in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,6 +68,14 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
+
+    result: float = 0.0
+
+    for item in operations:
+        if special_category.count(item["category"]):
+            result += item["amount"] * 0.05
+        else:
+            result += item["amount"] * 0.01
 
     return result
 
