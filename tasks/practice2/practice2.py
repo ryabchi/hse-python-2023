@@ -1,4 +1,5 @@
 from typing import Iterable
+import random
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
@@ -12,7 +13,7 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    greeting=name+', здравствуйте!'
     return greeting
 
 
@@ -27,8 +28,9 @@ def get_amount() -> float:
 
     :return: случайную сумму на счете
     """
+    amount=random.uniform(100, 1000000);
+    amount=round(amount, 2)
 
-    # пиши код здесь
     return amount
 
 
@@ -41,8 +43,14 @@ def is_phone_correct(phone_number: str) -> bool:
     :return: буленовское значение - bool: True - если номер корректны,
                                           False - если номер некорректный
     """
+    result=True
+    if phone_number[0]!='+':
+        result=False
+    if phone_number[1]!='7':
+        result=False
+    if not phone_number[1::].isdigit():
+        result=False
 
-    # пиши код здесь
     return result
 
 
@@ -58,7 +66,10 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
+    if (current_amount>=float(transfer_amount)):
+        result=True
+    else:
+        result=False
     return result
 
 
@@ -76,8 +87,15 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :param uncultured_words: список запрещенных слов
     :return: текст, соответсвующий правилам
     """
-
-    # пиши код здесь
+    result = text
+    for i in uncultured_words:
+        result = result.replace(i, '#' * len(i))
+    result = result.lower()
+    result = result.strip()
+    result = result.expandtabs(1)
+    result = result[:1].upper() + result[1::]
+    result = result.replace('\'', '')
+    result = result.replace('"', '')
     return result
 
 
@@ -99,6 +117,8 @@ def create_request_for_loan(user_info: str) -> str:
     :param user_info: строка с информацией о клиенте
     :return: текст кредитной заявки
     """
+    arr = user_info.split(',')
+    result = "Фамилия: " + arr[0] + "\nИмя: " + arr[1] + "\nОтчество: " + arr[2] + "\nДата рождения: " + arr[
+        3] + "\nЗапрошенная сумма: " + arr[4]
 
-    # пиши код здесь
     return result
