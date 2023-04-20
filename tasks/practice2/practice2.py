@@ -1,4 +1,5 @@
 from typing import Iterable
+import random
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
@@ -12,8 +13,7 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
-    return greeting
+    return f'Добро пожаловать, {name}'
 
 
 def get_amount() -> float:
@@ -28,8 +28,7 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
-    return amount
+    return round(random.uniform(100, 1000000), 2)
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -42,8 +41,7 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
-    return result
+    return all(x.isdigit() for x in phone_number[2:]) and (phone_number[:2] == '+7') and len(phone_number) == 12
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -59,7 +57,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    return current_amount >= float(transfer_amount)
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -77,7 +75,14 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+    result = text.strip()[0].upper() + text.strip()[1:].lower()
+
+    result = result.replace('\'', '')
+    result = result.replace('\"', '')
+
+    for word in uncultured_words:
+        result = result.replace(word, '#' * len(word))
+
     return result
 
 
@@ -100,5 +105,12 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    user = user_info.split(",")
+
+    result = f'Фамилия: {user[0]}\n' \
+             f'Имя: {user[1]}\n' \
+             f'Отчество: {user[2]}\n' \
+             f'Дата рождения: {user[3]}\n' \
+             f'Запрошенная сумма: {user[4]}'
+
     return result
