@@ -1,3 +1,5 @@
+import csv
+import string
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 
@@ -25,10 +27,18 @@ def count_words(text: str) -> Dict[str, int]:
              ключ - слово в нижнем регистре
              значение - количество вхождений слов в текст
     """
+    words_count = {}
 
-    # пиши свой код здесь
+    for word in text.split():
+        word = word.rstrip(string.punctuation).lower()
+        if not word.isalpha():
+            continue
 
-    return {}
+        if word not in words_count:
+            words_count[word] = 0
+        words_count[word] += 1
+
+    return words_count
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -42,10 +52,12 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
 
     # пиши свой код здесь
 
-    return []
+    return [number**exp for number in numbers]
 
 
-def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
+def get_cashback(
+    operations: List[Dict[str, Any]], special_category: List[str]
+) -> float:
     """
     Функция для расчета кешбека по операциям.
     За покупки в обычных категориях возвращается 1% от стоимости покупки
@@ -58,7 +70,14 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :return: размер кешбека
     """
 
-    return result
+    cashback = 0
+    for operation in operations:
+        if operation["category"] in special_category:
+            cashback += operation["amount"] * 0.05
+        else:
+            cashback += operation["amount"] * 0.01
+
+    return cashback
 
 
 def get_path_to_file() -> Optional[Path]:
@@ -70,11 +89,11 @@ def get_path_to_file() -> Optional[Path]:
 
     :return: путь до тестового файла tasks.csv
     """
-    if Path().resolve().name == 'tests':
+    if Path().resolve().name == "tests":
         base_path = Path().resolve().parent
     else:
         base_path = Path().resolve()
-    return base_path / 'tasks' / 'practice3' / 'tasks.csv'
+    return base_path / "tasks" / "practice3" / "tasks.csv"
 
 
 def csv_reader(header: str) -> int:
@@ -99,6 +118,11 @@ def csv_reader(header: str) -> int:
     :return: количество уникальных элементов в столбце
     """
 
-    # пиши свой код здесь
+    column_values = set()
+    with open(get_path_to_file(), "r") as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            column_values.add(row[header])
 
-    return 0
+    count = len(column_values)
+    return count
