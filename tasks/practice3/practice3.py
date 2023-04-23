@@ -1,5 +1,11 @@
+import re
+import csv
 from pathlib import Path
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Final
+from collections import defaultdict
+
+common_rate_cashback: Final = 0.01
+special_rate_cashback: Final = 0.05
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -26,9 +32,15 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    # пиши свой код здесь
+    counts = defaultdict(int)
+    parsed_text = re.sub(r"[^\w\s]", "", text).strip().split()
 
-    return {}
+    for word in parsed_text:
+        if not word.isalpha():
+            continue
+        counts[word.lower()] += 1
+
+    return counts
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -40,12 +52,12 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :return: список натуральных чисел
     """
 
-    # пиши свой код здесь
-
-    return []
+    return [x**exp for x in numbers]
 
 
-def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
+def get_cashback(
+    operations: List[Dict[str, Any]], special_category: List[str]
+) -> float:
     """
     Функция для расчета кешбека по операциям.
     За покупки в обычных категориях возвращается 1% от стоимости покупки
@@ -57,8 +69,17 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
+    cashback = 0
 
-    return result
+    for op in operations:
+        amount = op["amount"]
+        category = op["category"]
+        if category not in special_category:
+            cashback += amount * common_rate_cashback
+        else:
+            cashback += amount * special_rate_cashback
+
+    return cashback
 
 
 def get_path_to_file() -> Optional[Path]:
@@ -70,11 +91,11 @@ def get_path_to_file() -> Optional[Path]:
 
     :return: путь до тестового файла tasks.csv
     """
-    if Path().resolve().name == 'tests':
+    if Path().resolve().name == "tests":
         base_path = Path().resolve().parent
     else:
         base_path = Path().resolve()
-    return base_path / 'tasks' / 'practice3' / 'tasks.csv'
+    return base_path / "tasks" / "practice3" / "tasks.csv"
 
 
 def csv_reader(header: str) -> int:
@@ -101,4 +122,7 @@ def csv_reader(header: str) -> int:
 
     # пиши свой код здесь
 
-    return 0
+    with open(get_path_to_file(), newline="") as f:
+        uniq = {row[header] for row in csv.DictReader(f)}
+
+    return len(uniq)
