@@ -1,4 +1,5 @@
 from typing import Iterable
+from random import uniform
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
@@ -12,7 +13,7 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    greeting = f"Приветствую на борту, {name}!"
     return greeting
 
 
@@ -28,7 +29,7 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
+    amount = round(uniform(100, 1000000), 2)
     return amount
 
 
@@ -41,8 +42,8 @@ def is_phone_correct(phone_number: str) -> bool:
     :return: буленовское значение - bool: True - если номер корректны,
                                           False - если номер некорректный
     """
+    result = phone_number.startswith("+7") and phone_number[1:].isdigit() and len(phone_number) == 12
 
-    # пиши код здесь
     return result
 
 
@@ -58,7 +59,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
+    result = current_amount >= float(transfer_amount)
     return result
 
 
@@ -77,7 +78,14 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+    text = " ".join(text.split())
+    text = text.replace("'", "")
+    text = text.replace('"', "")
+    text = text[0].capitalize() + text[1:].lower()
+
+    for bad_word in uncultured_words:
+        text = text.replace(bad_word, "#" * len(bad_word))
+    result = text
     return result
 
 
@@ -85,20 +93,25 @@ def create_request_for_loan(user_info: str) -> str:
     """
     Генерирует заявку на кредит на основе входящей строки.
     Формат входящий строки:
-    
+
     Иванов,Петр,Сергеевич,01.01.1991,10000
-    
+
     Что должны вернуть на ее основе:
-    
+
     Фамилия: Иванов
     Имя: Петр
     Отчество: Сергеевич
     Дата рождения: 01.01.1991
     Запрошенная сумма: 10000
-    
+
     :param user_info: строка с информацией о клиенте
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    user_info = user_info.split(",")
+    result = f"""Фамилия: {user_info[0]}
+Имя: {user_info[1]}
+Отчество: {user_info[2]}
+Дата рождения: {user_info[3]}
+Запрошенная сумма: {user_info[4]}"""
     return result
