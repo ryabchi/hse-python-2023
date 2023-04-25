@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Iterable, List
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
@@ -8,15 +8,17 @@ def greet_user(name: str) -> str:
     Генерирует приветственную фразу.
     Приветствие не может состоять только из одного имени пользователя.
 
-    :param name: имя пользователя
-    :return: приветствие
+    :param name: Username
+    :type name: str
+    :return: greeting
     """
 
-    # пиши код здесь
+    greeting: str = f"Hello, {name}!"
     return greeting
 
 
 def get_amount() -> float:
+
     """
     Генерируем случайную сумму на счете.
 
@@ -27,9 +29,12 @@ def get_amount() -> float:
 
     :return: случайную сумму на счете
     """
+    from random import uniform
 
-    # пиши код здесь
-    return amount
+    RANGE: List[int, int] = [100, 1_000_000]
+    DIGITS_COUNT: int = 2
+
+    return round(uniform(*RANGE), DIGITS_COUNT)
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -38,28 +43,31 @@ def is_phone_correct(phone_number: str) -> bool:
     +7xxxxxxxxxx, где x - цифра от 0 до 9
 
     :param phone_number: предполагаемый номер телефона
-    :return: буленовское значение - bool: True - если номер корректны,
+    :type phone_number: str
+    :return: булевское значение - bool: True - если номер корректны,
                                           False - если номер некорректный
     """
+    from re import fullmatch
 
-    # пиши код здесь
-    return result
+    return bool(fullmatch(r'\+7\d{10}', phone_number))
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
+
     """
     Проверяет возможность осуществления перевода.
     Перевод возможен если выполняется условие:
     - текущий счет (current_amount) больше или равен сумме перевода (transfer_amount)
 
     :param current_amount: текущий счет
+    :type current_amount: float
     :param transfer_amount: сумма перевода
-    :return: буленовское значение - bool: True - если перевод возможен,
+    :type transfer_amount: str
+    :return: булевское значение - bool: True - если перевод возможен,
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
-    return result
+    return current_amount >= float(transfer_amount)
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -68,16 +76,25 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
 
     Требования к тексту:
     - Первая буква заглавная, остальные буквы только в нижнем регистре
-    - отсутствую лишние пробелы
+    - отсутствуют лишние пробелы
     - фильтруются 'опасные' символы: " ' (двойные и одинарные кавычки)
     - слова, перечисленные в переменной uncultured_words заменяются на аналогичное количество знаков #
 
     :param text: исходный текст
+    :type text: str
     :param uncultured_words: список запрещенных слов
+    :type uncultured_words: Iterable[str]
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+    from re import sub
+
+    result: str = ' '.join(text.split()).capitalize()
+    result: str = sub(r'[\"\']', "", result)
+
+    for word in uncultured_words:
+        result: str = result.replace(word, len(word) * '#')
+
     return result
 
 
@@ -97,8 +114,25 @@ def create_request_for_loan(user_info: str) -> str:
     Запрошенная сумма: 10000
     
     :param user_info: строка с информацией о клиенте
+    :type user_info: str
     :return: текст кредитной заявки
     """
+    from dataclasses import dataclass
 
-    # пиши код здесь
-    return result
+    @dataclass
+    class User:
+        surname: str
+        name: str
+        patronymic: str
+        birth_date: str
+        loan_sum: str
+
+        def format_str(self) -> str:
+            return f'Фамилия: {self.surname}\n' \
+                   f'Имя: {self.name}\n' \
+                   f'Отчество: {self.patronymic}\n' \
+                   f'Дата рождения: {self.birth_date}\n' \
+                   f'Запрошенная сумма: {self.loan_sum}'
+
+
+    return User(*user_info.split(',')).format_str()
