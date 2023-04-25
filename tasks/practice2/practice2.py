@@ -12,8 +12,8 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
-    return greeting
+
+    return "Добро пожаловать, "+name
 
 
 def get_amount() -> float:
