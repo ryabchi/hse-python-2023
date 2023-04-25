@@ -27,16 +27,8 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
-    text = text.replace(",", " ").replace(".", " ")\
-        .replace("-", " ").replace("!", " ").replace("!", " ").replace(":", "")
-    text = [word.lower() for word in text.split() if word.isalpha()]
-    result = {}
-    for word in text:
-        if word in result:
-            result[word] += 1
-        else:
-            result[word] = 1
-    return result
+
+    return {}
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -48,9 +40,9 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :return: список натуральных чисел
     """
 
-    numbers = [int(pow(x, exp)) for x in numbers]
+    # пиши свой код здесь
 
-    return numbers
+    return []
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -65,12 +57,6 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
-    result = 0
-    for operation in operations:
-        if operation["category"] in special_category:
-            result += operation["amount"] * 0.05
-        else:
-            result += operation["amount"] * 0.01
 
     return result
 
@@ -112,8 +98,7 @@ def csv_reader(header: str) -> int:
     :param header: название заголовка
     :return: количество уникальных элементов в столбце
     """
-    import csv
-    with open(get_path_to_file(), newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        count = len(set([row[header] for row in reader]))
-    return count
+
+    # пиши свой код здесь
+
+    return 0
