@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Callable
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -21,14 +21,19 @@ def count_words(text: str) -> Dict[str, int]:
     значение - количество вхождений слов в текст
 
     :param text: текст, для подсчета символов
+    :type text: Dict[str, str]
     :return: словарь, в котором:
              ключ - слово в нижнем регистре
              значение - количество вхождений слов в текст
     """
+    from re import sub
+    from collections import Counter
 
-    # пиши свой код здесь
+    filtered_text: List[str] = sub(r'[-.?,:;()+!]', " ", text).lower().split()
 
-    return {}
+    words: List[str] = [word for word in filtered_text if all(not x.isdigit() for x in word)]
+
+    return dict(Counter(words))
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -36,13 +41,13 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     Функция, которая возводит каждый элемент списка в заданную степень
 
     :param numbers: список, состоящий из натуральных чисел
+    :type numbers: List[int]
     :param exp: в какую степень возвести числа в списке
+    :type exp: int
     :return: список натуральных чисел
     """
 
-    # пиши свой код здесь
-
-    return []
+    return [number**exp for number in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -54,11 +59,15 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param operations: список словарей, содержащих поля
            amount - сумма операции
            category - категория покупки
+    :type operations: List[Dict[str, Any]
     :param special_category: список категорий повышенного кешбека
+    :type special_category: List[str]
     :return: размер кешбека
     """
 
-    return result
+    cash_back: Callable[[str], float] = lambda category: 0.05 if category in special_category else 0.01
+
+    return sum(operation['amount'] * cash_back(operation['category']) for operation in operations)
 
 
 def get_path_to_file() -> Optional[Path]:
@@ -96,9 +105,14 @@ def csv_reader(header: str) -> int:
     CSV анализируем с помощью встроенной библиотеки csv
 
     :param header: название заголовка
+    :type header: str
     :return: количество уникальных элементов в столбце
     """
 
-    # пиши свой код здесь
+    from csv import reader
 
-    return 0
+    with open(file=get_path_to_file(), mode='r') as csv_file:
+        file = reader(csv_file)
+        headers = file.__next__()
+        columns = set([line[headers.index(header)] for line in file])
+    return len(columns)
