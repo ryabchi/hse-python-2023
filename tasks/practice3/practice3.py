@@ -1,4 +1,7 @@
+from collections import defaultdict
+import csv
 from pathlib import Path
+import re
 from typing import Dict, Any, List, Optional
 
 
@@ -28,7 +31,12 @@ def count_words(text: str) -> Dict[str, int]:
 
     # пиши свой код здесь
 
-    return {}
+    words_count = defaultdict(int)
+    text = re.sub(r'[^\w\s]', '', text).split()
+    for word in text:
+        if not any(char.isdigit() for char in word):
+            words_count[word.lower()] += 1
+    return words_count
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -42,7 +50,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
 
     # пиши свой код здесь
 
-    return []
+    return [number ** exp for number in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -58,7 +66,13 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :return: размер кешбека
     """
 
-    return result
+    cashback = 0
+    for operation in operations:
+        if operation['category'] in special_category:
+            cashback += operation['amount'] * 0.05
+        else:
+            cashback += operation['amount'] * 0.01
+    return cashback
 
 
 def get_path_to_file() -> Optional[Path]:
@@ -101,4 +115,18 @@ def csv_reader(header: str) -> int:
 
     # пиши свой код здесь
 
-    return 0
+    path = get_path_to_file()
+    file = open(path)
+
+    reader = csv.reader(file, delimiter=',')
+    headers = next(reader)
+    index = headers.index(header)
+
+    unique = set()
+
+    for row in reader:
+        unique.add(row[index])
+
+    file.close()
+
+    return len(unique)
