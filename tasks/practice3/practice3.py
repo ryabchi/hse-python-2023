@@ -29,6 +29,7 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
+
     dictionary = {}
     text = re.sub(r"[-.?,:;()+!]", " ", text).lower().split()
     for word in text:
