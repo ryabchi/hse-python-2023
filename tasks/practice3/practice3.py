@@ -32,7 +32,7 @@ def count_words(text: str) -> Dict[str, int]:
     dictionary = {}
     text = re.sub(r"[-.?,:;()+!]", " ", text).lower().split()
     for word in text:
-        if word.isalpha() and len(word) >= 1:
+        if word.isalpha() and len(word) > 1:
             dictionary[word] = dictionary.get(word, 0) + 1
 
     return dictionary
