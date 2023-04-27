@@ -125,4 +125,5 @@ def csv_reader(header: str) -> int:
             else:
                 unique_words.add(row[col_index])
     result = len(unique_words)
+
     return result
