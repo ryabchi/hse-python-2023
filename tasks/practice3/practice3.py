@@ -1,5 +1,7 @@
 from pathlib import Path
+import re
 from typing import Dict, Any, List, Optional
+import csv
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -25,10 +27,13 @@ def count_words(text: str) -> Dict[str, int]:
              ключ - слово в нижнем регистре
              значение - количество вхождений слов в текст
     """
-
-    # пиши свой код здесь
-
-    return {}
+    def is_word(word):
+        return all(letter.isalpha() for letter in word) and len(word) > 1
+    text = text.lower()
+    splitted_text = re.split(r'\.|;|!|,| ', text)
+    result = dict((word, splitted_text.count(word))
+                  for word in splitted_text if is_word(word))
+    return result
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -39,10 +44,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :param exp: в какую степень возвести числа в списке
     :return: список натуральных чисел
     """
-
-    # пиши свой код здесь
-
-    return []
+    return [number**exp for number in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,7 +59,18 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
+    SPECIAL_CASHBACK_PERCENT = 5
+    USUAL_CASHBACK_PERCENT = 1
 
+    def calculate_cashback(amount, percent):
+        return amount * percent/100
+    result = 0
+    for operation in operations:
+        amount = operation['amount']
+        if operation['category'] in special_category:
+            result += calculate_cashback(amount, SPECIAL_CASHBACK_PERCENT)
+            continue
+        result += calculate_cashback(amount, USUAL_CASHBACK_PERCENT)
     return result
 
 
@@ -98,7 +111,9 @@ def csv_reader(header: str) -> int:
     :param header: название заголовка
     :return: количество уникальных элементов в столбце
     """
-
-    # пиши свой код здесь
-
-    return 0
+    result = set()
+    with open(str(get_path_to_file())) as csv_file:
+        reader = csv.DictReader(csv_file)
+        for row in reader:
+            result.add(row[header])
+    return len(result)
