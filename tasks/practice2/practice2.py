@@ -48,7 +48,7 @@ def is_phone_correct(phone_number: str) -> bool:
     phone_number = phone_number.replace('+7', '')
     if len(phone_number) != 10:
         return False
-    if any(number > '9' or number < '0' for number in phone_number):
+    if not all(number.isnumeric() for number in phone_number):
         return False
     return True
 
