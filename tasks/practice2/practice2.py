@@ -13,9 +13,9 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
-    return greeting
+    return f"Hello there, {name}"
 
-
+import random
 def get_amount() -> float:
     """
     Генерируем случайную сумму на счете.
@@ -29,7 +29,7 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
-    return amount
+    return float("{:.2f}".format(random.uniform(100, 1000000)))
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -43,7 +43,7 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    return phone_number[:2] == "+7" and phone_number[3:].isdigit() and len(phone_number) == 12
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -59,7 +59,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    return current_amount >= float(transfer_amount)
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -78,6 +78,11 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
 
     # пиши код здесь
+    result = text.strip().capitalize().replace('\'', '').replace('\"', '')
+
+    for word in uncultured_words:
+        result.replace(word, '#' * len(word))
+
     return result
 
 
@@ -101,4 +106,9 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
+    params = ['Фамилия', 'Имя', 'Отчество', 'Дата рождения',  'Запрошенная сумма']
+    user_info = user_info.split()
+    result = ''
+    for i in range(len(params)):
+        result += params[i] + ': ' + user_info[i] + '\n'
     return result
