@@ -116,6 +116,7 @@ def csv_reader(header: str) -> int:
     """
 
     # пиши свой код здесь
+
     with open(get_path_to_file(), newline='') as file:
         reader = csv.reader(file)
         unique_words = set()
