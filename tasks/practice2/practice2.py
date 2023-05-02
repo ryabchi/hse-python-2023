@@ -1,3 +1,5 @@
+import random
+import re
 from typing import Iterable
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
@@ -13,7 +15,7 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
-    return greeting
+    return f"Добро пожаловать, {name}!"
 
 
 def get_amount() -> float:
@@ -28,7 +30,8 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
+    rnd=random.uniform(100, 1000000)
+    amount = round(rnd, 2)
     return amount
 
 
@@ -43,7 +46,8 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    res=bool(re.match(r"\+7\d{10}", phone_number))
+    return res
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -59,7 +63,8 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    res= current_amount >= float(transfer_amount)
+    return res
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -77,8 +82,14 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
-    return result
+    res = " ".join(text.split())
+    res = res.capitalize()
+    res = res.replace('"', "")
+    res = res.replace("'", "")
+    
+    for word in uncultured_words:
+        res = res.replace(word, "#" * len(word))
+    return res
 
 
 def create_request_for_loan(user_info: str) -> str:
@@ -101,4 +112,20 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
-    return result
+    ls=user_info.split(",")
+    surname=ls[0]
+    name=ls[1]
+    patronymic=ls[2]
+    date=ls[3]
+    request=ls[4]
+    
+
+    Request = (
+        f"Фамилия: {surname}\n"
+        f"Имя: {name}\n"
+        f"Отчество: {patronymic}\n"
+        f"Дата рождения: {date}\n"
+        f"Запрошенная сумма: {request}"
+    )
+
+    return Request
