@@ -1,5 +1,7 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+import csv
+import string
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -25,10 +27,21 @@ def count_words(text: str) -> Dict[str, int]:
              ключ - слово в нижнем регистре
              значение - количество вхождений слов в текст
     """
-
     # пиши свой код здесь
+    count = {}
 
-    return {}
+    for word in text.split():
+        word = word.rstrip(string.punctuation).lower()
+        if not word.isalpha():
+            continue
+
+        if word in count:
+            count[word] += 1
+        else:
+            count[word] = 1
+
+    return count
+    # пиши свой код здесь
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -39,10 +52,11 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :param exp: в какую степень возвести числа в списке
     :return: список натуральных чисел
     """
-
+    for i in range(0, len(numbers)):
+        numbers[i] = numbers[i] ** exp
     # пиши свой код здесь
 
-    return []
+    return numbers
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,8 +71,13 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
-
-    return result
+    res = 0
+    for operation in operations:
+        if operation["category"] in special_category:
+            res = res + 0.05 * operation["amount"]
+        else:
+            res = res + 0.01 * operation["amount"]
+    return res
 
 
 def get_path_to_file() -> Optional[Path]:
@@ -70,11 +89,11 @@ def get_path_to_file() -> Optional[Path]:
 
     :return: путь до тестового файла tasks.csv
     """
-    if Path().resolve().name == 'tests':
+    if Path().resolve().name == "tests":
         base_path = Path().resolve().parent
     else:
         base_path = Path().resolve()
-    return base_path / 'tasks' / 'practice3' / 'tasks.csv'
+    return base_path / "tasks" / "practice3" / "tasks.csv"
 
 
 def csv_reader(header: str) -> int:
@@ -100,5 +119,11 @@ def csv_reader(header: str) -> int:
     """
 
     # пиши свой код здесь
+    column = set()
+    with open(get_path_to_file(), "r") as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            column.add(row[header])
 
-    return 0
+    count = len(column)
+    return count
