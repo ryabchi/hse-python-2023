@@ -42,6 +42,8 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
     result = phone_number[1::].isnumeric()
+    result *= phone_number[0] == '+' and phone_number[1] == '7'
+    result *= len(phone_number) == 12
     return result
 
 
@@ -74,7 +76,8 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :param uncultured_words: список запрещенных слов
     :return: текст, соответсвующий правилам
     """
-    copy_text = text
+    copy_text = text.lstrip()
+    copy_text = copy_text.rstrip()
     for i in uncultured_words:
         copy_text = copy_text.replace(i, '#' * len(i))
     copy_text = copy_text.replace('\"', '')
@@ -103,10 +106,10 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
     result = """\
-    Фамилия: {0}
-    Имя: {1}
-    Отчество: {2}
-    Дата рождения: {3}
-    Запрошенная сумма: {4} """.format(*user_info.split(sep=','))
+Фамилия: {0}
+Имя: {1}
+Отчество: {2}
+Дата рождения: {3}
+Запрошенная сумма: {4} """.format(*user_info.split(sep=','))
 
     return result
