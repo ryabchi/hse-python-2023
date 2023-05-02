@@ -105,11 +105,6 @@ def create_request_for_loan(user_info: str) -> str:
     :param user_info: строка с информацией о клиенте
     :return: текст кредитной заявки
     """
-    result = """\
-Фамилия: {0}
-Имя: {1}
-Отчество: {2}
-Дата рождения: {3}
-Запрошенная сумма: {4} """.format(*user_info.split(sep=','))
+    second_name, first_name, patronymic, birthday, amount = user_info.split(sep=',')
 
-    return result
+    return f'Фамилия: {second_name}\nИмя: {first_name}\nОтчество: {patronymic}\nДата рождения: {birthday}\nЗапрошенная сумма: {amount}'
