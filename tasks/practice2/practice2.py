@@ -1,3 +1,4 @@
+import random
 from typing import Iterable
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
@@ -13,7 +14,7 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
-    return greeting
+    return f"Hello, {name}!"
 
 
 def get_amount() -> float:
@@ -29,7 +30,7 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
-    return amount
+    return round(random.uniform(10, 1000000),2)
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -41,9 +42,13 @@ def is_phone_correct(phone_number: str) -> bool:
     :return: буленовское значение - bool: True - если номер корректны,
                                           False - если номер некорректный
     """
-
-    # пиши код здесь
-    return result
+    if len(phone_number) != 12:
+        return False
+    if phone_number[:2] != "+7":
+        return False
+    if not phone_number[2:].isdigit():
+        return False
+    return True
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -58,8 +63,9 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
-    return result
+    if current_amount < float(transfer_amount):
+        return False
+    return True
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -77,8 +83,14 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
-    return result
+    text = text.strip()
+    text = text.lower()
+    text = text.capitalize()
+    text = text.replace('"', '')
+    text = text.replace("'", '')
+    for word in uncultured_words:
+        text = text.replace(word, '#' * len(word))
+    return text
 
 
 def create_request_for_loan(user_info: str) -> str:
@@ -100,5 +112,6 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    user_info = user_info.split(',')
+    result = f'Фамилия: {user_info[0]}\nИмя: {user_info[1]}\nОтчество: {user_info[2]}\nДата рождения: {user_info[3]}\nЗапрошенная сумма: {user_info[4]}'
     return result
