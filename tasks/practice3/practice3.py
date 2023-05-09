@@ -1,6 +1,8 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 import re
+import csv
+
 
 def count_words(text: str) -> Dict[str, int]:
     """
@@ -31,7 +33,7 @@ def count_words(text: str) -> Dict[str, int]:
     words_table = dict()
     for token in text_without_punctuation.split():
         token_lowered = token.lower()
-        if re.match("[a-z]+", token_lowered):
+        if re.match(r"^[a-z]+$", token_lowered):
             if token_lowered in words_table:
                 words_table[token_lowered] += 1
             else:
