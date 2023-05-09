@@ -45,7 +45,7 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
     # пиши код здесь
-    result = re.match(phone_number, "\\+7[0-9]{10}")
+    result = re.match(phone_number, "\\+7[0-9]{11}")
     return result
 
 
@@ -78,7 +78,7 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
     # пиши код здесь
     result = text.capitalize()
-    result = re.sub(" {2,}", " ", result)
+    result = " ".join(result.split())
     result = result.replace("\'", "")
     result = result.replace("\"", "")
     for word in uncultured_words:

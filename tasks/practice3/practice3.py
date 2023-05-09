@@ -29,7 +29,7 @@ def count_words(text: str) -> Dict[str, int]:
     # пиши свой код здесь
     text_without_punctuation = re.sub(r'[^\w\s\d]', '', text)
     words_table = dict()
-    for token in words_table.split():
+    for token in text_without_punctuation.split()
         token_lowered = token.lower()
         if re.match("[a-z]+", token_lowered):
             if token_lowered in words_table:
@@ -69,7 +69,7 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     special_category_percent = 0.95
     result = 0
     for operation in operations:
-        cur_amount = str(operation["amount"])
+        cur_amount = int(operation["amount"])
         if operation["category"] in special_category:
             result += cur_amount*0.05
         else:
@@ -117,7 +117,7 @@ def csv_reader(header: str) -> int:
 
     # пиши свой код здесь
     result = 0
-    with open('tasks.csv', newline='') as csvfile:
+    with open(get_path_to_file(), newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         column = [row[header] for row in reader]
         result = len(set(column))
