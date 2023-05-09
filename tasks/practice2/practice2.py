@@ -45,7 +45,7 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
     # пиши код здесь
-    result = re.match(phone_number, r"\+7[0-9]{11}")
+    result = re.match(phone_number, r"\+7[0-9]{10}")
     return result
 
 
