@@ -1,3 +1,4 @@
+import random
 from typing import Iterable
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
@@ -12,7 +13,7 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    greeting = f'Hello, {name}! Welcome to this bot.'
     return greeting
 
 
@@ -28,8 +29,11 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
+    amount = round(random.uniform(100, 1000000), 2)
     return amount
+
+
+import re
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -42,7 +46,8 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
+    reg = re.compile("^\+7\d+$")
+    result = reg.match(phone_number) and len(phone_number) == 12
     return result
 
 
@@ -58,7 +63,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
+    result = current_amount >= float(transfer_amount)
     return result
 
 
@@ -76,9 +81,11 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :param uncultured_words: список запрещенных слов
     :return: текст, соответсвующий правилам
     """
-
-    # пиши код здесь
-    return result
+    filtered_text = re.sub("[\"']", "", text).lower()
+    for uword in UNCULTURED_WORDS:
+        filtered_text = filtered_text.replace(uword, '#' * len(uword))
+    text_list = filtered_text.split()
+    return (" ".join(text_list)).capitalize()
 
 
 def create_request_for_loan(user_info: str) -> str:
@@ -99,6 +106,10 @@ def create_request_for_loan(user_info: str) -> str:
     :param user_info: строка с информацией о клиенте
     :return: текст кредитной заявки
     """
-
-    # пиши код здесь
+    last_name, first_name, patr, data, money = user_info.split(',')
+    result = f'Фамилия: {last_name}\n' \
+             f'Имя: {first_name}\n' \
+             f'Отчество: {patr}\n' \
+             f'Дата рождения: {data}\n' \
+             f'Запрошенная сумма: {money}'
     return result
