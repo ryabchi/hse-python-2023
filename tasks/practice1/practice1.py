@@ -24,4 +24,4 @@ def calculate_salary(total_compensation: int) -> float:
 
     # пиши свой код здесь
 
-    return total_compensation * ((100 - 13)/100)
+    return total_compensation * (100 - 13)/100
