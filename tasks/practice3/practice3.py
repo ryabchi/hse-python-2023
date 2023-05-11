@@ -1,5 +1,8 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+import re
+from collections import defaultdict
+import csv
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -24,11 +27,30 @@ def count_words(text: str) -> Dict[str, int]:
     :return: словарь, в котором:
              ключ - слово в нижнем регистре
              значение - количество вхождений слов в текст
-    """
+------------------------------------------------------------------
+FAILED - Не понятно, почему )0))))
+    def count_words(text: str) -> Dict[str, int]:
+        word_count = {}
 
+    text = text.lower()
+    for char in ',.!?1234567890':
+        text = text.replace(char, ' ')
+    words = text.split()
+    for word in words:
+        if word.isalpha() and len(word) > 1:
+            if word in word_count:
+                word_count[word] += 1
+            else:
+                word_count[word] = 1
+    return word_count
+"""
     # пиши свой код здесь
-
-    return {}
+    word_count = defaultdict(int)
+    words = re.findall(r'\b[a-zA-Z]+\b', text.lower())
+    for word in words:
+        if len(word) > 1:
+            word_count[word] += 1
+    return dict(word_count)
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -38,11 +60,21 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :param numbers: список, состоящий из натуральных чисел
     :param exp: в какую степень возвести числа в списке
     :return: список натуральных чисел
+-----------------------------------
+arr = [2, 3, 4, 5]
+n = 3
+arr = list(map(lambda x: x**n, arr))
+------------------------------------
+arr = [2, 3, 4, 5]
+n = 3
+for i in range(len(arr)):
+    arr[i] **= n
+-----------------------------------
     """
 
     # пиши свой код здесь
-
-    return []
+    numbers = [i**exp for i in numbers]
+    return numbers
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,7 +89,12 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
-
+    result = 0
+    for operation in operations:
+        if operation['category'] in special_category:
+            result += operation['amount'] * 0.05
+        else:
+            result += operation['amount'] * 0.01
     return result
 
 
@@ -100,5 +137,10 @@ def csv_reader(header: str) -> int:
     """
 
     # пиши свой код здесь
-
-    return 0
+    way = get_path_to_file()
+    unique = set()
+    with open(way, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            unique.add(row[header])
+    return len(unique)
