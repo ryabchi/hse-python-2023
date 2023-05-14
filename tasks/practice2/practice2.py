@@ -43,7 +43,7 @@ def is_phone_correct(phone_number: str) -> bool:
 
     res = len(phone_number) == 12
     res &= phone_number[0:2] == '+7'
-    res &= all(c.isdigit() for c in phone_number[2::-1])
+    res &= all(c.isdigit() for c in phone_number[2:])
     return res
 
 
