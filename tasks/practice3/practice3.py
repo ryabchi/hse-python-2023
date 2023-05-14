@@ -26,7 +26,7 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    text = [word for word in text.lower().split() if word.isalpha()]
+    text = [word for word in text.lower().replace(',', ' ').replace('.', ' ').split() if word.isalpha()]
     from collections import Counter
     return dict(Counter(text))
 
