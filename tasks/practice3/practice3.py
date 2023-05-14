@@ -1,5 +1,7 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+from string import punctuation
+import csv
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -25,8 +27,9 @@ def count_words(text: str) -> Dict[str, int]:
              ключ - слово в нижнем регистре
              значение - количество вхождений слов в текст
     """
-
-    text = [word for word in text.lower().replace(',', ' ').replace('.', ' ').split() if word.isalpha()]
+    for punctuation_char in punctuation:
+        text = text.replace(punctuation_char, '')
+    text = [word for word in text.lower().split() if word.isalpha()]
     from collections import Counter
     return dict(Counter(text))
 
