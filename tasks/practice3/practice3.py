@@ -103,7 +103,7 @@ def csv_reader(header: str) -> int:
 
     file_csv = open(get_path_to_file(), 'r', newline='')
     pos = csv.reader(file_csv)
-    i_column = next(pos).index()
+    i_column = next(pos).index(header)
     uniq_elements = set(line[i_column] for line in pos)
     result = len(uniq_elements)
     file_csv.close()
