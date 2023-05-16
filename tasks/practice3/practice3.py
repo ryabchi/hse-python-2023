@@ -1,3 +1,4 @@
+import csv
 import re
 from pathlib import Path
 from typing import Dict, Any, List, Optional
@@ -119,5 +120,16 @@ def csv_reader(header: str) -> int:
     """
 
     # пиши свой код здесь
+    data_mapping = {}
 
-    return 0
+    with open(get_path_to_file()) as csv_file:
+        reader = csv.reader(csv_file)
+        csv_list = list(reader)
+        for i in range(len(csv_list)):
+            for j in range(len(csv_list[i])):
+                if i == 0:
+                    data_mapping[csv_list[i][j]] = set()
+                else:
+                    data_mapping[csv_list[0][j]].add(csv_list[i][j])
+
+    return len(data_mapping.get(header, set()))
