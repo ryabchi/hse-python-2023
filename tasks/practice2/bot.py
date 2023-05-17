@@ -21,6 +21,8 @@ from action import (
     USER_DATABASE,
 )
 
+os.environ['BOT_TOKEN'] = '6134702349:AAGOfA9alKOdYj09fEIaABQ1JFGO19rwJKo'
+
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )

@@ -1,4 +1,5 @@
 from typing import Iterable
+import random
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
@@ -11,8 +12,7 @@ def greet_user(name: str) -> str:
     :param name: имя пользователя
     :return: приветствие
     """
-
-    # пиши код здесь
+    greeting = "Доброго времени суток, " + name + "! Добро пожаловать в меню. "
     return greeting
 
 
@@ -27,9 +27,9 @@ def get_amount() -> float:
 
     :return: случайную сумму на счете
     """
+    amount = random.randint(100, 999999) + random.random()
 
-    # пиши код здесь
-    return amount
+    return float("%.2f" % amount)
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -41,8 +41,13 @@ def is_phone_correct(phone_number: str) -> bool:
     :return: буленовское значение - bool: True - если номер корректны,
                                           False - если номер некорректный
     """
+    result = True
+    if phone_number[0] != '+' or phone_number[1] != '7':
+        result = False
+    else:
+        if not phone_number[1:].isdigit():
+            result = False
 
-    # пиши код здесь
     return result
 
 
@@ -58,7 +63,10 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
+    result = False
+    if current_amount >= float(transfer_amount):
+        result = True
+
     return result
 
 
@@ -76,8 +84,18 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :param uncultured_words: список запрещенных слов
     :return: текст, соответсвующий правилам
     """
+    result = text.replace('\'', '')
+    result = result.replace('\"', '')
 
-    # пиши код здесь
+    result = result.split()
+    for i in range(len(result)):
+        for rude in uncultured_words:
+            if rude in result[i].lower():
+                result[i] = result[i].replace(rude, '#'*len(rude))
+
+    result = ' '.join(result)
+    result = result[0].upper() + result[1:].lower()
+
     return result
 
 
@@ -99,6 +117,6 @@ def create_request_for_loan(user_info: str) -> str:
     :param user_info: строка с информацией о клиенте
     :return: текст кредитной заявки
     """
-
-    # пиши код здесь
+    data = user_info.split(',')
+    result = f"Фамилия: {data[0]}\nИмя: {data[1]}\nОтчество: {data[2]}\nДата рождения: {data[3]}\nЗапрошенная сумма: {data[4]}"
     return result
