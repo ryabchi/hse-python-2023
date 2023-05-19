@@ -13,6 +13,7 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
+    greeting = f'Привет, {name}. Хорошего тебе для!'
     return greeting
 
 
@@ -29,6 +30,8 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
+    import random
+    amount = float(round(random.randint(100, 1000000-1) + 0.1 * random.randint(0, 9) + 0.01 * random.randint(0, 9), 2))
     return amount
 
 
@@ -43,7 +46,13 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    if len('+7xxxxxxxxxx') == len(phone_number) and phone_number[0:2] == '+7':
+        for i in range(2,len(phone_number)):
+            if phone_number[i] < '0' or phone_number[i] > '9':
+                return False
+    else:
+        return False
+    return True
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -59,6 +68,10 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
+    if float(transfer_amount) <= current_amount:
+        result = True
+    else:
+        result = False
     return result
 
 
@@ -78,7 +91,18 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
 
     # пиши код здесь
-    return result
+    text = text.replace('"', '')
+    text = text.replace("'", '')
+    while text.count('  '):
+        text = text.replace('  ', ' ')
+    for word in uncultured_words:
+        text = text.replace(word, len(word)*'#')
+    if text[0] == ' ':
+        text = text[1:]
+    if text[-1] == ' ':
+        text = text[:-1]
+    text = text.capitalize()
+    return text
 
 
 def create_request_for_loan(user_info: str) -> str:
@@ -101,4 +125,6 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
+    user_info = user_info.split(',')
+    result = f"Фамилия: {user_info[0]}\nИмя: {user_info[1]}\nОтчество: {user_info[2]}\nДата рождения: {user_info[3]}\nЗапрошенная сумма: {user_info[4]}"
     return result
