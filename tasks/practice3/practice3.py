@@ -27,8 +27,40 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
+    def is_word(word):
+        for simbol in word:
+            if 'A' <= simbol <= 'Z' or 'a' <= simbol <= 'z':
+                continue
+            else:
+                return False
+        return True
 
-    return {}
+    def ad_dic(dic, w):
+        if w in dic:
+            dic[w] += 1
+        else:
+            dic[w] = 1
+
+    non_simb = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+    diction = {}
+    ch_ind = 0
+    while ch_ind <len(text):
+        k = 0
+        while ch_ind + k < len(text) and ('A' <= text[ch_ind + k] <= 'Z' or 'a' <= text[ch_ind + k] <= 'z'):
+            k += 1
+        if k > 1:
+            if ch_ind == 0:
+                if text[ch_ind + k] not in non_simb:
+                    ad_dic(diction, text[ch_ind:ch_ind+k].lower())
+            elif ch_ind + k == len(text):
+                if text[ch_ind - 1] not in non_simb:
+                    ad_dic(diction, text[ch_ind:ch_ind+k].lower())
+            else:
+                if text[ch_ind-1] not in non_simb and text[ch_ind+k] not in non_simb:
+                    ad_dic(diction, text[ch_ind:ch_ind+k].lower())
+            ch_ind += k
+        ch_ind += 1
+    return diction
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -42,7 +74,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
 
     # пиши свой код здесь
 
-    return [x**exp for x in numbers]
+    return [x ** exp for x in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
