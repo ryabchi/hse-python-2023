@@ -89,6 +89,7 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
+
     result = 0
     for dict in operations:
         per = 0.01
