@@ -8,7 +8,8 @@ def concatenate_strings(a: str, b: str) -> str:
     :return: результат сложения
     """
 
-    # пиши свой код здесь
+    # (пиши)пишу свой код здесь
+    result = a + b
 
     return result
 
@@ -19,9 +20,10 @@ def calculate_salary(total_compensation: int) -> float:
     вычета налогов. Ставка налогообложения равна 13%.
 
     :param total_compensation: сумма зарплаты до вычета налога
-    :return: сумма заплаты после вычета налога
+    :return: сумма зарплаты после вычета налога
     """
 
-    # пиши свой код здесь
+    # (пиши)пишу свой код здесь
+    result = (1 - 0.13) * total_compensation
 
     return result
