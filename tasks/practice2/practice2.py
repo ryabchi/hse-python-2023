@@ -12,7 +12,8 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    # (пиши)пишу код здесь
+    greeting = "Hello, " + name + " I'm glad to see you =)"
     return greeting
 
 
@@ -28,7 +29,9 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
+    # (пиши)пишу код здесь
+    from random import uniform as rand
+    amount = float("{:.2f}".format(rand(100, 1000000)))
     return amount
 
 
@@ -42,7 +45,8 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
+    # (пиши)пишу код здесь
+    result = (len(phone_number) == 12) and (phone_number[0] == '+') and (phone_number[1] == '7') and (phone_number[2:].isdigit())
     return result
 
 
@@ -58,7 +62,8 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
+    # (пиши)пишу код здесь
+    result = current_amount >= float(transfer_amount)
     return result
 
 
@@ -77,7 +82,12 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+    # (пиши)пишу код здесь
+    tmp = text.strip().replace('\'', '').replace('"', '')
+    tmp = tmp[0].upper() + tmp[1:].lower()
+    result = ' '.join(tmp.split())
+    for uncultured_word in uncultured_words:
+        result = result.replace(uncultured_word, '#'*len(uncultured_word))
     return result
 
 
@@ -100,5 +110,10 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    # (пиши)пишу код здесь
+    log_info = ["Фамилия: ", "Имя: ", "Отчество: ", "Дата рождения: ", "Запрошенная сумма: "]
+    result = ""
+    for log, data in zip(log_info, user_info.split(',')):
+        result += log + data + '\n'
+    result = result.strip()
     return result
