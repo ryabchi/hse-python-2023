@@ -1,3 +1,4 @@
+import random
 from typing import Iterable
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
@@ -13,7 +14,7 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
-    return greeting
+    return "Hello, " + name
 
 
 def get_amount() -> float:
@@ -29,7 +30,7 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
-    return amount
+    return float("{:.2f}".format(random.uniform(100, 1000000)))
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -41,8 +42,6 @@ def is_phone_correct(phone_number: str) -> bool:
     :return: буленовское значение - bool: True - если номер корректны,
                                           False - если номер некорректный
     """
-
-    # пиши код здесь
     return result
 
 
