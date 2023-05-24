@@ -81,7 +81,7 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     result = text.strip().capitalize().replace('\'', '').replace('\"', '')
 
     for uncultured_word in uncultured_words:
-        result.replace(uncultured_word, '#' * len(uncultured_word))
+        result = result.replace(uncultured_word, '#' * len(uncultured_word))
 
     return result
 
