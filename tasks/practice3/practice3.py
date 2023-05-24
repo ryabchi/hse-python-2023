@@ -1,5 +1,7 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+from string import punctuation
+import csv
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -25,10 +27,14 @@ def count_words(text: str) -> Dict[str, int]:
              ключ - слово в нижнем регистре
              значение - количество вхождений слов в текст
     """
-
-    # пиши свой код здесь
-
-    return {}
+    text_to_count = ' '.join(text.split())
+    for character in punctuation:
+        text_to_count = text_to_count.replace(character, '')
+    result = {}
+    for possible_word in text_to_count.split():
+        if len(possible_word) > 1 and possible_word.isalpha():
+            result[possible_word.lower()] = result.get(possible_word.lower(), 0) + 1
+    return result
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -39,10 +45,8 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :param exp: в какую степень возвести числа в списке
     :return: список натуральных чисел
     """
-
-    # пиши свой код здесь
-
-    return []
+    result = list(map(lambda number: number ** exp, numbers))
+    return result
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -58,8 +62,14 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :return: размер кешбека
     """
 
-    return result
+    result = 0.0
+    for operation in operations:
+        if operation['category'] in special_category:
+            result += 0.05 * operation['amount']
+        else:
+            result += 0.01 * operation['amount']
 
+    return result
 
 def get_path_to_file() -> Optional[Path]:
     """
@@ -98,7 +108,10 @@ def csv_reader(header: str) -> int:
     :param header: название заголовка
     :return: количество уникальных элементов в столбце
     """
-
-    # пиши свой код здесь
-
-    return 0
+    table = open(get_path_to_file(), 'r')
+    reader = csv.DictReader(table)
+    unique_elements = set()
+    for row in reader:
+        unique_elements.add(row[header])
+    result = len(unique_elements)
+    return result
