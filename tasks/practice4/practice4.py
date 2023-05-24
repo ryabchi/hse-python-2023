@@ -1,5 +1,27 @@
 from typing import Any, Optional
 
+def list_(l: Any, name: str) -> Optional[str]:
+    for el in l:
+        if isinstance(el, list):
+            result = list_(el, name)
+            if not (result is None):
+                return result
+        elif isinstance(el, dict):
+            result = dict_(el, name)
+            if not (result is None):
+                return result
+    return None
+
+
+def dict_(d: Any, name: str) -> Optional[str]:
+    if 'name' in d.keys() and 'phone' in d.keys():
+        if d['name'] == name:
+            return d['phone']
+    else:
+        result = list_(d.values(), name)
+        if not (result is None):
+            return result
+    return None
 
 def search_phone(content: Any, name: str) -> Optional[str]:
     """
@@ -38,6 +60,10 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     :return: номер телефона пользователя или None
     """
 
-    # пиши свой код здесь
+    result = None
+    if isinstance(content, dict):
+        result = dict_(content, name)
+    elif isinstance(content, list):
+        result = list_(content, name)
 
-    return None
+    return result
