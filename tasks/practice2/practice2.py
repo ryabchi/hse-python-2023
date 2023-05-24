@@ -1,3 +1,4 @@
+import random
 from typing import Iterable
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
@@ -11,8 +12,7 @@ def greet_user(name: str) -> str:
     :param name: имя пользователя
     :return: приветствие
     """
-
-    # пиши код здесь
+    greeting = "Hello, " + name
     return greeting
 
 
@@ -27,8 +27,7 @@ def get_amount() -> float:
 
     :return: случайную сумму на счете
     """
-
-    # пиши код здесь
+    amount = float("{:.2f}".format(random.uniform(100, 1000000)))
     return amount
 
 
@@ -41,8 +40,7 @@ def is_phone_correct(phone_number: str) -> bool:
     :return: буленовское значение - bool: True - если номер корректны,
                                           False - если номер некорректный
     """
-
-    # пиши код здесь
+    result = len(phone_number) == 12 and phone_number[0] == '+' and phone_number[1] == '7' and phone_number[2:].isdigit()
     return result
 
 
@@ -57,8 +55,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     :return: буленовское значение - bool: True - если перевод возможен,
                                           False - если денег недостаточно
     """
-
-    # пиши код здесь
+    result = current_amount >= float(transfer_amount)
     return result
 
 
@@ -76,8 +73,11 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :param uncultured_words: список запрещенных слов
     :return: текст, соответсвующий правилам
     """
-
-    # пиши код здесь
+    text = text.strip()
+    result = (text[0].upper() + text[1:].lower()).replace("\'", "").replace('"', "")
+    result = ' '.join(result.split())
+    for uncultured_word in uncultured_words:
+        result = result.replace(uncultured_word, '#' * len(uncultured_word))
     return result
 
 
@@ -100,5 +100,6 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    second_name, first_name, middle_name, birth_date, summary = map(str, user_info.split(","))
+    result = "Фамилия: " + second_name + "\nИмя: " + first_name + "\nОтчество: " + middle_name + "\nДата рождения: " + birth_date + "\nЗапрошенная сумма: " + summary
     return result
