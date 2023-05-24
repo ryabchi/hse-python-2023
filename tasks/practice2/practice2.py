@@ -43,7 +43,7 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
-    return phone_number[:2] == "+7" and phone_number[3:].isdigit() and len(phone_number) == 12
+    return phone_number[:2] == "+7" and phone_number[2:].isdigit() and len(phone_number) == 12
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -80,8 +80,8 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     # пиши код здесь
     result = text.strip().capitalize().replace('\'', '').replace('\"', '')
 
-    for word in uncultured_words:
-        result.replace(word, '#' * len(word))
+    for uncultured_word in uncultured_words:
+        result.replace(uncultured_word, '#' * len(uncultured_word))
 
     return result
 
@@ -106,9 +106,9 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
-    params = ['Фамилия', 'Имя', 'Отчество', 'Дата рождения',  'Запрошенная сумма']
-    user_info = user_info.split()
+    data = ['Фамилия: ', 'Имя: ', 'Отчество: ', 'Дата рождения: ', 'Запрошенная сумма: ']
+    user_info = user_info.split(',')
     result = ''
-    for i in range(len(params)):
-        result += params[i] + ': ' + user_info[i] + '\n'
-    return result
+    for i in range(len(user_info)):
+        result += data[i] + user_info[i] + '\n'
+    return result[:-1]
