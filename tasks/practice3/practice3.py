@@ -87,7 +87,7 @@ def get_path_to_file() -> Optional[Path]:
         base_path = Path().resolve()
     return base_path / 'tasks' / 'practice3' / 'tasks.csv'
 
-
+import csv
 def csv_reader(header: str) -> int:
     """
     Функция считывает csv файл и подсчитывает количество
