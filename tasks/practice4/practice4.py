@@ -40,4 +40,30 @@ def search_phone(content: Any, name: str) -> Optional[str]:
 
     # пиши свой код здесь
 
+    return find_by_recursion(content, name)
+
+
+def find_by_recursion(structure: Any, name: str):
+    if isinstance(structure, dict):
+        try:
+            if structure['name'] == name:
+                return structure['phone']
+            else:
+                pass
+        except KeyError:
+            pass
+
+        for key, value in structure.items():
+            returned = find_by_recursion(value, name)
+            if returned is not None:
+                return returned
+
+    elif structure is not None:
+        for elem in structure:
+            if isinstance(elem, dict) or isinstance(elem, tuple) or isinstance(elem, list):
+                returned = find_by_recursion(elem, name)
+                if returned is not None:
+                    return returned
+
     return None
+
