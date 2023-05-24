@@ -37,8 +37,13 @@ class Employee:
         """
         Задача: реализовать конструктор класса, чтобы все тесты проходили
         """
+        if not isinstance(salary, int) or not isinstance(name, str) or not isinstance(position, str):
+            raise ValueError
 
         # пиши свой код здесь
+        self.name = name
+        self.position = position
+        self._salary = salary
 
     def get_salary(self) -> int:
         """
@@ -46,6 +51,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -56,6 +62,13 @@ class Employee:
         """
 
         # пиши свой код здесь
+        if not isinstance(other, Employee):
+            raise TypeError
+
+        try:
+            return get_position_level(self.position) == get_position_level(other.position)
+        except NoSuchPositionError:
+            raise ValueError
 
     def __str__(self):
         """
@@ -64,6 +77,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return f'name: {self.name} position: {self.position}'
 
     def __hash__(self):
         return id(self)
@@ -83,6 +97,8 @@ class Developer(Employee):
         """
 
         # пиши свой код здесь
+        super().__init__(name, self.position, salary)
+        self.language = language
 
 
 class Manager(Employee):
@@ -98,3 +114,4 @@ class Manager(Employee):
         """
 
         # пиши свой код здесь
+        super().__init__(name, self.position, salary)
