@@ -49,8 +49,6 @@ def search_phone(content: Any, name: str) -> Optional[str]:
                     if func(x, name) is not None:
                         return func(x, name)
 
-
-
         elif item:
             for x in item:
                 if isinstance(x, tuple) or isinstance(x, dict) or isinstance(x, list):
