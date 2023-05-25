@@ -1,4 +1,5 @@
 from typing import Any, Optional
+ans = ''
 
 
 def search_phone(content: Any, name: str) -> Optional[str]:
@@ -39,5 +40,22 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     """
 
     # пиши свой код здесь
-
-    return None
+    def find(struct):
+        global ans
+        if not (isinstance(struct, dict) or isinstance(struct, list)):
+            return
+        if isinstance(struct, dict):
+            if name in struct.values():
+                ans = struct['phone']
+            for i in struct:
+                find(struct[i])
+        if isinstance(struct, list):
+            for i in struct:
+                find(i)
+    find(content)
+    if globals()['ans'] != '':
+        answer = globals()['ans']
+        globals()['ans'] = ''
+        return answer
+    else:
+        return None
