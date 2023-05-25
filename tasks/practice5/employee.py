@@ -106,4 +106,4 @@ class Manager(Employee):
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
 
-        uper().__init__(name= name, position= self.position, salary= salary)
+        super().__init__(name= name, position= self.position, salary= salary)
