@@ -37,8 +37,13 @@ class Employee:
         """
         Задача: реализовать конструктор класса, чтобы все тесты проходили
         """
-
         # пиши свой код здесь
+        if isinstance(salary, int):
+            self.name = name
+            self.position = position
+            self._salary = salary
+        else:
+            raise ValueError
 
     def get_salary(self) -> int:
         """
@@ -46,6 +51,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -56,6 +62,13 @@ class Employee:
         """
 
         # пиши свой код здесь
+        if isinstance(other, Employee):
+            if other.position in POSITIONS:
+                return get_position_level(self.position) == get_position_level(other.position)  # ????????????????????????
+            else:
+                raise ValueError
+        else:
+            raise TypeError
 
     def __str__(self):
         """
@@ -64,6 +77,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return 'name: ' + self.name + ' position: ' + self.position
 
     def __hash__(self):
         return id(self)
@@ -83,7 +97,8 @@ class Developer(Employee):
         """
 
         # пиши свой код здесь
-
+        super().__init__(name, self.position, salary)
+        self.language = language
 
 class Manager(Employee):
     """
@@ -96,5 +111,6 @@ class Manager(Employee):
         """
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
-
+        
         # пиши свой код здесь
+        super().__init__(name, self.position, salary)
