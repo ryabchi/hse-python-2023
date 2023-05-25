@@ -45,6 +45,7 @@ class Employee:
         else:
             raise ValueError
 
+
     def get_salary(self) -> int:
         """
         Метод возвращает зарплату сотрудника.
