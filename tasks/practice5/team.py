@@ -59,6 +59,10 @@ class Team:
             raise NoSuchMemberError(self.name, member)
 
 
+
+
+
+
     def get_members(self) -> Set[Employee]:
         """
         Задача: реализовать метод возвращения списка участков команды та,
