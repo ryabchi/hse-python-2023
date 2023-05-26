@@ -39,6 +39,16 @@ class Employee:
         """
 
         # пиши свой код здесь
+        if not isinstance(name, str):
+            raise ValueError(f"name expected type 'str' but got '{type(name)}'")
+        if not isinstance(position, str):
+            raise ValueError(f"position expected type 'str' but got '{type(position)}'")
+        if not isinstance(salary, int):
+            raise ValueError(f"salary expected type 'int' but got '{type(salary)}'")
+
+        self.name = name
+        self.position = position
+        self._salary = salary
 
     def get_salary(self) -> int:
         """
@@ -46,6 +56,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -56,6 +67,14 @@ class Employee:
         """
 
         # пиши свой код здесь
+        if not isinstance(other, Employee):
+            raise TypeError(f"employee cannot be compared to value of type '{type(other)}'")
+        try:
+            level_self = get_position_level(self.position)
+            level_other = get_position_level(other.position)
+            return level_self == level_other
+        except NoSuchPositionError as e:
+            raise ValueError(f"position '{e.position}' does not exist")
 
     def __str__(self):
         """
@@ -64,6 +83,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return f'name: {self.name} position: {self.position}'
 
     def __hash__(self):
         return id(self)
@@ -83,6 +103,8 @@ class Developer(Employee):
         """
 
         # пиши свой код здесь
+        self.language = language
+        super().__init__(name, self.position, salary)
 
 
 class Manager(Employee):
@@ -98,3 +120,4 @@ class Manager(Employee):
         """
 
         # пиши свой код здесь
+        super().__init__(name, self.position, salary)
