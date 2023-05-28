@@ -1,3 +1,4 @@
+import sys
 from typing import Any, Optional
 
 
@@ -39,5 +40,29 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     """
 
     # пиши свой код здесь
+
+    if not hasattr(content, '__iter__') or isinstance(content, str):  # iterable check
+        return None
+
+    if isinstance(content, dict):
+        name_val = content.get("name")
+        phone_val = content.get("phone")
+        if name_val == name:
+            return phone_val
+        for el in content.items():
+            if len(el) == 2 and hasattr(el[1], '__iter__'):
+                result = search_phone(el[1], name)
+                if result is not None:
+                    return result
+
+    for elem in content:
+        if isinstance(elem, dict):
+            result = search_phone(elem, name)
+        elif hasattr(elem, "__iter__") and not isinstance(elem, str):
+            result = search_phone(elem, name)
+        else:
+            result = None
+        if result is not None:
+            return result
 
     return None
