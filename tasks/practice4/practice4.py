@@ -39,5 +39,9 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     """
 
     # пиши свой код здесь
-
-    return None
+    rez = None
+    for dic in content:
+        if dic["name"] == name:
+            rez = dic["phone"]
+            break
+    return rez
