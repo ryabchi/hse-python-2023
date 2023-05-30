@@ -39,6 +39,9 @@ class Employee:
         """
 
         # пиши свой код здесь
+        self.name = name
+        self.position = position
+        self.salary = salary
 
     def get_salary(self) -> int:
         """
@@ -46,8 +49,9 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return self.salary
 
-    def __eq__(self, other: object) -> bool:
+    def __eq__(self, other: object) -> int:
         """
         Задача: реализовать метод сравнение двух сотрудников, чтобы все тесты проходили.
 
@@ -56,6 +60,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return get_position_level(self.position) == get_position_level(other.position)
 
     def __str__(self):
         """
@@ -64,6 +69,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return f'name: {self.name} positiom {self.position}'
 
     def __hash__(self):
         return id(self)
@@ -83,6 +89,8 @@ class Developer(Employee):
         """
 
         # пиши свой код здесь
+        super().__init__(name, salary)
+        self.language = language
 
 
 class Manager(Employee):
@@ -98,3 +106,4 @@ class Manager(Employee):
         """
 
         # пиши свой код здесь
+        super().__init__(name, salary)
