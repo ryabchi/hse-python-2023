@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-
+import re
+import csv
 
 def count_words(text: str) -> Dict[str, int]:
     """
@@ -27,8 +28,18 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
-
-    return {}
+    # Все знаки препинания заменяем на пробелы
+    text = re.sub(r'[^\w\s]', ' ', text)
+    # Слова, содержащие цифры, игнорируем
+    words = [word.lower() for word in text.split() if not any(char.isdigit() for char in word)]
+    # Считаем количество вхождений каждого слова
+    word_count = {}
+    for word in words:
+        if word not in word_count:
+            word_count[word] = 1
+        else:
+            word_count[word] += 1
+    return word_count
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -41,8 +52,10 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     """
 
     # пиши свой код здесь
-
-    return []
+    result = []
+    for num in numbers:
+        result.append(num ** exp)
+    return result
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,8 +70,13 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
-
-    return result
+    cashback = 0
+    for operation in operations:
+        if operation['category'] in special_category:
+            cashback += operation['amount'] * 0.05
+        else:
+            cashback += operation['amount'] * 0.01
+    return cashback
 
 
 def get_path_to_file() -> Optional[Path]:
@@ -100,5 +118,12 @@ def csv_reader(header: str) -> int:
     """
 
     # пиши свой код здесь
-
-    return 0
+    path_to_file = get_path_to_file()
+    with open(path_to_file) as f:
+        reader = csv.reader(f)
+        headers = next(reader)
+        column_index = headers.index(header)
+        unique_values = set()
+        for row in reader:
+            unique_values.add(row[column_index])
+    return len(unique_values)
