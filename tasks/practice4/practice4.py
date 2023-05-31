@@ -39,9 +39,33 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     """
 
     # пиши свой код здесь
-    rez = None
-    for dic in content:
-        if dic["name"] == name:
-            rez = dic["phone"]
-            break
-    return rez
+    def ans_f():
+        def list_search(lis):
+            rez = None
+            for i in lis:
+                if isinstance(i, dict):
+                    rez = dict_search(i)
+                elif isinstance(i, list):
+                    rez = list_search(i)
+            return rez
+
+        def dict_search(dic):
+            if dic.get('name') == name:
+                rez = dic['phone']
+                return rez
+            rez = None
+            for i in dic.values():
+                if isinstance(i, dict):
+                    rez = dict_search(i)
+                elif isinstance(i, list):
+                    rez = list_search(i)
+            return rez
+
+        ans = None
+        if isinstance(content, dict):
+            ans = dict_search(content)
+        elif isinstance(content, list):
+            ans = list_search(content)
+        return ans
+
+    return ans_f()
