@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+import csv
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -26,9 +27,19 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    # пиши свой код здесь
+    dictionary = {}
+    for el in text:
+        if el in '.,!?-':
+            text = text.replace(el, '')
 
-    return {}
+    for word in text.lower().split():
+        if all(i.isalpha() for i in word):
+            if word not in dictionary:
+                dictionary[word.lower()] = 1
+            else:
+                dictionary[word.lower()] += 1
+
+    return dictionary
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -40,9 +51,9 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :return: список натуральных чисел
     """
 
-    # пиши свой код здесь
+    new_list = [i ** exp for i in numbers]
 
-    return []
+    return new_list
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,6 +68,14 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
+
+    result = 0.0
+
+    for dictionary in operations:
+        if len(special_category) > 0 and dictionary['category'] in special_category:
+            result += dictionary['amount'] * 0.05
+        else:
+            result += dictionary['amount'] * 0.01
 
     return result
 
@@ -99,6 +118,14 @@ def csv_reader(header: str) -> int:
     :return: количество уникальных элементов в столбце
     """
 
-    # пиши свой код здесь
+    path_to_file = get_path_to_file()
 
-    return 0
+    unique_elemets = set()
+
+    with open(path_to_file, 'r', encoding='utf=8') as file:
+        csv_read = csv.DictReader(file)
+        for row in csv_read:
+            value = row[header]
+            unique_elemets.add(value)
+
+    return len(unique_elemets)
