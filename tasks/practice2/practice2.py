@@ -27,9 +27,8 @@ def get_amount() -> float:
 
     :return: случайную сумму на счете
     """
-
-    # пиши код здесь
-    return amount
+    from random import randint
+    return randint(10000, 100000000)/100
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -42,8 +41,15 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
-    return result
+    if phone_number.rfind("+7") == 0 and len(phone_number)==12:
+        for i in phone_number[2:]:
+            if 48<=ord(i)<=57:
+                continue
+            else:
+                return False
+    else:
+        return False
+    return True
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -58,8 +64,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
-    return result
+    return current_amount>=float(transfer_amount)
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -77,7 +82,7 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+
     return result
 
 
@@ -100,5 +105,12 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    user_info = user_info.split(',')
+    result= f"Фамилия: {user_info[0]}\nИмя: {user_info[1]}\nОтчество: {user_info[2]}\nДата рождения: {user_info[3]}\nЗапрошенная сумма: {user_info[4]}"
     return result
+print(get_amount())
+print(greet_user("nikita"))
+print(is_phone_correct("+79284910249"))
+print(is_amount_correct(1000,"10020"))
+print("\" ")
+print(create_request_for_loan("Иванов,Петр,Сергеевич,01.01.1991,10000"))

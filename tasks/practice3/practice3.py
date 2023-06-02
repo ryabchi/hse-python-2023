@@ -40,9 +40,10 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :return: список натуральных чисел
     """
 
-    # пиши свой код здесь
+    for i in range(len(numbers)):
+        numbers[i]**=exp
 
-    return []
+    return numbers
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -98,7 +99,25 @@ def csv_reader(header: str) -> int:
     :param header: название заголовка
     :return: количество уникальных элементов в столбце
     """
-
-    # пиши свой код здесь
-
-    return 0
+    import csv
+    count =0
+    with open("tasks.csv") as csvfile:
+        rows = csv.reader(csvfile, delimiter=',', quotechar='\n')
+        isItFirstRow=True
+        alreadyCounted=[]
+        for row in rows:
+            if isItFirstRow==True:
+                for i in range(len(row)):
+                    print(row[i])
+                    if row[i]==header:
+                        savedColumn=i
+                        isItFirstRow=False
+                        break
+                continue
+            if row[savedColumn] not in alreadyCounted:
+                count+=1
+                alreadyCounted.append(row[savedColumn])
+    return count
+numbers=[1,2,3,4,5,6,7,8]
+print(exp_list(numbers,2))
+print(csv_reader("\"Project Key\""))
