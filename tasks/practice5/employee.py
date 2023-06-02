@@ -37,8 +37,8 @@ class Employee:
         """
         Задача: реализовать конструктор класса, чтобы все тесты проходили
         """
-	if not isinstance(name, str) or not isinstance(position, str) or not isinstance(salary, int):
-		raise ValueError
+        if not isinstance(name, str) or not isinstance(position, str) or not isinstance(salary, int):
+            raise ValueError
 
         self.name = name
         self.position = position
@@ -61,7 +61,7 @@ class Employee:
 
         if isinstance(other, Employee):
             if self.position not in POSITIONS or other.position not in POSITIONS:
-		raise ValueError
+                raise ValueError
             return get_position_level(self.position) == get_position_level(other.position)
         else:
             raise TypeError

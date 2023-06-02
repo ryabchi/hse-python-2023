@@ -76,5 +76,6 @@ class Team:
         этого метода
         """
         print(self)
-     def __str__(self):
+
+    def __str__(self):
         return f'team: {self.name} manager: {self.manager.name} number of members: {len(self.__members)}'
