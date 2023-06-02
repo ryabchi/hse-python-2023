@@ -26,7 +26,6 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    # пиши свой код здесь
     ignore = ('.', '?', '!', ',', ';', ':', '-', '(', ')')
     text = text.lower()
     for symb in ignore:
