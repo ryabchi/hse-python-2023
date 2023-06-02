@@ -1,3 +1,4 @@
+import string
 from typing import Iterable
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
@@ -81,9 +82,23 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :param uncultured_words: список запрещенных слов
     :return: текст, соответсвующий правилам
     """
+    for i in range(0,len(uncultured_words)):
+        text = text.replace(uncultured_words[i],"#"*len(uncultured_words[i]))
+    text =text.replace("'","")
+    text= text.replace('"',"")
+    text = text.split()
+    isEndOfSentence=True
+    for i in range(0, len(text)):
+        if isEndOfSentence==True:
+            text[i]=text[i].capitalize()
+            isEndOfSentence=False
+        else:
+            text[i]=text[i].lower()
+        if len(text[i].rstrip("!?.")) != len(text[i]):
+            isEndOfSentence=True
 
-
-    return result
+    moderatedText = " ".join(text)
+    return moderatedText
 
 
 def create_request_for_loan(user_info: str) -> str:
@@ -108,9 +123,3 @@ def create_request_for_loan(user_info: str) -> str:
     user_info = user_info.split(',')
     result= f"Фамилия: {user_info[0]}\nИмя: {user_info[1]}\nОтчество: {user_info[2]}\nДата рождения: {user_info[3]}\nЗапрошенная сумма: {user_info[4]}"
     return result
-print(get_amount())
-print(greet_user("nikita"))
-print(is_phone_correct("+79284910249"))
-print(is_amount_correct(1000,"10020"))
-print("\" ")
-print(create_request_for_loan("Иванов,Петр,Сергеевич,01.01.1991,10000"))

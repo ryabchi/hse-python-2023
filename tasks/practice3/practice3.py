@@ -1,3 +1,4 @@
+import string
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 
@@ -25,10 +26,17 @@ def count_words(text: str) -> Dict[str, int]:
              ключ - слово в нижнем регистре
              значение - количество вхождений слов в текст
     """
-
-    # пиши свой код здесь
-
-    return {}
+    ans = {}
+    text = text.lower()
+    text = text.split()
+    for i in text:
+        i = i.rstrip(string.punctuation)
+        if(i.isalpha()==True):
+            if i not in ans:
+                ans[i]=1
+            else:
+                ans[i]+=1
+    return ans
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -58,8 +66,13 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
-
-    return result
+    cashBack=0
+    for i in operations:
+        if(i["category"] not in special_category):
+            cashBack+=0.01*i["amount"]
+        else:
+            cashBack+=0.05*i["amount"]
+    return cashBack
 
 
 def get_path_to_file() -> Optional[Path]:
@@ -101,23 +114,17 @@ def csv_reader(header: str) -> int:
     """
     import csv
     count =0
-    with open("tasks.csv") as csvfile:
-        rows = csv.reader(csvfile, delimiter=',', quotechar='\n')
+    #get_path_to_file()
+    #"tasks.csv"
+    with open(get_path_to_file()) as csvfile:
+        rows = csv.DictReader(csvfile)
         isItFirstRow=True
         alreadyCounted=[]
         for row in rows:
-            if isItFirstRow==True:
-                for i in range(len(row)):
-                    print(row[i])
-                    if row[i]==header:
-                        savedColumn=i
-                        isItFirstRow=False
-                        break
-                continue
-            if row[savedColumn] not in alreadyCounted:
+            if row[header] not in alreadyCounted:
                 count+=1
-                alreadyCounted.append(row[savedColumn])
+                alreadyCounted.append(row[header])
     return count
-numbers=[1,2,3,4,5,6,7,8]
-print(exp_list(numbers,2))
-print(csv_reader("\"Project Key\""))
+
+print(count_words('In the face of ambiguity, refuse the temptation to guess. '
+            'NotWord7 7NotWord! 777'))
