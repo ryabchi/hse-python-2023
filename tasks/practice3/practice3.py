@@ -60,6 +60,14 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :return: размер кешбека
     """
 
+    result = 0
+
+    for d in operations:
+        cb = 0.01
+        if d['category'] in special_category:
+            cb = 0.05
+        result += d['amount'] * cb
+
     return result
 
 
