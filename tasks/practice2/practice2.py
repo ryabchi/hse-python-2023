@@ -1,3 +1,5 @@
+import random
+import re
 from typing import Iterable
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
@@ -13,7 +15,7 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
-    return greeting
+    return "Hello," + name + "!"
 
 
 def get_amount() -> float:
@@ -29,7 +31,7 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
-    return amount
+    return float(f"{random.uniform(100, 1000000):.{2}f}")
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -43,7 +45,9 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    if re.search(r"\+7\d{10}", phone_number):
+        return True
+    return False
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -59,7 +63,9 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    if current_amount >= float(transfer_amount):
+        return True
+    return False
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -76,29 +82,41 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :param uncultured_words: список запрещенных слов
     :return: текст, соответсвующий правилам
     """
-
     # пиши код здесь
-    return result
+    text = text.replace("'", '')
+    text = text.replace('"', '')
+    for i in uncultured_words:
+        text = text.replace(i, '#' * len(i))
+    text = text.split()
+    text = ' '.join(text)
+    text = text.capitalize()
+    return text
 
 
 def create_request_for_loan(user_info: str) -> str:
     """
     Генерирует заявку на кредит на основе входящей строки.
     Формат входящий строки:
-    
+
     Иванов,Петр,Сергеевич,01.01.1991,10000
-    
+
     Что должны вернуть на ее основе:
-    
+
     Фамилия: Иванов
     Имя: Петр
     Отчество: Сергеевич
     Дата рождения: 01.01.1991
     Запрошенная сумма: 10000
-    
+
     :param user_info: строка с информацией о клиенте
     :return: текст кредитной заявки
     """
 
     # пиши код здесь
-    return result
+    data = user_info.split(',')
+    data[0] = "Фамилия: " + data[0]
+    data[1] = "Имя: " + data[1]
+    data[2] = "Отчество: " + data[2]
+    data[3] = "Дата рождения: " + data[3]
+    data[4] = "Запрошенная сумма: " + data[4]
+    return "\n".join(data)
