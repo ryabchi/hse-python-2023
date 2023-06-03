@@ -29,15 +29,15 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     text = text.lower()
-    mas = (text.translate(str.maketrans('', '', string.punctuation))).split()
+    array = (text.translate(str.maketrans('', '', string.punctuation))).split()
 
-    dic = {}
+    dictionary = {}
 
-    for word in mas:
+    for word in array:
         if not any(char.isdigit() for char in word):
-            dic[word] = dic.count(word)
+            dictionary[word] = array.count(word)
 
-    return dic
+    return dictionary
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
