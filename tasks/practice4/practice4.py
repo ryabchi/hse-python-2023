@@ -39,5 +39,8 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     """
 
     # пиши свой код здесь
+    for x in content:
+        if isinstance(x, dict) and x['name'] == name:
+            return x['phone']
 
     return None
