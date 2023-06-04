@@ -29,19 +29,13 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
-
     dictionary = {}
-
-    text = text.lower() 
-    for char in string.punctuation:  
-        text = text.replace(char, " ")
-
-    array = text.split()
-
+    text = text.lower()
+    
+    array = (text.translate(str.maketrans('', '', string.punctuation))).split()
     for word in array:
         if not any(char.isdigit() for char in word):
-            word = word.lower()  
-            dictionary[word] = dictionary.get(word, 0) + 1 
+            dictionary[word] = array.count(word)
 
     return dictionary
 
