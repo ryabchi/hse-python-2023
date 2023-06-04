@@ -1,4 +1,4 @@
-from random import randint
+from random import uniform
 
 from typing import Iterable
 
@@ -33,7 +33,7 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
-    amount = randint(100, 1_000_000) + randint(0, 99) * 10 ** -2
+    amount = round(uniform(100, 1_000_000), 2)
 
     return amount
 
