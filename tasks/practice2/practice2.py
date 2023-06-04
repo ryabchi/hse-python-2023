@@ -107,11 +107,12 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
+    ui = user_info.split(",")
     result = (
-        f"Фамилия: {surname}\n"
-        f"Имя: {name}\n"
-        f"Отчество: {patronymic}\n"
-        f"Дата рождения: {date_of_birth}\n"
-        f"Запрошенная сумма: {requested_amount}"
+        f"Фамилия: {ui[0]}\n"
+        f"Имя: {ui[1]}\n"
+        f"Отчество: {ui[2]}\n"
+        f"Дата рождения: {ui[3]}\n"
+        f"Запрошенная сумма: {ui[4]}"
     )
     return result
