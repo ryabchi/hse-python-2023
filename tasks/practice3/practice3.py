@@ -29,17 +29,21 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
-    dictinory = {}
-    All_words = re.findall(r'\b[A-Za-z]+\b', text)
-    for word in All_words:
-        if not any(char.isdigit() for char in word):
-            word = word.lower()
-            if word in dictonary:
-                dictonary[word] += 1
-            else:
-                dictonary[word] = 1
-    return dictinory
 
+    dictionary = {}
+
+    text = text.lower() 
+    for char in string.punctuation:  
+        text = text.replace(char, " ")
+
+    array = text.split()
+
+    for word in array:
+        if not any(char.isdigit() for char in word):
+            word = word.lower()  
+            dictionary[word] = dictionary.get(word, 0) + 1 
+
+    return dictionary
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
     """
