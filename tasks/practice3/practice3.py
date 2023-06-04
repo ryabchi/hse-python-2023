@@ -51,9 +51,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     """
 
     # пиши свой код здесь
-    for i in range(0,len(numbers))
-        numbers[i]=numbers[i]**exp
-    return numbers
+    return [elem**exp for elem in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
