@@ -40,7 +40,7 @@ def search_phone(content: Any, name: str) -> Optional[str]:
 
     # пиши свой код здесь
     
-print(content)
+    print(content)
     temp = None
     phonenumber = None
     for i in content:
