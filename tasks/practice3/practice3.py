@@ -1,3 +1,4 @@
+import re
 import csv
 from pathlib import Path
 from typing import Dict, Any, List, Optional
@@ -29,6 +30,7 @@ def count_words(text: str) -> Dict[str, int]:
 
     # пиши свой код здесь
     result = {}
+    text = re.sub(r"[!.,&+?:;-]", "", text)
     for word in text.split():
         word = word.lower()
         if len(word) > 1 and word.isalpha():
