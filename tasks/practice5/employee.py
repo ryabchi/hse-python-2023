@@ -38,14 +38,18 @@ class Employee:
         Задача: реализовать конструктор класса, чтобы все тесты проходили
         """
 
-        # пиши свой код здесь
+        self.name = name
+        self.position = position
+        if not (isinstance(salary, int) or isinstance(salary, float)):
+            raise ValueError(f'Salary should be int or float, not {type(salary)}.')
+        self._salary = salary
 
     def get_salary(self) -> int:
         """
         Метод возвращает зарплату сотрудника.
         """
 
-        # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -55,7 +59,12 @@ class Employee:
         Если что-то идет не так - бросаются исключения. Смотрим что происходит в тестах.
         """
 
-        # пиши свой код здесь
+        if not issubclass(type(other), Employee):
+            raise TypeError(f"other should be type Employee, not {type(other)}.")
+        elif other.position not in POSITIONS:
+            raise ValueError("other.position should one of the POSITIONS.")
+        else:
+            return self.position == other.position
 
     def __str__(self):
         """
@@ -63,7 +72,7 @@ class Employee:
         Пример вывода: 'name: Ivan position manager'
         """
 
-        # пиши свой код здесь
+        return f"name: {self.name} position: {self.position}"
 
     def __hash__(self):
         return id(self)
@@ -82,7 +91,8 @@ class Developer(Employee):
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
 
-        # пиши свой код здесь
+        super().__init__(name, self.position, salary)
+        self.language = language
 
 
 class Manager(Employee):
@@ -97,4 +107,4 @@ class Manager(Employee):
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
 
-        # пиши свой код здесь
+        super().__init__(name, self.position, salary)
