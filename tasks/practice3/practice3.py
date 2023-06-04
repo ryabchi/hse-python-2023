@@ -1,8 +1,7 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-import re
 import csv
-
+import string
 
 def count_words(text: str) -> Dict[str, int]:
     """
