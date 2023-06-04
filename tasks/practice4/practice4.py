@@ -44,8 +44,9 @@ def search_phone(content: Any, name: str) -> Optional[str]:
         if 'name' in content and content['name'] == name:
             return content['phone']
         iterable = content.values()
-    for x in iterable:
-        result = search_phone(x, name)
-        if result is not None:
-            return result
+    elif isinstance(content, list):
+        for x in iterable:
+            result = search_phone(x, name)
+            if result is not None:
+                return result
     return None
