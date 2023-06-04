@@ -40,4 +40,26 @@ def search_phone(content: Any, name: str) -> Optional[str]:
 
     # пиши свой код здесь
 
+    parsed_content = []
+    if isinstance(content, list):
+        for entity in content:
+            if isinstance(entity, dict):
+                for key, value in entity.items():
+                    if key == 'name' and value == name:
+                        return entity.get('phone')
+                    else:
+                        parsed_content.append(value)
+            if isinstance(entity, list):
+                for object in entity:
+                    parsed_content.append(object)
+
+    if isinstance(content, dict):
+        if content.get('name') == name:
+           return content.get('phone')
+        for key, value in content.items():
+            parsed_content.append(value)
+
+    if len(parsed_content) > 0:
+        return search_phone(parsed_content, name)
+
     return None

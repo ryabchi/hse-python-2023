@@ -1,3 +1,4 @@
+import random
 from typing import Iterable
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
@@ -13,7 +14,7 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
-    return greeting
+    return "Hello, " + name
 
 
 def get_amount() -> float:
@@ -29,7 +30,7 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
-    return amount
+    return round(random.uniform(100, 1000000), 2)
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -43,6 +44,17 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
+    result = True
+    if phone_number[0] != '+':
+        result = False
+    elif phone_number[1] != '7':
+        result = False
+    else:
+        for i in range(2, len(phone_number)):
+            if phone_number[i] < '0' or phone_number[i] > '9':
+                result = False
+                break;
+
     return result
 
 
@@ -59,7 +71,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    return current_amount >= float(transfer_amount)
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -78,7 +90,19 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
 
     # пиши код здесь
-    return result
+    fixed_text = text[:]
+
+    fixed_text = fixed_text.strip()
+    fixed_text = ' '.join(fixed_text.split())
+
+    fixed_text = fixed_text.replace('\'', '')
+    fixed_text = fixed_text.replace('\"', '')
+
+    fixed_text = fixed_text.capitalize()
+
+    for word in uncultured_words:
+        fixed_text = fixed_text.replace(word, len(word)*'#')
+    return fixed_text
 
 
 def create_request_for_loan(user_info: str) -> str:
@@ -100,5 +124,13 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
-    return result
+    user_edited_info = user_info[:]
+    user_edited_info = user_edited_info.split(',')
+    user_edited_info[0] = "Фамилия: " + user_edited_info[0]
+    user_edited_info[1] = "Имя: " + user_edited_info[1]
+    user_edited_info[2] = "Отчество: " + user_edited_info[2]
+    user_edited_info[3] = "Дата рождения: " + user_edited_info[3]
+    user_edited_info[4] = "Запрошенная сумма: " + user_edited_info[4]
+    user_edited_info = '\n'.join(user_edited_info)
+
+    return user_edited_info

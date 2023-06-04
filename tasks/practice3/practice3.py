@@ -6,7 +6,7 @@ def count_words(text: str) -> Dict[str, int]:
     """
     Функция для подсчета слов в тексте.
 
-    При подсчете слов - все знаки препинания игнорируются.
+    При подсчте слов - всее знаки препинания игнорируются.
     Словом считается непрерывная последовательность длиной больше одного
     символа, состоящая из букв в диапазоне A-Z и a-z.
     Если в последовательности присутствует цифра - это не слово.
@@ -27,8 +27,25 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
+    edited = ''
 
-    return {}
+    for i in range(0, len(text)):
+        if text[i] == ',' or text[i] == '.' or text[i] == ' ' or text[i] == '!':
+            edited += ' '
+        else:
+            edited += text[i]
+
+    words = edited.split(' ')
+    dict = {}
+
+    for word in words:
+        if word.isalpha() and len(word) > 1:
+            if dict.get(word.lower(), False) is False:
+                dict[word.lower()] = 1
+            else:
+                dict[word.lower()] = dict.get(word.lower()) + 1
+
+    return dict
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -42,7 +59,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
 
     # пиши свой код здесь
 
-    return []
+    return [i**exp for i in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,6 +74,22 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
+
+    result = 0
+    for dict in operations:
+        amount = 0
+        category = ''
+        for key, value in dict.items():
+            if key == 'amount':
+                amount = value
+            elif key == 'category':
+                category = value
+
+
+        if category in special_category:
+            result += amount*0.05
+        else:
+            result += amount*0.01
 
     return result
 
@@ -100,5 +133,11 @@ def csv_reader(header: str) -> int:
     """
 
     # пиши свой код здесь
+    import csv
+    unique = set()
+    with open(get_path_to_file(), newline='') as csv_file:
+        input = csv.DictReader(csv_file, delimiter=',')
+        for row in input:
+            unique.add(row[header])
 
-    return 0
+    return len(unique)
