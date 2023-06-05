@@ -39,14 +39,19 @@ class Employee:
         """
 
         # пиши свой код здесь
-
+        if isinstance(name, str) and isinstance(position, str) and isinstance(salary, int):
+            self.name = name
+            self.position = position
+            self._salary = salary
+        else:
+            raise ValueError
     def get_salary(self) -> int:
         """
         Метод возвращает зарплату сотрудника.
         """
 
         # пиши свой код здесь
-
+        return self._salary
     def __eq__(self, other: object) -> bool:
         """
         Задача: реализовать метод сравнение двух сотрудников, чтобы все тесты проходили.
@@ -56,6 +61,13 @@ class Employee:
         """
 
         # пиши свой код здесь
+        if isinstance(other, Employee):
+            try:
+                return get_position_level(self.position) == get_position_level(other.position)
+            except NoSuchPositionError:
+                raise ValueError
+        else:
+            raise TypeError
 
     def __str__(self):
         """
@@ -64,6 +76,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return f"name: {self.name} position: {self.position}"
 
     def __hash__(self):
         return id(self)
@@ -83,6 +96,11 @@ class Developer(Employee):
         """
 
         # пиши свой код здесь
+        if isinstance(name, str) and isinstance(salary, int) and isinstance(language, str):
+            super().__init__(name, Developer.position, salary)
+            self.language = language
+        else:
+            raise ValueError
 
 
 class Manager(Employee):
@@ -98,3 +116,7 @@ class Manager(Employee):
         """
 
         # пиши свой код здесь
+        if isinstance(name, str) and isinstance(salary, int):
+            super().__init__(name, Manager.position, salary)
+        else:
+            raise ValueError
