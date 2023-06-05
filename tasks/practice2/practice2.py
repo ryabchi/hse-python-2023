@@ -1,3 +1,5 @@
+import random
+import re
 from typing import Iterable
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
@@ -13,7 +15,7 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
-    return greeting
+    return f'Здравствуйте, {name}!'
 
 
 def get_amount() -> float:
@@ -29,7 +31,13 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
-    return amount
+    lower_bound = 100
+    upper_bound = 1000000
+    digits_after_comma = 2
+
+    random_float = random.uniform(lower_bound, upper_bound)
+
+    return round(random_float, digits_after_comma)
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -43,7 +51,7 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    return bool(re.match(r'\+7\d{10}', phone_number))
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -59,7 +67,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    return current_amount >= float(transfer_amount)
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -78,6 +86,14 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
 
     # пиши код здесь
+    result = ' '.join(text.split())
+    result = result.capitalize()
+
+    result = result.replace('"', '')
+    result = result.replace("'", "")
+    for word in UNCULTURED_WORDS:
+        result = result.replace(word, '#' * len(word))
+
     return result
 
 
@@ -85,20 +101,30 @@ def create_request_for_loan(user_info: str) -> str:
     """
     Генерирует заявку на кредит на основе входящей строки.
     Формат входящий строки:
-    
+
     Иванов,Петр,Сергеевич,01.01.1991,10000
-    
+
     Что должны вернуть на ее основе:
-    
+
     Фамилия: Иванов
     Имя: Петр
     Отчество: Сергеевич
     Дата рождения: 01.01.1991
     Запрошенная сумма: 10000
-    
+
     :param user_info: строка с информацией о клиенте
     :return: текст кредитной заявки
     """
 
     # пиши код здесь
+    info = user_info.split(',')
+
+    result = (
+        f'Фамилия: {info[0]}\n'
+        f'Имя: {info[1]}\n'
+        f'Отчество: {info[2]}\n'
+        f'Дата рождения: {info[3]}\n'
+        f'Запрошенная сумма: {info[4]}'
+
+    )
     return result
