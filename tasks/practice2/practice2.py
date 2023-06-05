@@ -12,7 +12,7 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    greeting="Hello, " + name
     return greeting
 
 
@@ -28,7 +28,8 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
+    import random
+    amount = round(random.uniform(100, 1000000), 2)
     return amount
 
 
@@ -42,8 +43,17 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
-    return result
+    result = True
+    if phone_number[:2] == "+7":
+        c = 2
+        while result and c < len(phone_number):
+            if not (phone_number[c].isdigit()):
+                result = False
+            c += 1
+        return result
+    else:
+        return False
+
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -58,7 +68,10 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
+    if current_amount >= float(transfer_amount):
+        result = True
+    else:
+        result = False
     return result
 
 
@@ -77,7 +90,13 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+    result = text
+    result = " ".join(result.split())
+    result = result.replace('"', '')
+    result = result.replace("'", '')
+    for word in uncultured_words:
+        result = result.replace(word, "#" * len(word))
+    result = result.capitalize()
     return result
 
 
@@ -100,5 +119,7 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    user = user_info.split(",")
+    nl = '\n'
+    result = f"Фамилия: {user[0]}{nl}Имя: {user[1]}{nl}Отчество: {user[2]}{nl}Дата рождения: {user[3]}{nl}Запрошенная сумма: {user[4]}"
     return result
