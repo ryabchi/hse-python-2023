@@ -12,7 +12,9 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    greeting = "Привет, " + name + "!"
+
+
     return greeting
 
 
@@ -27,8 +29,10 @@ def get_amount() -> float:
 
     :return: случайную сумму на счете
     """
+    import random
+    amount = random.uniform(100, 1000000)
+    amount = round(amount, 2)
 
-    # пиши код здесь
     return amount
 
 
@@ -42,7 +46,15 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
+    result = True
+    if len(phone_number) != 12:
+        result = False
+    if phone_number[0] != '+' or phone_number[1:2] != '7':
+        result = False
+    if not phone_number[2:].isdigit():
+        result = False
+
+
     return result
 
 
@@ -58,7 +70,11 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
+    if current_amount >= float(transfer_amount):
+        result = True
+    else:
+        result = False
+
     return result
 
 
@@ -77,7 +93,19 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+    text = ' '.join(text.split())
+
+    # Фильтрация 'опасных' символов
+    text = text.replace('"', '').replace("'", '')
+
+    # Приведение первой буквы к заглавной, остальных к строчным
+    text = text.capitalize()
+
+    # Замена запрещенных слов на #
+    for word in uncultured_words:
+        text = text.replace(word, '#' * len(word))
+    result = text
+
     return result
 
 
@@ -100,5 +128,14 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    info_list = user_info.split(',')
+
+    last_name = info_list[0]
+    first_name = info_list[1]
+    middle_name = info_list[2]
+    date_of_birth = info_list[3]
+    loan_amount = info_list[4]
+
+    result = f"Фамилия: {last_name}\nИмя: {first_name}\nОтчество: {middle_name}\nДата рождения: {date_of_birth}\nЗапрошенная сумма: {loan_amount}"
+
     return result
