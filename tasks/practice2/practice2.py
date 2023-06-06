@@ -12,7 +12,7 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    greeting = f"Hello, {name}" # пиши код здесь
     return greeting
 
 
@@ -27,7 +27,10 @@ def get_amount() -> float:
 
     :return: случайную сумму на счете
     """
-
+    import random as r
+    amount = r.uniform(100, 1000000)
+    amount = float("{0:.2f}".format(amount))
+    print(amount)
     # пиши код здесь
     return amount
 
@@ -42,6 +45,17 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
+    result = True
+    for i in phone_number:
+        try:
+            if 0 <= int(i) <= 9:
+                continue
+            else:
+                result = False
+                break
+        except:
+            result = False
+            break
     # пиши код здесь
     return result
 
@@ -58,6 +72,11 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
+    t = float(transfer_amount)
+    if current_amount >= t:
+        result = True
+    else:
+        result = False
     # пиши код здесь
     return result
 
@@ -76,7 +95,16 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :param uncultured_words: список запрещенных слов
     :return: текст, соответсвующий правилам
     """
-
+    
+    text = text[:1].upper() + text[1:].lower()
+    t = text.split()
+    for j in range(len(t)):
+        if t[j] in uncultured_words:
+            another = ""
+            for i in range(len(t[j])):
+                another += "#"
+            t[j] = another
+    result = " ".join(t)
     # пиши код здесь
     return result
 
@@ -100,5 +128,11 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
+    user_info = user_info.split(",")
+    result = (f"Фамилия: {user_info[0]}\n"
+              f"Имя: {user_info[1]}\n"
+              f"Отчество: {user_info[2]}\n"
+              f"Дата рождения: {user_info[3]}\n"
+              f"Запрошенная сумма: {user_info[4]}")
     # пиши код здесь
     return result
