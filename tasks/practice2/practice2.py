@@ -1,4 +1,5 @@
 from typing import Iterable
+import random
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
@@ -12,9 +13,8 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    greeting = "Welcome, " + name + ", to our server!"
     return greeting
-
 
 def get_amount() -> float:
     """
@@ -27,9 +27,8 @@ def get_amount() -> float:
 
     :return: случайную сумму на счете
     """
-
-    # пиши код здесь
-    return amount
+    amount = random.uniform(10, 1000000)
+    return int(amount * 100) / 100
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -41,9 +40,13 @@ def is_phone_correct(phone_number: str) -> bool:
     :return: буленовское значение - bool: True - если номер корректны,
                                           False - если номер некорректный
     """
-
-    # пиши код здесь
-    return result
+    if phone_number[0] != '+' or phone_number[1] != '7' or len(phone_number) != 12:
+            return False
+    else:
+        for n in phone_number[2:]:
+            if not (n.isnumeric() or n == '+'):
+                return False
+    return True
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -58,7 +61,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
+    result = True if (current_amount >= float(transfer_amount)) else False
     return result
 
 
@@ -78,6 +81,10 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
 
     # пиши код здесь
+    result = text.strip().lower().capitalize().replace('\'', '').replace('\"', '')
+    for word in uncultured_words:
+        if word in result:
+            result = result.replace(word, '#' * len(word))
     return result
 
 
@@ -101,4 +108,6 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
+    info = user_info.split(',')
+    result = f'Фамилия: {info[0]}\nИмя: {info[1]}\nОтчество: {info[2]}\nДата рождения: {info[3]}\nЗапрошенная сумма: {info[4]}'
     return result

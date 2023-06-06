@@ -1,5 +1,19 @@
 from typing import Any, Optional
 
+def rec(content, name):
+    phone = None
+    if isinstance(content, dict):
+            if 'name' in content:
+                if content['name'] == name:
+                    return content['phone']
+            else:
+                for val in content.values():
+                    phone = rec(val, name)
+    if isinstance(content, list):
+        for element in content:
+                phone = rec(element, name)
+    return phone
+
 
 def search_phone(content: Any, name: str) -> Optional[str]:
     """
@@ -40,4 +54,5 @@ def search_phone(content: Any, name: str) -> Optional[str]:
 
     # пиши свой код здесь
 
-    return None
+    phone = rec(content, name)
+    return phone
