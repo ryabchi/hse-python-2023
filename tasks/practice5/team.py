@@ -54,7 +54,7 @@ class Team:
 
         # пиши свой код здесь
 
-        if type(member) != Employee and not issubclass(type(member), Employee):
+        if type(member)!= Employee and not issubclass(type(member), Employee):
             raise TypeError()
 
         if member in self.__members:
