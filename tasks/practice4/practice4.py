@@ -38,6 +38,17 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     :return: номер телефона пользователя или None
     """
 
-    # пиши свой код здесь
+    if isinstance(content, list):
+        for i in content:
+            out = search_phone(i, name)
+            if out is not None:
+                return out
+    elif isinstance(content, dict):
+        for i in content:
+            if content[i] == name:
+                return content['phone']
+            out = search_phone(content[i], name)
+            if out is not None:
+                return out
 
     return None
