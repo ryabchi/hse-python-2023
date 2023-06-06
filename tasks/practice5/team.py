@@ -44,6 +44,8 @@ class Team:
         # пиши свой код здесь
         if isinstance(member, Employee):
             self.__members.add(member)
+        else:
+            raise ValueError
 
     def remove_member(self, member: Employee) -> None:
         """
