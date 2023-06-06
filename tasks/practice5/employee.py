@@ -37,15 +37,18 @@ class Employee:
         """
         Задача: реализовать конструктор класса, чтобы все тесты проходили
         """
-
-        # пиши свой код здесь
-
+        if (isinstance(salary, int)):
+          self.name = name
+          self.position = position
+          self._salary = salary
+        else:
+            raise ValueError
     def get_salary(self) -> int:
         """
         Метод возвращает зарплату сотрудника.
         """
 
-        # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -54,8 +57,16 @@ class Employee:
         Сравнение происходит по уровню позиции см. `get_position_level`.
         Если что-то идет не так - бросаются исключения. Смотрим что происходит в тестах.
         """
-
-        # пиши свой код здесь
+        if (isinstance(self, Employee) and isinstance(other, Employee)):
+            if self.position not in POSITIONS:
+                raise ValueError
+            if other.position not in POSITIONS:
+                raise ValueError
+            pos1 = get_position_level(self.position)
+            pos2 = get_position_level(other.position)
+            return pos1 == pos2
+        else:
+            raise TypeError
 
     def __str__(self):
         """
@@ -63,7 +74,7 @@ class Employee:
         Пример вывода: 'name: Ivan position manager'
         """
 
-        # пиши свой код здесь
+        return f"name: {self.name} position: {self.position}"
 
     def __hash__(self):
         return id(self)
@@ -82,7 +93,8 @@ class Developer(Employee):
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
 
-        # пиши свой код здесь
+        self.language = language
+        super().__init__(name, self.position, salary)
 
 
 class Manager(Employee):
@@ -97,4 +109,4 @@ class Manager(Employee):
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
 
-        # пиши свой код здесь
+        super().__init__(name, self.position, salary)

@@ -1,5 +1,30 @@
 from typing import Any, Optional
 
+res: Any
+def find_in_dict(dct:dict, name:str):
+    is_name_find=False
+    for key in dct:
+        if (key == 'name' and dct['name'] == name):
+            is_name_find = True
+        if (is_name_find and key == 'phone'):
+            res = dct['phone']
+            return res
+        if (isinstance(dct[key], list)):
+            res = find_in_list(dct[key], name)
+            if (res!=None):
+                return res
+        if (isinstance(dct[key], dict)):
+            res = find_in_dict(dct[key], name)
+            if (res!=None):
+                return res
+    return None
+def find_in_list(lst:list, name:str):
+    for obj in lst:
+        if (isinstance(obj, dict)):
+            res = find_in_dict(obj, name)
+            if (res!=None):
+                return res
+    return None
 
 def search_phone(content: Any, name: str) -> Optional[str]:
     """
@@ -38,6 +63,8 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     :return: номер телефона пользователя или None
     """
 
-    # пиши свой код здесь
-
+    if (isinstance(content, list)):
+        return find_in_list(content, name)
+    if (isinstance(content, dict)):
+        return find_in_dict(content, name)
     return None
