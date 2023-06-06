@@ -29,6 +29,10 @@ class Team:
 
         # пиши свой код здесь
 
+        self.name = name
+        self.manager = manager
+        self.__members = set([])
+
     def add_member(self, member: Employee) -> None:
         """
         Задача: реализовать метод добавления участника в команду.
@@ -36,6 +40,11 @@ class Team:
         """
 
         # пиши свой код здесь
+        if not isinstance(member, Employee):
+            raise TypeError(member)
+
+        if member.position in ['developer', 'tester']:
+            self.__members.add(member)
 
     def remove_member(self, member: Employee) -> None:
         """
@@ -44,6 +53,12 @@ class Team:
         """
 
         # пиши свой код здесь
+        if not isinstance(member, Employee):
+            raise TypeError(member)
+
+        if member not in self.__members:
+            raise NoSuchMemberError(self.name, member)
+        self.__members.remove(member)
 
     def get_members(self) -> Set[Employee]:
         """
@@ -52,6 +67,10 @@ class Team:
         """
 
         # пиши свой код здесь
+        return set(self.__members)
+
+    def __str__(self):
+        return 'team: {} manager: {} number of members: {}'.format(self.name, self.manager.name, len(self.__members))
 
     def show(self) -> None:
         """
