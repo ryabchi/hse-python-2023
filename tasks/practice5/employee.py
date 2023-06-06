@@ -114,7 +114,7 @@ class Manager(Employee):
     Сотрудник - менеджер
     """
 
-    position: str = 'manager'
+    position: str ='manager'
 
     def __init__(self, name: str, salary: int):
         """
