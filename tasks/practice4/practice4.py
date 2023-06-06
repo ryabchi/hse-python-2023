@@ -39,5 +39,24 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     """
 
     # пиши свой код здесь
+    def iterate_nested_struct(nested_struct, type):
+        if type == dict:
+            for key in nested_struct:
+                if key == "name" and "phone" in nested_struct and nested_struct[key] == name:
+                    return nested_struct["phone"]
+                if isinstance(nested_struct[key], dict) or isinstance(nested_struct[key], list):
+                    result = iterate_nested_struct(nested_struct[key], dict if isinstance(nested_struct[key], dict) else list)
+                    if result is not None:
+                        return result
 
-    return None
+        elif type == list:
+            for item in nested_struct:
+                if isinstance(item, dict) or isinstance(item, list):
+                    result = iterate_nested_struct(item, dict if isinstance(item, dict) else list)
+                    if result is not None:
+                        return result
+
+        return None
+
+
+    return iterate_nested_struct(content, dict if isinstance(content, dict) else list)

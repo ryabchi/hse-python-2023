@@ -28,6 +28,12 @@ class Team:
         """
 
         # пиши свой код здесь
+        if not isinstance(name, str) or not isinstance(manager, Manager):
+            raise ValueError
+
+        self.name = name
+        self.manager = manager
+        self.__members = set()
 
     def add_member(self, member: Employee) -> None:
         """
@@ -36,6 +42,10 @@ class Team:
         """
 
         # пиши свой код здесь
+        if not isinstance(member, Employee):
+            raise TypeError
+
+        self.__members.add(member)
 
     def remove_member(self, member: Employee) -> None:
         """
@@ -44,6 +54,13 @@ class Team:
         """
 
         # пиши свой код здесь
+        if not isinstance(member, Employee):
+            raise TypeError
+
+        try:
+            self.__members.remove(member)
+        except KeyError:
+            raise NoSuchMemberError(self.name, member)
 
     def get_members(self) -> Set[Employee]:
         """
@@ -52,6 +69,7 @@ class Team:
         """
 
         # пиши свой код здесь
+        return set(self.__members)
 
     def show(self) -> None:
         """
@@ -65,3 +83,6 @@ class Team:
         этого метода
         """
         print(self)
+
+    def __str__(self) -> str:
+        return f'team: { self.name } manager: { self.manager.name } number of members: { len(self.get_members()) }'
