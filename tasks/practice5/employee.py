@@ -40,7 +40,10 @@ class Employee:
 
         # пиши свой код здесь
         self.name = name
-        self.position = position
+        try:
+            self.position = position
+        except NoSuchPositionError:
+            raise
         self._salary = salary
 
     def get_salary(self) -> int:
