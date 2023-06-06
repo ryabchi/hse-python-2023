@@ -83,7 +83,7 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
         if category in special_category:
             result += amount * 0.05
         else:
-            result += amount * 0.01
+            result += amount *0.01
 
 
     return result
