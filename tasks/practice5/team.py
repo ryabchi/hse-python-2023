@@ -58,7 +58,7 @@ class Team:
             try:
                 self.__members.remove(member)
             except KeyError:
-                raise NoSuchMemberError
+                raise NoSuchMemberError(self.name, member)
         else:
             raise ValueError
 
@@ -70,6 +70,9 @@ class Team:
 
         # пиши свой код здесь
         return self.__members.copy()
+
+    def __str__(self):
+        return f'team: {self.name} manager: {self.manager.name} number of members: {len(self.__members)}'
 
     def show(self) -> None:
         """
