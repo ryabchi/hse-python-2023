@@ -1,5 +1,5 @@
 from typing import Set
-from .employee import Employee, Manager
+from .employee import Employee, Manager, Developer
 from .exception import NoSuchMemberError
 
 
@@ -28,6 +28,9 @@ class Team:
         """
 
         # пиши свой код здесь
+        self.name = name
+        self.manager = manager
+        self.__members = set()
 
     def add_member(self, member: Employee) -> None:
         """
@@ -36,6 +39,10 @@ class Team:
         """
 
         # пиши свой код здесь
+        if not isinstance(member, Developer):
+            raise TypeError
+        else:
+            self.__members.add(member)
 
     def remove_member(self, member: Employee) -> None:
         """
@@ -44,6 +51,12 @@ class Team:
         """
 
         # пиши свой код здесь
+        if not isinstance(member, Developer):
+            raise TypeError
+        elif member not in self.__members:
+            raise NoSuchMemberError(team_name=self.name, member=member)
+        else:
+            self.__members.remove(member)
 
     def get_members(self) -> Set[Employee]:
         """
@@ -52,6 +65,7 @@ class Team:
         """
 
         # пиши свой код здесь
+        return set(self.__members)
 
     def show(self) -> None:
         """
@@ -65,3 +79,6 @@ class Team:
         этого метода
         """
         print(self)
+
+    def __str__(self):
+        return f'team: {self.name} manager: {self.manager.name} number of members: {len(self.__members)}'
