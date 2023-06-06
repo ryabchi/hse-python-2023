@@ -26,7 +26,6 @@ def count_words(text: str) -> Dict[str, int]:
              ключ - слово в нижнем регистре
              значение - количество вхождений слов в текст
     """
-
     ignore = ('.', '?', '!', ',', ';', ':', '-', '(', ')')
     text = text.lower()
     for symb in ignore:

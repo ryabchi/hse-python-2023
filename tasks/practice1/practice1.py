@@ -7,7 +7,6 @@ def concatenate_strings(a: str, b: str) -> str:
     :param b: число
     :return: результат сложения
     """
-
     result = a + b
 
     return result

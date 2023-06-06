@@ -12,7 +12,6 @@ def greet_user(name: str) -> str:
     :param name: имя пользователя
     :return: приветствие
     """
-
     return f'Добро пожаловать, {name}'
 
 
