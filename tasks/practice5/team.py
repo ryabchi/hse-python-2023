@@ -45,7 +45,7 @@ class Team:
         if isinstance(member, Employee):
             self.__members.add(member)
         else:
-            raise ValueError
+            raise TypeError
 
     def remove_member(self, member: Employee) -> None:
         """
@@ -60,7 +60,7 @@ class Team:
             except KeyError:
                 raise NoSuchMemberError(self.name, member)
         else:
-            raise ValueError
+            raise TypeError
 
     def get_members(self) -> Set[Employee]:
         """
