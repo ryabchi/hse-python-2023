@@ -53,6 +53,6 @@ def search_phone(content: Any, name: str) -> Optional[str]:
         for i in content:
             otv = search_phone(i, name)
             if otv is not None:
-                return otv`
+                return otv
 
     return None
