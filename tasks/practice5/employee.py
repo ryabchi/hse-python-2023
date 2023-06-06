@@ -41,7 +41,7 @@ class Employee:
         # пиши свой код здесь
         self.name = name
         self.position = position
-        self.salary = salary
+        self._salary = salary
 
     def get_salary(self) -> int:
         """
@@ -49,7 +49,7 @@ class Employee:
         """
 
         # пиши свой код здесь
-        return self.salary
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
