@@ -27,8 +27,8 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
-
-    return {}
+    words = [word.lower() for word in text.translate(text.maketrans(".,?!", "    ")).split() if len(word) > 1 and word.isalpha()]
+    return {word: words.count(word) for word in words}
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -42,7 +42,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
 
     # пиши свой код здесь
 
-    return []
+    return [number ** exp for number in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -58,6 +58,9 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :return: размер кешбека
     """
 
+    result = 0
+    for buy in operations:
+        result += buy['amount'] * (0.05 if buy['category'] in special_category else 0.01)
     return result
 
 
@@ -101,4 +104,18 @@ def csv_reader(header: str) -> int:
 
     # пиши свой код здесь
 
-    return 0
+    import csv
+    with open(get_path_to_file(), newline='') as csvfile:
+        csv_reader = csv.reader(csvfile, delimiter=',')
+        column_index = -1
+        unique_words = []
+        for row in csv_reader:
+            if column_index == -1:
+                for i in range(len(row)):
+                    if row[i] == header:
+                        column_index = i
+                        break
+            else:
+                if row[column_index] not in unique_words:
+                    unique_words.append(row[column_index])
+    return len(unique_words)

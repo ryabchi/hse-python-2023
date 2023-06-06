@@ -13,7 +13,7 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
-    return greeting
+    return "Hello, " + name
 
 
 def get_amount() -> float:
@@ -29,7 +29,8 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
-    return amount
+    import random
+    return round(random.uniform(100, 1000000), 2)
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -43,7 +44,7 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    return len(phone_number) == 12 and phone_number[:2] == "+7" and phone_number[2:].isdigit()
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -59,7 +60,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    return current_amount >= float(transfer_amount)
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -77,8 +78,20 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
-    return result
+    temp = [x.replace("\'", "").replace("\"", "").lower() for x in text.split()]
+    result = []
+    for x in temp:
+        flag = 0
+        for y in uncultured_words:
+            if y in x:
+                result.append('#' * len(y) + x[len(y):])
+                flag = 1
+                break
+        if flag == 0:
+            result.append(x)
+
+    result[0] = result[0][0].upper() + result[0][1:]
+    return ' '.join(result)
 
 
 def create_request_for_loan(user_info: str) -> str:
@@ -101,4 +114,5 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
-    return result
+    result = user_info.split(',')
+    return f"Фамилия: { result[0 ]}\nИмя: { result[1] }\nОтчество: { result[2] }\nДата рождения: { result[3] }\nЗапрошенная сумма: { result[4] }"
