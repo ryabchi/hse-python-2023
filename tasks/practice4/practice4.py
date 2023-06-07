@@ -1,6 +1,26 @@
 from typing import Any, Optional
 
 
+def find_struct(curr: Any, name: str) -> Optional[str]:
+    found = None
+    if isinstance(curr,list) or isinstance(curr,tuple):
+        for el in curr:
+            found = find_struct(el,name)
+            if found is not None:
+                return found
+    elif isinstance(curr,dict):
+        if 'name' in curr and 'phone' in curr:
+            if curr['name'] == name:
+                return curr['phone']
+        found = None
+        for key in curr:
+            found = find_struct(curr[key],name)
+            if found is not None:
+                return found
+
+    return None
+
+
 def search_phone(content: Any, name: str) -> Optional[str]:
     """
     Функция поиска номера телефона пользователя в структуре данных.
@@ -40,4 +60,4 @@ def search_phone(content: Any, name: str) -> Optional[str]:
 
     # пиши свой код здесь
 
-    return None
+    return find_struct(content,name)
