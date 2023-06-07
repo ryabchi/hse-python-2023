@@ -1,5 +1,7 @@
+import csv
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -27,8 +29,29 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
+    text = text.lower()
+    text = text.split()
+    for i in range(len(text)):
+        if not 97 <= ord(text[i][-1]) <= 122 and not text[i][-1].isdigit():
+            text[i] = text[i][:-1]
+        if text[i][-2:] == "..":
+            text[i] = text[i][:-2]
+    dictionary = {}
+    for i in range(len(text)):
+        if text[i] != '':
+            flag = True
+            for j in range(len(text[i])):
+                if not 97 <= ord(text[i][j]) <= 122:
+                    flag = False
+                    break
+            if flag:
+                if text[i] in dictionary.keys():
+                    dictionary[text[i]] += 1
+                else:
+                    dictionary[text[i]] = 1
 
-    return {}
+
+    return dictionary
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -42,7 +65,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
 
     # пиши свой код здесь
 
-    return []
+    return [pow(i, exp) for i in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,8 +80,13 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
-
-    return result
+    cashback = 0
+    for i in operations:
+        if i["category"] in special_category:
+            cashback += i["amount"] * 0.05
+        else:
+            cashback += i["amount"] * 0.01
+    return cashback
 
 
 def get_path_to_file() -> Optional[Path]:
@@ -100,5 +128,17 @@ def csv_reader(header: str) -> int:
     """
 
     # пиши свой код здесь
+    with open(get_path_to_file()) as f:
+        file_reader = csv.reader(f, delimiter=',')
+        count = 0
+        answer = []
+        for row in file_reader:
+            if count == 0:
+                s = row.index(header)
+            else:
+                if row[s] not in answer:
+                    answer.append(row[s])
+            count += 1
 
-    return 0
+
+    return len(answer)
