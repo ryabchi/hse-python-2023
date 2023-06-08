@@ -1,5 +1,7 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+import re
+import csv
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -27,8 +29,19 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
+    words = {}
 
-    return {}
+    text = text.strip().split()
+
+    for word in text:
+        word = re.sub(r'[,.:!?-]', "", word)
+        if re.match(r'^[a-zA-Z]+$', word):
+            if (word.lower() in words):
+                words[word.lower()] += 1
+            else:
+                words[word.lower()] = 1
+
+    return words
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -41,8 +54,10 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     """
 
     # пиши свой код здесь
+    for i in range(len(numbers)):
+        numbers[i] = numbers[i] ** exp
 
-    return []
+    return numbers
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,7 +72,20 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
+    result = 0
+    default_cashback = 0.01
+    special_cashback = 0.05
 
+    for i in range(len(operations)):
+        total = 0
+        d = operations[i]
+        if d["category"] in special_category:
+            total = d["amount"] * special_cashback
+        else:
+            total = d["amount"] * default_cashback
+        result += total
+
+    result = float("{:.2f}".format(result))
     return result
 
 
@@ -98,7 +126,22 @@ def csv_reader(header: str) -> int:
     :param header: название заголовка
     :return: количество уникальных элементов в столбце
     """
+    elements = []
 
     # пиши свой код здесь
+    with open(get_path_to_file()) as file:
+        csv_reader = csv.reader(file, delimiter=",")
+        column_id = 0
+        count = 0
+        for row in csv_reader:
+            if count == 0:
+                column_id = row.index(header)
+                count += 1
+            else:
+                x = row[column_id]
+                if (str(x) not in elements):
+                    elements.append(str(x))
 
-    return 0
+    result = len(elements)
+
+    return result
