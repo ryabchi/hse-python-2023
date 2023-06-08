@@ -1,5 +1,8 @@
 from typing import Any, Optional
-
+IVAN_USER_INFO = {
+    'name': 'Ivan',
+    'phone': '+78005553535',
+}
 
 def search_phone(content: Any, name: str) -> Optional[str]:
     """
@@ -37,7 +40,31 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     :param name: имя пользователя, у которого будем искать номер телефона
     :return: номер телефона пользователя или None
     """
+    str = None
 
     # пиши свой код здесь
+    if isinstance(content, dict):
 
-    return None
+        if 'name' in content.keys() and 'phone' in content.keys() and content['name'] == name:
+            if str is None:
+
+                str = content["phone"]
+        else:
+            for i in content.keys():
+                if str is None:
+                    str = search_phone(content[i], name)
+    elif isinstance(content, list):
+        for i in range(len(content)):
+            if str is None:
+                str = search_phone(content[i], name)
+
+    return str
+
+
+
+
+
+
+
+
+
