@@ -1,4 +1,7 @@
+import random
 from typing import Iterable
+import re
+from random import uniform
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
@@ -11,6 +14,8 @@ def greet_user(name: str) -> str:
     :param name: имя пользователя
     :return: приветствие
     """
+
+    greeting = "Анша Абдуль, {name}".format(name = name)
 
     # пиши код здесь
     return greeting
@@ -29,6 +34,9 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
+
+    amount = random.uniform(100.0, 1000000.0)
+    amount = float("{:.2f}".format(amount))
     return amount
 
 
@@ -43,6 +51,9 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
+
+    result = re.match(r'^\+7\d{10}$', phone_number)
+
     return result
 
 
@@ -59,6 +70,8 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
+    result = current_amount >= float(transfer_amount)
+
     return result
 
 
@@ -78,6 +91,13 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
 
     # пиши код здесь
+    for i in uncultured_words:
+        text = text.replace(i, "#"*len(i))
+
+    text = text.strip().lower().capitalize()
+    result = re.sub(r'\s+', " ", text)
+    result = result.replace("\"", "").replace("\'", "")
+
     return result
 
 
@@ -101,4 +121,8 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
+
+    data = user_info.split(",")
+    result = "Фамилия: {surname}\nИмя: {name}\nОтчество: {patronymic}\nДата рождения: {date}\nЗапрошенная сумма: {summ}".format(surname = data[0], name=data[1], patronymic=data[2], date=data[3], summ=data[4])
+
     return result
