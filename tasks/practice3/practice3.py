@@ -29,18 +29,18 @@ def count_words(text: str) -> Dict[str, int]:
     ans: dict = {}
     possible_words: List[str] = text.split()
     for i in possible_words:
-        i=i.strip(" !?-.,:")
-        i=i.lower()
+        i = i.strip(" !?-.,:")
+        i = i.lower()
         not_word = False
         for j in range(len(i)):
             if i[j].isdigit():
-                not_word=True
+                not_word = True
                 break
-        if not not_word and len(i)!=0:
+        if not not_word and len(i) != 0:
             if i in ans.keys():
-                ans[i]+=1
+                ans[i] += 1
             else:
-                ans[i]=1
+                ans[i] = 1
     return ans
 
 
@@ -54,7 +54,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     """
 
     # пиши свой код здесь
-    numbers = [pow(x,exp) for x in numbers]
+    numbers = [pow(x, exp) for x in numbers]
     return numbers
 
 
@@ -73,7 +73,7 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     total_cashback = 0
     for dictionary in operations:
         if dictionary["category"] in special_category:
-            total_cashback+=dictionary["amount"]*0.05
+            total_cashback += dictionary["amount"] * 0.05
         else:
             total_cashback += dictionary["amount"] * 0.01
     return total_cashback
