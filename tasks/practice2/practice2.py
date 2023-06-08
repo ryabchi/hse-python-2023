@@ -1,3 +1,4 @@
+import random
 from typing import Iterable
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
@@ -13,6 +14,7 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
+    greeting = 'Hello, ' + name + '!'
     return greeting
 
 
@@ -29,7 +31,8 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
-    return amount
+    amount = random.random() * (1000000 - 100) + 100
+    return round(amount, 2)
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -43,7 +46,9 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    if (phone_number and phone_number[0] == '+' and phone_number[1] == '7'):
+        return phone_number[1:].isdigit()
+    return False
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -59,7 +64,10 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
-    return result
+    if current_amount >= float(transfer_amount):
+        return True
+    else:
+        return False
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -78,8 +86,17 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
 
     # пиши код здесь
-    return result
+    for word in uncultured_words:
+        f = text.find(word)
+        while f != -1:
+            text = text[0:f] + '#' * len(word) + text[f + len(word):]
+            f = text.find(word)
 
+    text = text.replace('\'', "")
+    text = text.replace('"', "")
+    text = " ".join([word.lower() for word in text.split()])
+    text = text[0:1].upper() + text[1:]
+    return text
 
 def create_request_for_loan(user_info: str) -> str:
     """
@@ -101,4 +118,7 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
+    surname, name, patronymic, date, sum = user_info.split(',')
+    result = "Фамилия: " + surname + "\nИмя: " + name + "\nОтчество: " + patronymic + "\nДата рождения: " + date +\
+        "\nЗапрошенная сумма: " + sum
     return result
