@@ -117,6 +117,18 @@ def csv_reader(header: str) -> int:
     :return: количество уникальных элементов в столбце
     """
 
-    # пиши свой код здесь
-
-    return 0
+    unique_elements = set()
+    with open(get_path_to_file(), 'r', newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        count = 0
+        column: int
+        for row in reader:
+            if count == 0:
+                for i in range(len(row)):
+                    if row[i] == header:
+                        column = i
+                        break
+                count += 1
+            else:
+                unique_elements.add(row[column])
+    return len(unique_elements)
