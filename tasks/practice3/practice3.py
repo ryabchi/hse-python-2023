@@ -1,6 +1,7 @@
+import string
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-
+import csv
 
 def count_words(text: str) -> Dict[str, int]:
     """
@@ -27,8 +28,23 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
+    ltext = text.lower()
+    ltext = ltext.translate(str.maketrans('', '', string.punctuation))
+    l = ltext.split()
+    l2 = {}
+    for i in range(0,len(l)):
+        word = l[i]
+        if(word.isalpha()):
+            if(word in l2):
+                l2[word] += 1
+            else:
+                l2[word] = 1
 
-    return {}
+
+
+
+
+    return l2
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -41,8 +57,11 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     """
 
     # пиши свой код здесь
+    l = []
+    for i in range(0, len(numbers)):
+        l.append(pow(numbers[i], exp))
 
-    return []
+    return l
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,8 +76,17 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
+    sum = 0
+    for i in operations:
+        su =  i.get("amount")
+        cat = i.get("category")
+        if(cat in special_category):
+            sum += float(su)*0.05
+        else:
 
-    return result
+            sum += float(su)*0.01
+
+    return sum
 
 
 def get_path_to_file() -> Optional[Path]:
@@ -100,5 +128,21 @@ def csv_reader(header: str) -> int:
     """
 
     # пиши свой код здесь
+    s = []
+    with open(get_path_to_file(),newline = '') as csvfile:
+        spamreader = csv.reader(csvfile)
+        num = 0
+        for ind,row in enumerate(spamreader):
+            if(ind == 0):
+                for i in range(len(row)):
+                    if(row[i] == header):
+                        num = i
+                        break
+            else:
+                s.append(row[num])
 
-    return 0
+    s = set(s)
+
+
+
+    return len(s)
