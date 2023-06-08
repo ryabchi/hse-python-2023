@@ -87,3 +87,4 @@ class Team:
         Переопределение метода __str__ для строкового представления объекта.
         """
         return f"team: {self.name} manager: {self.manager.name} number of members: {len(self.__members)}"
+    #
