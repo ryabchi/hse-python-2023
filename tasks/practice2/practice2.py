@@ -13,7 +13,7 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
-    return greeting
+    return "Hello "+name
 
 
 def get_amount() -> float:
@@ -29,7 +29,8 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
-    return amount
+    import random
+    return round(random.uniform(100, 1000000), 2)
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -43,6 +44,14 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
+    b = 1
+    for i in range(1, len(phone_number)):
+        if (phone_number[i] > '9' or phone_number[i] < '0'):
+            b = 0
+    if (len(phone_number) == 12 and phone_number.startswith("+7") and b == 1):
+        result = True
+    else:
+        result = False
     return result
 
 
@@ -59,6 +68,10 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
+    if (current_amount >= float(transfer_amount)):
+        result = True
+    else:
+        result = False
     return result
 
 
@@ -78,7 +91,28 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
 
     # пиши код здесь
-    return result
+    import re
+    text2 = text.strip()
+    text = text.strip()
+    text = text.lower()
+    delimiters = "!|,|\"| |'|,|-|\\.|\\|"
+    text = re.split(delimiters, text)
+    s = ""
+    delim = []
+    while ('' in text):
+        text.remove('')
+    for i in range(len(text2)):
+        if (text2[i] == ' ' or text2[i] == '\'' or text2[i] == '\" ' or text2[i] == '-' or text2[i] == '!'):
+            delim.append(text2[i])
+    for i in range(len(text)):
+
+        if (text[i] in uncultured_words):
+            text[i] = len(text[i]) * "#"
+        s += text[i]
+        if (i < len(delim) and delim[i] != '\'' and delim[i] != '\"'):
+            s += delim[i]
+    s = s.capitalize()
+    return s
 
 
 def create_request_for_loan(user_info: str) -> str:
@@ -101,4 +135,11 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
-    return result
+    user_info = user_info.split(',')
+    surname = user_info[0]
+    name = user_info[1]
+    patronymic = user_info[2]
+    date = user_info[3]
+    sum = user_info[4]
+    s = 'Фамилия: ' + surname + "\n" + 'Имя: ' + name + "\n" + 'Отчество: ' + patronymic + '\n' + 'Дата рождения: ' + date + '\n' + 'Запрошенная сумма: ' + sum
+    return s

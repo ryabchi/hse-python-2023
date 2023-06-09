@@ -39,6 +39,11 @@ class Employee:
         """
 
         # пиши свой код здесь
+        self.name = name
+        self.position = position
+        self._salary = salary
+        if not (isinstance(self._salary, int) and isinstance(self.name, str) and isinstance(self.position, str)):
+            raise ValueError
 
     def get_salary(self) -> int:
         """
@@ -46,6 +51,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -56,6 +62,18 @@ class Employee:
         """
 
         # пиши свой код здесь
+        if not(isinstance(other,Employee)):
+            raise TypeError
+        if not (self.position in POSITIONS):
+            raise ValueError
+        b2=other
+        b=False
+        c=get_position_level(self.position)
+        c2=get_position_level(b2.position)
+        if(self.position in POSITIONS and c2==c):
+            b=True
+
+        return b
 
     def __str__(self):
         """
@@ -64,6 +82,9 @@ class Employee:
         """
 
         # пиши свой код здесь
+        s = 'name: ' + self.name + ' position: ' + self.position
+        return s
+
 
     def __hash__(self):
         return id(self)
@@ -83,6 +104,10 @@ class Developer(Employee):
         """
 
         # пиши свой код здесь
+        Employee.__init__(self, name, self.position, salary)
+        self.name = name
+        self.language = language
+        self.salary = salary
 
 
 class Manager(Employee):
@@ -98,3 +123,6 @@ class Manager(Employee):
         """
 
         # пиши свой код здесь
+        Employee.__init__(self, name, self.position, salary)
+        self.name = name
+        self.salary = salary

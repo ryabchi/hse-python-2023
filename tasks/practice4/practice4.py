@@ -39,5 +39,24 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     """
 
     # пиши свой код здесь
+    keylist = ['name']
+    content2 = {
+        'itworks': content
+    }
 
-    return None
+    def getval(k, content2, res):
+        if k in content2 and content2[k] == name:
+            return content2['phone']
+        if isinstance(content2, list):
+            for j in content2:
+                res = getval(k, content2[j], res)
+        for i in content2:
+            if isinstance(content2[i], dict): res = getval(k, content2[i], res)
+            if isinstance(content2[i], list):
+                for elem in content2[i]:
+                    res = getval(k, elem, res)
+            if res: return res
+
+    for i in keylist:
+        rez = (getval(i, content2, None))
+    return rez
