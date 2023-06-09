@@ -28,7 +28,8 @@ def count_words(text: str) -> Dict[str, int]:
 
     text = text.translate(str.maketrans({key: None for key in string.punctuation}))
     text = text.split()
-    uniq_text = set(text)
+    uniq_text = text
+    uniq_text = sorted(set(uniq_text), key=lambda d: uniq_text.index(d))
     result = {}
     for i in uniq_text:
         count = 0
