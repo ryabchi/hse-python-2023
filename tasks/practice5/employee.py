@@ -16,7 +16,14 @@ def get_position_level(position_name: str) -> int:
     Если должности нет в базе поднимается исключение `NoSuchPositionError(position_name)`
     """
     try:
-        return POSITIONS[position_name]
+
+        if any(map(str.isdigit, position_name)):
+            raise ValueError()
+        elif position_name in POSITIONS:
+            return POSITIONS[position_name]
+        else:
+            raise NoSuchPositionError(position_name)
+
     except KeyError as exp:
         raise NoSuchPositionError(position_name) from exp
 
@@ -39,6 +46,13 @@ class Employee:
         """
 
         # пиши свой код здесь
+        if type(name) != str or type(position) != str or type(salary) != int:
+            raise ValueError
+
+        self.name = name
+        self.position = position
+        self._salary = salary
+
 
     def get_salary(self) -> int:
         """
@@ -46,6 +60,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -56,6 +71,10 @@ class Employee:
         """
 
         # пиши свой код здесь
+        if type(other) != Employee:
+            raise TypeError
+
+        return get_position_level(self.position) == get_position_level(other.position)
 
     def __str__(self):
         """
@@ -64,6 +83,8 @@ class Employee:
         """
 
         # пиши свой код здесь
+
+        return f"name: {self.name} position: {self.position}"
 
     def __hash__(self):
         return id(self)
@@ -83,7 +104,11 @@ class Developer(Employee):
         """
 
         # пиши свой код здесь
+        if type(language) != str:
+            raise ValueError
 
+        super().__init__(name, self.position, salary)
+        self.language = language
 
 class Manager(Employee):
     """
@@ -98,3 +123,4 @@ class Manager(Employee):
         """
 
         # пиши свой код здесь
+        super().__init__(name, self.position, salary)
