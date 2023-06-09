@@ -27,8 +27,55 @@ def count_words(text: str) -> Dict[str, int]:
     """
 
     # пиши свой код здесь
+    ind = -1
+    dic = []
+    while ind < len(text) - 1:
+        ind += 1
+        if (ord(text[ind]) > 64 and ord(text[ind]) < 91) or (ord(text[ind]) > 96 and ord(text[ind]) < 123):
+            st = str()
+            for i in range(ind, len(text)):
+                if (ord(text[i]) > 64 and ord(text[i]) < 91) or (ord(text[i]) > 96 and ord(text[i]) < 123):
+                    st = st + text[i]
+                elif ((ord(text[i]) <= 64 or ord(text[i]) >= 91) or (ord(text[i]) <= 96 or ord(text[i]) >= 123)):
+                    if (ord(text[i]) >= 48 and ord(text[i]) <= 57):
+                        for k in range(i, len(text)):
+                            if ((ord(text[k]) <= 64 or (ord(text[k]) >= 91 and ord(text[k]) <= 96) or ord(text[k]) >= 123)):
+                                if ord(text[k]) < 48 or ord(text[k]) > 57:
+                                    ind = k
+                                    break
+                        break
+                    else:
+                        ind = i
+                        dic.append(st.lower())
+                        break
+                if len(text) - 1 == i:
+                    ind = i
+                    dic.append(st.lower())
+                    break
+        i = ind
+        if (ord(text[i]) >= 48 and ord(text[i]) <= 57):
+            for k in range(i, len(text)):
+                if ((ord(text[k]) <= 64 or (ord(text[k]) >= 91 and ord(text[k]) <= 96) or ord(text[k]) >= 123)):
+                    if ord(text[k]) < 48 or ord(text[k]) > 57:
+                        ind = k
+                        break
+    dic1 = []
+    count = []
+    ans = []
+    for i in range(len(dic)):
+        if dic[i] not in dic1:
+            dic1.append(dic[i])
+            c = 0
+            for g in range(i, len(dic)):
+                if dic[g] == dic1[len(dic1) - 1]:
+                    c += 1
+            count.append(c)
+            ans.append([dic1[len(dic1) - 1], c])
+    d = dict(ans)
 
-    return {}
+
+
+    return d
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -41,8 +88,10 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     """
 
     # пиши свой код здесь
-
-    return []
+    ans=[]
+    for i in numbers:
+        ans.append(pow(i, exp))
+    return ans
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,6 +106,12 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
+    result=float(0)
+    for i in operations:
+        if i['category'] in special_category:
+            result=result+int(i['amount'])*0.05
+        else:
+            result = result + int(i['amount']) * 0.01
 
     return result
 
@@ -100,5 +155,21 @@ def csv_reader(header: str) -> int:
     """
 
     # пиши свой код здесь
+    import csv
+    with open(f'{get_path_to_file()}', newline='') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=",")
+        c=0
+        ind=0
+        arr=[]
+        for row in spamreader:
+            if c==0:
+                for i in range(len(row)):
+                    if row[i]==header:
+                        ind=i
+                        break
+                c=1
+            else:
+                if row[ind] not in arr:
+                    arr.append(row[ind])
 
-    return 0
+    return len(arr)

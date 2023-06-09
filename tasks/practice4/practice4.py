@@ -39,5 +39,29 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     """
 
     # пиши свой код здесь
+    oot = None
 
-    return None
+    def obxod(struct, name: str):
+        if isinstance(struct, list) is True:
+            for i in struct:
+                obxod(i, name)
+            return
+        elif isinstance(struct, dict) is True:
+            if 'name' not in struct.keys():
+                for j in struct.values():
+                    obxod(j, name)
+                return
+            elif struct['name'] == name:
+                nonlocal oot
+                oot = struct['phone']
+                return
+        elif isinstance(struct, tuple) is True:
+            for k in struct:
+                obxod(k, name)
+            return
+        else:
+            return
+    obxod(content,name)
+
+
+    return oot

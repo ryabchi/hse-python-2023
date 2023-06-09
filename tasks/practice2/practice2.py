@@ -13,6 +13,7 @@ def greet_user(name: str) -> str:
     """
 
     # пиши код здесь
+    greeting=f'Привет, {name}!'
     return greeting
 
 
@@ -29,6 +30,9 @@ def get_amount() -> float:
     """
 
     # пиши код здесь
+    import random
+    amount=random.uniform(100, 1000000)
+    amount=float("%.2f" % amount)
     return amount
 
 
@@ -43,6 +47,20 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     # пиши код здесь
+    result = True
+    numberss=['0','1','2','3','4','5','6','7','8','9']
+    for i in range(len(phone_number)):
+        if i==0 and phone_number[i]!='+':
+            result = False
+            break
+        if i==1 and phone_number[i]!='7':
+            result = False
+            break
+        elif i>0 and phone_number[i] not in numberss:
+            result = False
+            break
+    if len(phone_number)!=len('+7xxxxxxxxxx'):
+        result = False
     return result
 
 
@@ -59,6 +77,10 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
     """
 
     # пиши код здесь
+    if current_amount>=float(transfer_amount):
+        result=True
+    else:
+        result=False
     return result
 
 
@@ -78,6 +100,38 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
 
     # пиши код здесь
+    text=text.split()
+    ans = str
+    newtext = []
+    for i in range(len(text)):
+        if i == 0:
+            ans = (text[i])[0].upper()
+            ans = ans + (text[i])[1:].lower()
+            newtext.append(ans)
+        else:
+            newtext.append(text[i].lower())
+    ans = ''
+    for i in newtext:
+        if i[:len(i) - 1] in uncultured_words:
+            for k in uncultured_words:
+                if i[:len(i) - 1] == k:
+                    for h in range(len(k)):
+                        ans += '#'
+                    ans += i[len(i) - 1]
+            ans += ' '
+        elif i not in uncultured_words:
+            for g in range(len(i)):
+                if ord(i[g]) != 34 and ord(i[g]) != 39 and ord(i[g]) != 92:
+                    ans += i[g]
+            ans += ' '
+        else:
+            for k in uncultured_words:
+                if i == k:
+                    for h in range(len(k)):
+                        ans += '#'
+            ans += ' '
+
+    result=ans[:len(ans) - 1]
     return result
 
 
@@ -101,4 +155,6 @@ def create_request_for_loan(user_info: str) -> str:
     """
 
     # пиши код здесь
+    st=user_info.split(',')
+    result=(f'Фамилия: {st[0]}\nИмя: {st[1]}\nОтчество: {st[2]}\nДата рождения: {st[3]}\nЗапрошенная сумма: {st[4]}')
     return result
