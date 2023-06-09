@@ -26,9 +26,19 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    # пиши свой код здесь
-
-    return {}
+    text = text.translate(str.maketrans({key: None for key in string.punctuation}))
+    text = text.split()
+    uniq_text = set(text)
+    result = {}
+    for i in uniq_text:
+        count = 0
+        m = [s for s in i if s in '123456789']
+        if not m:
+            for j in text:
+                if i == j:
+                    count += 1
+            result[i] = count
+    return result
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -41,8 +51,9 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     """
 
     # пиши свой код здесь
-
-    return []
+    for i in range(len(numbers)):
+        numbers[i] = numbers[i]**exp
+    return numbers
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
