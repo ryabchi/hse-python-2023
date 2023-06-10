@@ -69,7 +69,13 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
-
+    result = 0.00
+    for i in range(len(operations)):
+        percent = 0.01
+        for j in special_category:
+            if j == operations[i].get('category'):
+                percent = 0.05
+        result += float(operations[i].get("amount"))*percent
     return result
 
 
