@@ -116,7 +116,21 @@ def csv_reader(header: str) -> int:
     :param header: название заголовка
     :return: количество уникальных элементов в столбце
     """
-
+    import csv
+    full_mat = []
+    mas = []
+    with open("tasks.csv") as f:
+        reader = csv.reader(f)
+        for row in reader:
+            full_mat.append(row)
+    for i in range(len(full_mat)):
+        if i == 0:
+            for j in range(len(full_mat[i])):
+                if full_mat[i][j] == header:
+                    need = j
+        else:
+            mas.append(full_mat[i][need])
+    result = len(set(mas))
     # пиши свой код здесь
+    return result
 
-    return 0
