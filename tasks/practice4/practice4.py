@@ -39,5 +39,20 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     """
 
     # пиши свой код здесь
+    def sub_search_phone(data, name_):
+        if isinstance(data, list):
+            for i in data:
+                res = sub_search_phone(i, name_)
+                if res:
+                    return res
 
-    return None
+        if isinstance(data, dict):
+            if data.get("name") == name_:
+                return data["phone"]
+            else:
+                for value in data.values():
+                    res = sub_search_phone(value, name_)
+                    if res:
+                        return res
+
+    return sub_search_phone(content, name)
