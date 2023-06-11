@@ -26,9 +26,21 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    # пиши свой код здесь
-
-    return {}
+    from string import ascii_letters, digits
+    text = text.lower()
+    for i in set(text):
+        if i not in ascii_letters + digits:
+            text = text.replace(i, ' ')
+        if i in digits:
+            text = text.replace(i, '0')
+    d = {}
+    for w in text.split():
+        if '0' not in w:
+            if w in d:
+                d[w] += 1
+            else:
+                d[w] = 1
+    return d
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -40,9 +52,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :return: список натуральных чисел
     """
 
-    # пиши свой код здесь
-
-    return []
+    return [x ** exp for x in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -58,6 +68,13 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :return: размер кешбека
     """
 
+    result = 0
+    for d in operations:
+        i = list(d.values())
+        if i[1] in special_category:
+            result += i[0] * 0.05
+        else:
+            result += i[0] * 0.01
     return result
 
 
@@ -99,6 +116,16 @@ def csv_reader(header: str) -> int:
     :return: количество уникальных элементов в столбце
     """
 
-    # пиши свой код здесь
+    f = open(get_path_to_file())
+    headers = f.readline().strip().replace('"', '').split(',')
+    print(headers)
+    ind = 0
+    for h in headers:
+        if h == header:
+            break
+        ind += 1
+    if len(headers) == ind:
+        return header == headers[3][1:-1]
 
-    return 0
+    array = [x.strip().split(',')[ind] for x in f]
+    return len(set(array))

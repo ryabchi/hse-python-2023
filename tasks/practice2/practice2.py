@@ -12,8 +12,7 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
-    return greeting
+    return f'Hello, {name}'
 
 
 def get_amount() -> float:
@@ -28,8 +27,8 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
-    return amount
+    import random
+    return round(random.uniform(100, 1000000), 2)
 
 
 def is_phone_correct(phone_number: str) -> bool:
@@ -42,8 +41,11 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
-    return result
+    if len(phone_number) != 12 or phone_number[:2] != '+7':
+        return False
+    if any(x not in '0123456789' for x in phone_number[2:]):
+        return False
+    return True
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -58,8 +60,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
-    return result
+    return current_amount >= float(transfer_amount)
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -77,7 +78,11 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+    result = text.replace('\'', '').replace('\"', '')
+    result = ' '.join(result.split())
+    result = result[0].upper() + result[1:].lower()
+    for i in uncultured_words:
+        result = result.replace(i, '#' * len(i))
     return result
 
 
@@ -100,5 +105,9 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
-    return result
+    info = user_info.split(',')
+    return (f'Фамилия: {info[0]}\n'
+            f'Имя: {info[1]}\n'
+            f'Отчество: {info[2]}\n'
+            f'Дата рождения: {info[3]}\n'
+            f'Запрошенная сумма: {info[4]}')
