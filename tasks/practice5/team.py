@@ -34,7 +34,6 @@ class Team:
         self.manager = manager
         self.__members = set()
 
-
     def __str__(self):
         """
         Выводит строку формата: team: {team_name} manager: {manager_name} number of members: {members_count)}
@@ -66,7 +65,6 @@ class Team:
         else:
             self.__members.remove(member)
 
-
     def get_members(self) -> Set[Employee]:
         """
         Задача: реализовать метод возвращения списка участков команды та,
@@ -89,5 +87,3 @@ class Team:
         этого метода
         """
         print(self)
-
-
