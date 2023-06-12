@@ -40,7 +40,7 @@ class Team:
         if isinstance(member, Employee):
             self.__members.add(member)
         else:
-            raise TypeError('Member should be an instance of Employee')
+            raise TypeError
 
     def remove_member(self, member: Employee) -> None:
         """
@@ -48,11 +48,13 @@ class Team:
         Если в команде нет такого участника поднимается исключение `NoSuchMemberError`
         """
 
-        if not isinstance(member, Employee):
-            raise TypeError('Member should be an instance of Employee')
-        if member not in self.__members:
-            raise NoSuchMemberError(self.name, member)
-        self.__members.remove(member)
+        if isinstance(member, Employee):
+            if member in self.__members:
+                self.__members.remove(member)
+            else:
+                raise NoSuchMemberError(self.name, self.manager)
+        else:
+            raise TypeError
 
     def get_members(self) -> Set[Employee]:
         """

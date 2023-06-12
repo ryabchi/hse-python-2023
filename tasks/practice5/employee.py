@@ -60,12 +60,12 @@ class Employee:
         Если что-то идет не так - бросаются исключения. Смотрим что происходит в тестах.
         """
 
-        if not isinstance(other, Employee):
-            raise TypeError()
-        try:
+        if isinstance(other, Employee):
+            if self.position not in POSITIONS or other.position not in POSITIONS:
+                raise ValueError
             return get_position_level(self.position) == get_position_level(other.position)
-        except NoSuchPositionError as e:
-            raise ValueError(f"position ${e.position} does not exist")
+        else:
+            raise TypeError
 
     def __str__(self):
         """
@@ -108,4 +108,4 @@ class Manager(Employee):
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
 
-        super().__init__(name, self.position, salary)
+        super().__init__(name,self.position,salary)
