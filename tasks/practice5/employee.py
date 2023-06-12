@@ -3,10 +3,10 @@ from typing import Dict
 from .exception import NoSuchPositionError
 
 POSITIONS: Dict[str, int] = {
-    'CEO': 0,
-    'manager': 1,
-    'developer': 2,
-    'tester': 3,
+    "CEO": 0,
+    "manager": 1,
+    "developer": 2,
+    "tester": 3,
 }
 
 
@@ -38,14 +38,23 @@ class Employee:
         Задача: реализовать конструктор класса, чтобы все тесты проходили
         """
 
-        # пиши свой код здесь
+        if not (
+                isinstance(name, str)
+                and isinstance(position, str)
+                and isinstance(salary, int)
+        ):
+            raise ValueError()
+
+        self.name = name
+        self.position = position
+        self._salary = salary
 
     def get_salary(self) -> int:
         """
         Метод возвращает зарплату сотрудника.
         """
 
-        # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -55,7 +64,16 @@ class Employee:
         Если что-то идет не так - бросаются исключения. Смотрим что происходит в тестах.
         """
 
-        # пиши свой код здесь
+        if not isinstance(other, Employee):
+            raise TypeError()
+
+        try:
+            level_employee1 = get_position_level(self.position)
+            level_employee2 = get_position_level(other.position)
+        except NoSuchPositionError:
+            raise ValueError()
+
+        return level_employee1 == level_employee2
 
     def __str__(self):
         """
@@ -63,7 +81,7 @@ class Employee:
         Пример вывода: 'name: Ivan position manager'
         """
 
-        # пиши свой код здесь
+        return f"name: {self.name} position: {self.position}"
 
     def __hash__(self):
         return id(self)
@@ -75,14 +93,15 @@ class Developer(Employee):
     """
 
     language: str
-    position: str = 'developer'
+    position: str = "developer"
 
     def __init__(self, name: str, salary: int, language: str):
         """
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
 
-        # пиши свой код здесь
+        super().__init__(name, self.position, salary)
+        self.language = language
 
 
 class Manager(Employee):
@@ -90,11 +109,11 @@ class Manager(Employee):
     Сотрудник - менеджер
     """
 
-    position: str = 'manager'
+    position: str = "manager"
 
     def __init__(self, name: str, salary: int):
         """
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
 
-        # пиши свой код здесь
+        super().__init__(name, self.position, salary)
