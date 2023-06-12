@@ -1,5 +1,5 @@
 from typing import Iterable
-
+import random
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
 
@@ -11,8 +11,8 @@ def greet_user(name: str) -> str:
     :param name: имя пользователя
     :return: приветствие
     """
+    greeting = f'Hello, {name}! Nice to see you!'
 
-    # пиши код здесь
     return greeting
 
 
@@ -28,7 +28,7 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
+    amount = round(random.uniform(100, 1000000), 2)
     return amount
 
 
@@ -42,7 +42,13 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
+    numbers = phone_number[2:]
+    if not phone_number.startswith("+7"):
+        result = False
+    elif len(numbers) != 10 or not numbers.isdigit():
+        result = False
+    else:
+        result = True
     return result
 
 
@@ -58,7 +64,10 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
+    if current_amount >= float(transfer_amount):
+        result = True
+    else:
+        result = False
     return result
 
 
@@ -77,7 +86,17 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+    text = text.strip()
+    text = text.capitalize()
+
+    dangerous_chars = ['"', "'"]
+    for char in dangerous_chars:
+        text = text.replace(char, '')
+
+    for word in uncultured_words:
+        text = text.replace(word, '#' * len(word))
+
+    result = text
     return result
 
 
@@ -100,5 +119,12 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    user_info = user_info.split(",")
+    surname = user_info[0]
+    name = user_info[1]
+    patronymic = user_info[2]
+    date_of_birth = user_info[3]
+    requested_amount = user_info[4]
+
+    result = f"Фамилия: {surname}\nИмя: {name}\nОтчество: {patronymic}\nДата рождения: {date_of_birth}\nЗапрошенная сумма: {requested_amount}"
     return result

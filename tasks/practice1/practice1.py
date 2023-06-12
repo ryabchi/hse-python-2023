@@ -8,12 +8,12 @@ def concatenate_strings(a: str, b: str) -> str:
     :return: результат сложения
     """
 
-    # пиши свой код здесь
+    result = a + b
 
     return result
 
 
-def calculate_salary(total_compensation: int) -> float:
+def calculate_salary(totpal_compensation: int) -> float:
     """
     Функция расчета зарплаты, которую сотрудник получит после
     вычета налогов. Ставка налогообложения равна 13%.
@@ -22,6 +22,7 @@ def calculate_salary(total_compensation: int) -> float:
     :return: сумма заплаты после вычета налога
     """
 
-    # пиши свой код здесь
+    tax_rate = 0.13
+    result = totpal_compensation * (1 - tax_rate)
 
     return result

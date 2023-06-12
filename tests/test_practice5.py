@@ -94,6 +94,7 @@ def test_employee_eq_fail():
 
     with pytest.raises(TypeError):
         assert employee_1 == 1
+    with pytest.raises(TypeError):
         assert 1 == employee_1
 
     with pytest.raises(ValueError):
