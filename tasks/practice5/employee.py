@@ -38,10 +38,11 @@ class Employee:
         Задача: реализовать конструктор класса, чтобы все тесты проходили
         """
 
-        self.name = name
-        self.position = position
         if not isinstance(salary, int):
             raise ValueError("Parameter \'salary\' should be an integer!")
+
+        self.name = name
+        self.position = position
         self._salary = salary
 
     def get_salary(self) -> int:
@@ -61,6 +62,7 @@ class Employee:
 
         if not isinstance(other, Employee):
             raise TypeError("Parameter \'other\' should be an Employee!")
+
         try:
             return get_position_level(self.position) == get_position_level(other.position)
         except NoSuchPositionError as err:
