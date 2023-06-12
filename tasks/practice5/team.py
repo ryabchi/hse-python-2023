@@ -27,6 +27,9 @@ class Team:
         и инициализировать контейнер `__members`
         """
 
+        if not isinstance(manager, Manager):
+            raise TypeError("Parameter \'manager\' should be a Manager!")
+
         self.name = name
         self.manager = manager
         self.__members = set()
