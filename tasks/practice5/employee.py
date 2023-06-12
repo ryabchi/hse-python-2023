@@ -39,6 +39,12 @@ class Employee:
         """
 
         # пиши свой код здесь
+        try:
+            self.name = name
+            self.position = position
+            self._salary = int(salary)
+        except:
+            raise ValueError
 
     def get_salary(self) -> int:
         """
@@ -46,6 +52,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -56,6 +63,16 @@ class Employee:
         """
 
         # пиши свой код здесь
+        try:
+            posit1 = self.position
+            posit2 = other.position
+            if get_position_level(posit1) == get_position_level(posit2):
+                return True
+        except AttributeError:
+            raise TypeError
+        except NoSuchPositionError:
+            raise ValueError
+
 
     def __str__(self):
         """
@@ -64,6 +81,7 @@ class Employee:
         """
 
         # пиши свой код здесь
+        return 'name: ' + self.name + ' position: ' + self.position
 
     def __hash__(self):
         return id(self)
@@ -83,6 +101,8 @@ class Developer(Employee):
         """
 
         # пиши свой код здесь
+        self.language = language
+        super().__init__(name=name, salary=salary, position='developer')
 
 
 class Manager(Employee):
@@ -98,3 +118,4 @@ class Manager(Employee):
         """
 
         # пиши свой код здесь
+        super().__init__(name=name, salary=salary, position='manager')
