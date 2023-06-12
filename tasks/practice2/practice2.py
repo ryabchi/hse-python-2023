@@ -12,9 +12,14 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    if len(name) > 1:
+        greeting = f"Hello, {name}!"
+    else:
+        greeting = "Hello!"
+
     return greeting
 
+import random
 
 def get_amount() -> float:
     """
@@ -28,7 +33,8 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
+    amount = round(random.uniform(100, 1000000), 2)
+
     return amount
 
 
@@ -42,7 +48,18 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
+    result = True
+
+    if len(phone_number) != 12:
+        result = False
+
+    if phone_number[0] != '+' or phone_number[1] != '7':
+        result = False
+
+    for char in phone_number[2:]:
+        if not char.isdigit():
+            result = False
+        
     return result
 
 
@@ -58,7 +75,9 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
+    transfer_amount = float(transfer_amount)
+    result = current_amount >= transfer_amount
+
     return result
 
 
@@ -76,8 +95,15 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :param uncultured_words: список запрещенных слов
     :return: текст, соответсвующий правилам
     """
+    moderated = text.capitalize().replace('"', '').replace("'", "")
+    words = moderated.split()
 
-    # пиши код здесь
+    for i, word in enumerate(words):
+        if word.lower() in uncultured_words:
+            words[i] = '#' * len(word)
+
+    result = ' '.join(words)
+
     return result
 
 
@@ -100,5 +126,13 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    user_info_list = user_info.split(',')
+    last_name = user_info_list[0]
+    first_name = user_info_list[1]
+    middle_name = user_info_list[2]
+    birth_date = user_info_list[3]
+    requested_amount = user_info_list[4]
+
+    result = f"Фамилия: {last_name}\nИмя: {first_name}\nОтчество: {middle_name}\nДата рождения: {birth_date}\nЗапрошенная сумма: {requested_amount}"
+    
     return result
