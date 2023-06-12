@@ -40,4 +40,4 @@ def search_phone(content: Any, name: str) -> Optional[str]:
 
     # пиши свой код здесь
 
-    return None
+    return z[z.index('\'') + 1:len(z) - z[::-1].index('\'') - 1] if (f := lambda x: [f(y) if isinstance(y, list) else y['phone'] if y is not None and 'name' in y and y['name'] == name and 'phone' in y else f(y.values()) if isinstance(y, dict) else None for y in x]) and (z := str(f([content]))) and ('\'' in z) else None
