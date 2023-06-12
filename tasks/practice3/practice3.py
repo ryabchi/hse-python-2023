@@ -1,3 +1,5 @@
+import csv
+import re
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 
@@ -26,9 +28,24 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    # пиши свой код здесь
+    # заменяем все знаки препинания на пробелы
+    text = re.sub(r'[^\w\s]', ' ', text)
 
-    return {}
+    # приводим к нижнему регистру и разбиваем по пробелам
+    words = text.lower().split()
+
+    # удаляем из списка все слова, содержащие цифры
+    words = [word for word in words if not any(char.isdigit() for char in word)]
+
+    # подсчитываем количество вхождений каждого слова
+    word_count = {}
+    for word in words:
+        if word in word_count:
+            word_count[word] += 1
+        else:
+            word_count[word] = 1
+
+    return word_count
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -40,9 +57,11 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :return: список натуральных чисел
     """
 
-    # пиши свой код здесь
+    result = []
+    for num in numbers:
+        result.append(num ** exp)
 
-    return []
+    return result
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,7 +76,14 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
-
+    result = 0
+    for operation in operations:
+        amount = operation['amount']
+        category = operation['category']
+        if category in special_category:
+            result += amount * 0.05
+        else:
+            result += amount * 0.01
     return result
 
 
@@ -99,6 +125,12 @@ def csv_reader(header: str) -> int:
     :return: количество уникальных элементов в столбце
     """
 
-    # пиши свой код здесь
+    path_to_file = get_path_to_file()
+    unique_values_set = set()
+    with open(path_to_file, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            unique_values_set.add(row[header])
+        return len(unique_values_set)
 
     return 0
