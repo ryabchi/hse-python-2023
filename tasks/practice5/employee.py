@@ -60,7 +60,7 @@ class Employee:
         Если что-то идет не так - бросаются исключения. Смотрим что происходит в тестах.
         """
 
-        if isinstance(other, Employee | Developer | Manager):
+        if isinstance(other, Employee or Developer or Manager):
             try:
                 return True if get_position_level(self.position) == get_position_level(other.position) else False
             except NoSuchPositionError:
