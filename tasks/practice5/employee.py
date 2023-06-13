@@ -39,7 +39,10 @@ class Employee:
         """
         self.name = name
         self.position = position
-        self._salary = salary
+        if type(salary) is not int:
+            raise ValueError()
+        else:
+            self._salary = salary
         # пиши свой код здесь
 
     def get_salary(self) -> int:
@@ -56,10 +59,13 @@ class Employee:
         Сравнение происходит по уровню позиции см. `get_position_level`.
         Если что-то идет не так - бросаются исключения. Смотрим что происходит в тестах.
         """
-        if self.position != other.position:
-            return False
-        else:
-            return True
+        try:
+            if isinstance(self, Employee) and isinstance(other, Employee):
+                return get_position_level(self.position) == get_position_level(other.position)
+            else:
+                raise TypeError()
+        except NoSuchPositionError:
+            raise ValueError()
         # пиши свой код здесь
 
     def __str__(self):
@@ -86,7 +92,7 @@ class Developer(Employee):
         """
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
-        super().__init__(name, salary)
+        super().__init__(name, self.position, salary)
         self.language = language
         # пиши свой код здесь
 
@@ -102,5 +108,5 @@ class Manager(Employee):
         """
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
-        super().__init__(name, salary)
+        super().__init__(name, self.position, salary)
         # пиши свой код здесь
