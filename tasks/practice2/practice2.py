@@ -46,13 +46,24 @@ def is_phone_correct(phone_number: str) -> bool:
     """
 
     result = True
+    sh = 0
+    if len(phone_number) != 12:
+        result = False
+        return result
+    if phone_number[1] != "7":
+        result = False
+        return result
     for i in phone_number:
+        sh += 1
         try:
-            if 0 <= int(i) <= 9:
-                continue
+            if i != "+":
+                if 0 <= int(i) <= 9:
+                    continue
+                else:
+                    result = False
+                    break
             else:
-                result = False
-                break
+                continue
         except:
             result = False
             break
@@ -96,14 +107,22 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
     
+    text = text.replace("'", "")
+    text = text.replace('"', "")
+    text = text.split()
+    text = " ".join(text)
     text = text[:1].upper() + text[1:].lower()
     t = text.split()
     for j in range(len(t)):
-        if t[j] in uncultured_words:
-            another = ""
-            for i in range(len(t[j])):
-                another += "#"
-            t[j] = another
+        for i in uncultured_words:
+            if i in t[j]:
+                another = ""
+                for m in range(len(t[j])):
+                    if t[j][m].isalpha():
+                        another += "#"
+                    else:
+                        another += t[j][m]
+                t[j] = another
     result = " ".join(t)
     # пиши код здесь
     return result
