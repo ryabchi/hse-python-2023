@@ -73,7 +73,7 @@ class Employee:
         Задача: реализовать строковое представление объекта.
         Пример вывода: 'name: Ivan position manager'
         """
-        return f"name: {self.name} position {self.position}"
+        return f"name: {self.name} position: {self.position}"
         # пиши свой код здесь
 
     def __hash__(self):
