@@ -7,8 +7,9 @@ def concatenate_strings(a: str, b: str) -> str:
     :param b: число
     :return: результат сложения
     """
-    a = int(input())
-    b = int(input())
+    if a.isalnum() and b.isalnum() and not a.isalpha() and not b.isalpha():
+        a = int(a)
+        b = int(b)
     result = a+b
     # пиши свой код здесь
 
