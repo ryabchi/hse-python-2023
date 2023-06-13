@@ -26,7 +26,10 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
+    import string
+    text = text.lower()
     text = text.translate(str.maketrans({key: None for key in string.punctuation}))
+    print(text)
     text = text.split()
     uniq_text = text
     uniq_text = sorted(set(uniq_text), key=lambda d: uniq_text.index(d))
@@ -119,7 +122,8 @@ def csv_reader(header: str) -> int:
     import csv
     full_mat = []
     mas = []
-    with open("tasks.csv") as f:
+    a = get_path_to_file()
+    with open(a) as f:
         reader = csv.reader(f)
         for row in reader:
             full_mat.append(row)
