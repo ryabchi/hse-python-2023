@@ -32,14 +32,18 @@ class Team:
         # пиши свой код здесь
         
     def __repr__(self):
-        return f"team: {self.name} manager: {self.manager} number of members: {len(self.__members)}"
+        return f"team: {self.name} manager: {self.manager.name} number of members: {len(self.__members)}"
 
     def add_member(self, member: Employee) -> None:
         """
         Задача: реализовать метод добавления участника в команду.
         Добавить можно только работника.
         """
-        self.__members.add(member)
+        from .employee import Developer
+        if type(member) == Employee or type(member) == Developer:
+            self.__members.add(member)
+        else:
+            raise TypeError()
         # пиши свой код здесь
 
     def remove_member(self, member: Employee) -> None:
@@ -47,7 +51,14 @@ class Team:
         Задача: реализовать метод удаления участника из команды.
         Если в команде нет такого участника поднимается исключение `NoSuchMemberError`
         """
-        self.__members.remove(member)
+        from .employee import Developer
+        if member in self.__members:
+            self.__members.remove(member)
+        else:
+            if type(member) == Employee or type(member) == Developer:
+                raise NoSuchMemberError(self.name, member)
+            else:
+                raise TypeError()
         # пиши свой код здесь
 
     def get_members(self) -> Set[Employee]:
@@ -55,7 +66,10 @@ class Team:
         Задача: реализовать метод возвращения списка участков команды та,
         чтобы из вне нельзя было поменять список участников внутри класса
         """
-        return self.__members
+        if self.__members == set():
+            return set()
+        else:
+            return self.__members
         # пиши свой код здесь
 
     def show(self) -> None:
