@@ -37,15 +37,17 @@ class Employee:
         """
         Задача: реализовать конструктор класса, чтобы все тесты проходили
         """
-
-        # пиши свой код здесь
+        if not isinstance(salary, int):
+            raise ValueError()
+        self.name = name
+        self.position = position
+        self._salary = salary
 
     def get_salary(self) -> int:
         """
         Метод возвращает зарплату сотрудника.
         """
-
-        # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -54,8 +56,18 @@ class Employee:
         Сравнение происходит по уровню позиции см. `get_position_level`.
         Если что-то идет не так - бросаются исключения. Смотрим что происходит в тестах.
         """
+        if not isinstance(other, Employee):
+            raise TypeError
 
-        # пиши свой код здесь
+        try:
+            position_1 = get_position_level(self.position)
+            position_2 = get_position_level(other.position)
+
+            return position_1 == position_2
+
+        except NoSuchPositionError:
+            raise ValueError
+
 
     def __str__(self):
         """
@@ -63,7 +75,7 @@ class Employee:
         Пример вывода: 'name: Ivan position manager'
         """
 
-        # пиши свой код здесь
+        return f"name: {self.name} position: {self.position}"
 
     def __hash__(self):
         return id(self)
@@ -81,8 +93,10 @@ class Developer(Employee):
         """
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
-
-        # пиши свой код здесь
+        if not isinstance(language, str):
+            raise ValueError
+        self.language = language
+        super().__init__(name, self.position, salary)
 
 
 class Manager(Employee):
@@ -96,5 +110,5 @@ class Manager(Employee):
         """
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
+        super().__init__(name, self.position, salary)
 
-        # пиши свой код здесь
