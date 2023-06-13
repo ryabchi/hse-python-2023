@@ -1,5 +1,7 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+import string
+import csv
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -26,9 +28,18 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    # пиши свой код здесь
+    table = str.maketrans('', '', string.punctuation)
+    text = text.translate(table).lower()
 
-    return {}
+    words_count = {}
+    for word in text.split():
+        if word.isalpha() and len(word) > 1:
+            if word in words_count:
+                words_count[word] += 1
+            else:
+                words_count[word] = 1
+
+    return words_count
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -40,9 +51,9 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :return: список натуральных чисел
     """
 
-    # пиши свой код здесь
+    powered_numbers = [num ** exp for num in numbers]
 
-    return []
+    return powered_numbers
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,6 +68,21 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
+
+    normal_cashback = 0
+    special_cashback = 0
+
+    for operation in operations:
+        amount = operation['amount']
+        category = operation['category']
+
+        if category in special_category:
+            special_cashback += 0.05 * amount
+        else:
+            normal_cashback += 0.01 * amount
+
+    total_cashback = normal_cashback + special_cashback
+    result = total_cashback
 
     return result
 
@@ -99,6 +125,20 @@ def csv_reader(header: str) -> int:
     :return: количество уникальных элементов в столбце
     """
 
-    # пиши свой код здесь
+    file_path = get_path_to_file()
 
-    return 0
+    with open(file_path, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        headers = next(reader)
+
+        column_index = headers.index(header)
+
+        unique_elements = set()
+
+        for row in reader:
+            element = row[column_index]
+            unique_elements.add(element)
+
+    return len(unique_elements)
+
+

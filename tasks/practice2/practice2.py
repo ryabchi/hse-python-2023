@@ -1,4 +1,6 @@
 from typing import Iterable
+import random
+import re
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
@@ -12,7 +14,8 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    greeting = f"Привет, мой друг! Как дела, {name}?"
+
     return greeting
 
 
@@ -28,7 +31,7 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
+    amount = round(random.uniform(100, 1000000), 2)
     return amount
 
 
@@ -42,7 +45,8 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
+    pattern = r'^\+7\d{10}$'
+    result = bool(re.match(pattern, phone_number))
     return result
 
 
@@ -58,7 +62,13 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
+    try:
+        transfer_amount = float(transfer_amount)
+    except ValueError:
+        return False
+
+    result = current_amount >= transfer_amount
+
     return result
 
 
@@ -77,7 +87,16 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+    text = text.strip()
+
+    text = text[0].upper() + text[1:].lower()
+
+    text = text.replace('"', '').replace("'", '')
+
+    for word in uncultured_words:
+        text = text.replace(word, '#' * len(word))
+
+    result = text
     return result
 
 
@@ -85,20 +104,27 @@ def create_request_for_loan(user_info: str) -> str:
     """
     Генерирует заявку на кредит на основе входящей строки.
     Формат входящий строки:
-    
+
     Иванов,Петр,Сергеевич,01.01.1991,10000
-    
+
     Что должны вернуть на ее основе:
-    
+
     Фамилия: Иванов
     Имя: Петр
     Отчество: Сергеевич
     Дата рождения: 01.01.1991
     Запрошенная сумма: 10000
-    
+
     :param user_info: строка с информацией о клиенте
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    parts = user_info.split(',')
+
+    result = f"Фамилия: {parts[0]}\n"
+    result += f"Имя: {parts[1]}\n"
+    result += f"Отчество: {parts[2]}\n"
+    result += f"Дата рождения: {parts[3]}\n"
+    result += f"Запрошенная сумма: {parts[4]}"
+
     return result
