@@ -1,6 +1,6 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-
+import csv
 
 def count_words(text: str) -> Dict[str, int]:
     """
@@ -26,9 +26,20 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    # пиши свой код здесь
-
-    return {}
+    result_list = "".join(text.split("."))
+    result_list = "".join(result_list.split(","))
+    result_list = "".join(result_list.split("!"))
+    result_list = "".join(result_list.split("?"))
+    result_list = "".join(result_list.split(";"))
+    result_list = result_list.split()
+    d = {}
+    for item in result_list:
+        if item.isalpha() and (len(item) > 1):
+            if item.lower() in d.keys():
+                d[item.lower()] += 1
+            else:
+                d[item.lower()] = 1
+    return d
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -40,9 +51,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :return: список натуральных чисел
     """
 
-    # пиши свой код здесь
-
-    return []
+    return [numbers[i]**exp for i in range(0,len(numbers))]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,7 +66,12 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
-
+    result = 0
+    for op in operations:
+        if (op['category'] in special_category):
+            result += op['amount'] * 0.05
+        else:
+            result += op['amount'] * 0.01
     return result
 
 
@@ -99,6 +113,10 @@ def csv_reader(header: str) -> int:
     :return: количество уникальных элементов в столбце
     """
 
-    # пиши свой код здесь
-
-    return 0
+    with open(get_path_to_file(), 'r', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        list_items = []
+        for item in reader:
+            list_items.append(item[header])
+        result = len(set(list_items))
+    return result
