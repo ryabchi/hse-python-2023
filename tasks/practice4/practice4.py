@@ -1,5 +1,5 @@
 from typing import Any, Optional
-
+import re
 
 def search_phone(content: Any, name: str) -> Optional[str]:
     """
@@ -39,5 +39,9 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     """
 
     # пиши свой код здесь
+    data = str(content)
+    matches = re.findall("{'name': '" + name + "', 'phone': '\+7\d{10}'}", data)
+    if len(matches) == 0:
+        return None
 
-    return None
+    return re.findall("\+7\d{10}", matches[0])[0]
