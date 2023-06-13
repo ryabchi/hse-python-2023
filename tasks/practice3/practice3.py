@@ -30,7 +30,8 @@ def count_words(text: str) -> Dict[str, int]:
 
     dictionary = {}
     for sign in punctuation:
-        text = text.replace(sign, '')
+        if sign in text:
+            text = text.replace(sign, '')
     for word in text.split(' '):
         word = word.lower()
         if len(word) > 1 and word.isalpha():
