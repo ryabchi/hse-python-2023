@@ -95,14 +95,18 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :param uncultured_words: список запрещенных слов
     :return: текст, соответсвующий правилам
     """
-    moderated = text.capitalize().replace('"', '').replace("'", "")
-    words = moderated.split()
+    words = text.split()
+    moderated_words = []
 
-    for i, word in enumerate(words):
-        if word.lower() in uncultured_words:
-            words[i] = '#' * len(word)
-
-    result = ' '.join(words)
+    for word in words:
+        word_stripped = word.rstrip(".,!?;:")        
+        punctuation = word[len(word_stripped):]
+        if word_stripped .lower() in uncultured_words:
+            moderated_words.append('#' * len(word_stripped) + punctuation)
+        else:
+            moderated_words.append(word)
+    result = ' '.join(moderated_words)
+    result = result.capitalize().replace('"', '').replace("'", "")
 
     return result
 

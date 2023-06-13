@@ -26,9 +26,15 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    # пиши свой код здесь
+    word_counts = {}
+    words = ''.join(c.lower() if c.isalpha() or c.isspace() or c.isdigit() else ' ' for c in text)
+    words = words.split()
 
-    return {}
+    for word in words:
+        if word.isalpha() and not any(c.isdigit() for c in word):
+            word_counts[word] = word_counts.get(word, 0) + 1
+
+    return word_counts
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -42,7 +48,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
 
     # пиши свой код здесь
 
-    return []
+    return [num ** exp for num in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,6 +63,18 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
+
+    total_cashback = 0.0
+    for operation in operations:
+        amount = operation['amount']
+        category = operation['category']
+        cashback_rate = 0.01
+        if category in special_category:
+            cashback_rate = 0.05
+        cashback = amount * cashback_rate
+        total_cashback += cashback
+
+    result = total_cashback
 
     return result
 
@@ -76,6 +94,7 @@ def get_path_to_file() -> Optional[Path]:
         base_path = Path().resolve()
     return base_path / 'tasks' / 'practice3' / 'tasks.csv'
 
+import csv
 
 def csv_reader(header: str) -> int:
     """
@@ -99,6 +118,12 @@ def csv_reader(header: str) -> int:
     :return: количество уникальных элементов в столбце
     """
 
-    # пиши свой код здесь
+    path_to_file = get_path_to_file()
+    unique_elements = set()
+    with open(path_to_file, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            element = row[header]
+            unique_elements.add(element)    
 
-    return 0
+    return len(unique_elements)
