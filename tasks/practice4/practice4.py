@@ -1,5 +1,5 @@
 from typing import Any, Optional
-
+from collections import deque
 
 def search_phone(content: Any, name: str) -> Optional[str]:
     """
@@ -38,6 +38,18 @@ def search_phone(content: Any, name: str) -> Optional[str]:
     :return: номер телефона пользователя или None
     """
 
-    # пиши свой код здесь
+    stack = deque()
+    stack.append(content)
+
+    while stack:
+        item = stack.pop()
+
+        if isinstance(item, dict):
+            if 'name' in item and item['name'] == name:
+                return item.get('phone')
+            stack.extend(item.values())
+
+        elif isinstance(item, list):
+            stack.extend(item)
 
     return None

@@ -27,7 +27,12 @@ class Team:
         и инициализировать контейнер `__members`
         """
 
-        # пиши свой код здесь
+        if not isinstance(manager, Manager):
+            raise TypeError("Manager type must be <class 'Manager'>!")
+
+        self.name = name
+        self.manager = manager
+        self.__members = set()
 
     def add_member(self, member: Employee) -> None:
         """
@@ -35,7 +40,10 @@ class Team:
         Добавить можно только работника.
         """
 
-        # пиши свой код здесь
+        if isinstance(member, Employee):
+            self.__members.add(member)
+        else:
+            raise TypeError("Member must be a type <class 'Employee'>")
 
     def remove_member(self, member: Employee) -> None:
         """
@@ -43,15 +51,25 @@ class Team:
         Если в команде нет такого участника поднимается исключение `NoSuchMemberError`
         """
 
-        # пиши свой код здесь
+        if isinstance(member, Employee):
+            try:
+                self.__members.remove(member)
+            except KeyError:
+                raise NoSuchMemberError(self.name, member)
+        else:
+            raise TypeError("Member must be a type <class 'Employee'>")
 
     def get_members(self) -> Set[Employee]:
         """
         Задача: реализовать метод возвращения списка участков команды та,
         чтобы из вне нельзя было поменять список участников внутри класса
         """
+        return set(self.__members)
 
-        # пиши свой код здесь
+    def __str__(self):
+        return f'team: {self.name} ' \
+               f'manager: {self.manager.name} ' \
+               f'number of members: {len(self.get_members())}'
 
     def show(self) -> None:
         """

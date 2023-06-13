@@ -17,8 +17,8 @@ def get_position_level(position_name: str) -> int:
     """
     try:
         return POSITIONS[position_name]
-    except KeyError as exp:
-        raise NoSuchPositionError(position_name) from exp
+    except KeyError:
+        raise NoSuchPositionError(position_name)
 
 
 class Employee:
@@ -37,15 +37,21 @@ class Employee:
         """
         Задача: реализовать конструктор класса, чтобы все тесты проходили
         """
+        if isinstance(salary, int):
+            if salary < 0:
+                raise ValueError("Negative salary!.")
+        else:
+            raise ValueError("Invalid type of salary! Expected: <class 'int'>!")
 
-        # пиши свой код здесь
+        self.name = name
+        self.position = position
+        self._salary = salary
 
     def get_salary(self) -> int:
         """
         Метод возвращает зарплату сотрудника.
         """
-
-        # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -55,7 +61,13 @@ class Employee:
         Если что-то идет не так - бросаются исключения. Смотрим что происходит в тестах.
         """
 
-        # пиши свой код здесь
+        if not isinstance(other, Employee):
+            raise TypeError("Invalid object to compare to!.")
+
+        try:
+            return get_position_level(self.position) == get_position_level(other.position)
+        except NoSuchPositionError:
+            raise ValueError("Invalid Position!")
 
     def __str__(self):
         """
@@ -63,7 +75,7 @@ class Employee:
         Пример вывода: 'name: Ivan position manager'
         """
 
-        # пиши свой код здесь
+        return f"name: {self.name} position: {self.position}"
 
     def __hash__(self):
         return id(self)
@@ -81,8 +93,8 @@ class Developer(Employee):
         """
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
-
-        # пиши свой код здесь
+        super().__init__(name, self.position, salary)
+        self.language = language
 
 
 class Manager(Employee):
@@ -96,5 +108,4 @@ class Manager(Employee):
         """
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
-
-        # пиши свой код здесь
+        super().__init__(name, self.position, salary)
