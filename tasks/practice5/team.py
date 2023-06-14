@@ -31,14 +31,16 @@ class Team:
         self.manager = manager
         self.__members = set()
 
+    def __str__(self) -> str:
+        return f'team: {self.name} manager: {self.manager.name} number of members: {len(self.get_members())}'
+
     def add_member(self, member: Employee) -> None:
         """
         Задача: реализовать метод добавления участника в команду.
         Добавить можно только работника.
         """
 
-        from .employee import Developer
-        if type(member) == Employee or type(member) == Developer:
+        if isinstance(member, Employee):
             self.__members.add(member)
         else:
             raise TypeError()
@@ -49,11 +51,10 @@ class Team:
         Если в команде нет такого участника поднимается исключение `NoSuchMemberError`
         """
 
-        from .employee import Developer
         if member in self.__members:
             self.__members.remove(member)
         else:
-            if type(member) == Employee or type(member) == Developer:
+            if isinstance(member, Employee):
                 raise NoSuchMemberError(self.name, member)
             else:
                 raise TypeError()
