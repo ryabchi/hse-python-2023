@@ -31,16 +31,14 @@ class Team:
         self.manager = manager
         self.__members = set()
 
-    def __str__(self) -> str:
-        return f'team: {self.name} manager: {self.manager.name} number of members: {len(self.get_members())}'
-
     def add_member(self, member: Employee) -> None:
         """
         Задача: реализовать метод добавления участника в команду.
         Добавить можно только работника.
         """
 
-        if isinstance(member, Employee):
+        from .employee import Developer
+        if type(member) == Employee or type(member) == Developer:
             self.__members.add(member)
         else:
             raise TypeError()
@@ -51,13 +49,14 @@ class Team:
         Если в команде нет такого участника поднимается исключение `NoSuchMemberError`
         """
 
-        if isinstance(member, Employee):
-            if member in self.__members:
-                self.__members.remove(member)
-            else:
-                raise NoSuchMemberError(self.name, member)
+        from .employee import Developer
+        if member in self.__members:
+            self.__members.remove(member)
         else:
-            raise TypeError()
+            if type(member) == Employee or type(member) == Developer:
+                raise NoSuchMemberError(self.name, member)
+            else:
+                raise TypeError()
 
     def get_members(self) -> Set[Employee]:
         """
@@ -65,7 +64,13 @@ class Team:
         чтобы из вне нельзя было поменять список участников внутри класса
         """
 
-        return self.__members.copy()
+        if self.__members == set():
+            return set()
+        else:
+            return self.__members
+
+    def __repr__(self):
+        return f"team: {self.name} manager: {self.manager.name} number of members: {len(self.__members)}"
 
     def show(self) -> None:
         """
