@@ -77,15 +77,11 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     """
 
     for word in uncultured_words:
-        f = text.find(word)
-        while f != -1:
-            text = text[0:f] + '#' * len(word) + text[f + len(word):]
-            f = text.find(word)
-
-    text = text.replace('\'', "")
+        text = text.replace(word, "#" * len(word))
+    text = text.strip()
+    text = text.capitalize()
     text = text.replace('"', "")
-    text = " ".join([word.lower() for word in text.split()])
-    text = text[0:1].upper() + text[1:]
+    text = text.replace("'", "")
     return text
 
 
@@ -108,7 +104,10 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-
-    last_name, first_name, middle_name, birth_date, requested_amount = user_info.split(",")
-    request = f"Фамилия: {last_name}\nИмя: {first_name}\nОтчество: {middle_name}\nДата рождения: {birth_date}\nЗапрошенная сумма: {requested_amount}"
-    return request
+    parts = user_info.split(",")
+    if len(parts) == 5:
+        last_name, first_name, middle_name, birth_date, requested_amount = parts
+        request = f"Фамилия: {last_name}\nИмя: {first_name}\nОтчество: {middle_name}\nДата рождения: {birth_date}\nЗапрошенная сумма: {requested_amount}"
+        return request
+    else:
+        return "Invalid user information."
