@@ -12,8 +12,11 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
-    return greeting
+    if name:
+        greeting = f"Hello, {name}!"
+        return greeting
+    else:
+        return "Hello!"
 
 
 def get_amount() -> float:
@@ -28,7 +31,7 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
+    amount = round(random.uniform(100, 1000000), 2)
     return amount
 
 
@@ -42,8 +45,7 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
-    return result
+    return phone_number.startswith("+7") and phone_number[1:].isdigit()
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -58,8 +60,7 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
-    return result
+    return current_amount >= float(transfer_amount)
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -77,8 +78,13 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
-    return result
+    for word in uncultured_words:
+        text = text.replace(word, "#" * len(word))
+    text = text.strip()
+    text = text.capitalize()
+    text = text.replace('"', "")
+    text = text.replace("'", "")
+    return text
 
 
 def create_request_for_loan(user_info: str) -> str:
@@ -100,5 +106,10 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
-    return result
+    parts = user_info.split(",")
+    if len(parts) == 5:
+        last_name, first_name, middle_name, birth_date, requested_amount = parts
+        request = f"Фамилия: {last_name}\nИмя: {first_name}\nОтчество: {middle_name}\nДата рождения: {birth_date}\nЗапрошенная сумма: {requested_amount}"
+        return request
+    else:
+        return "Invalid user information."
