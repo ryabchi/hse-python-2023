@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 import csv
+import string
 
 def count_words(text: str) -> Dict[str, int]:
     """
@@ -26,22 +27,16 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
+    text_lowercase = text.lower()
+    text_no_punctuation = text_lowercase.translate(str.maketrans('', '', string.punctuation))
+    text_arr = text_no_punctuation.split()
     words = {}
-    word = ""
-    for char in text:
-        if char.isalpha():
-            word += char.lower()
-        elif word:
+    for word in text_arr:
+        if word.isalpha():
             if word in words:
                 words[word] += 1
             else:
                 words[word] = 1
-            word = ""
-    if word:
-        if word in words:
-            words[word] += 1
-        else:
-            words[word] = 1
     return words
 
 
