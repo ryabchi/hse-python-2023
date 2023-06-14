@@ -37,8 +37,11 @@ class Team:
         Добавить можно только работника.
         """
 
-        if isinstance(member, Employee):
+        from .employee import Developer
+        if type(member) == Employee or type(member) == Developer:
             self.__members.add(member)
+        else:
+            raise TypeError()
 
     def remove_member(self, member: Employee) -> None:
         """
@@ -46,10 +49,14 @@ class Team:
         Если в команде нет такого участника поднимается исключение `NoSuchMemberError`
         """
 
+        from .employee import Developer
         if member in self.__members:
             self.__members.remove(member)
         else:
-            raise NoSuchMemberError()
+            if type(member) == Employee or type(member) == Developer:
+                raise NoSuchMemberError(self.name, member)
+            else:
+                raise TypeError()
 
     def get_members(self) -> Set[Employee]:
         """
@@ -57,7 +64,10 @@ class Team:
         чтобы из вне нельзя было поменять список участников внутри класса
         """
 
-        return self.__members.copy()
+        if self.__members == set():
+            return set()
+        else:
+            return self.__members
 
     def show(self) -> None:
         """
