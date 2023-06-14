@@ -64,10 +64,8 @@ class Team:
         чтобы из вне нельзя было поменять список участников внутри класса
         """
 
-        if self.__members == set():
-            return set()
-        else:
-            return self.__members
+        team_temp = set(list(self.__members)[:])
+        return team_temp
 
     def show(self) -> None:
         """
