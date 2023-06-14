@@ -39,9 +39,12 @@ class Employee:
         """
 
         # пиши свой код здесь
-        self.name = name
-        self.position = position
-        self._salary = salary
+        if isinstance(name, str) and isinstance(position, str) and isinstance(salary, int):
+            self.name = name
+            self.position = position
+            self._salary = salary
+        else:
+            raise ValueError("Invalid position for the employee")
 
     def get_salary(self) -> int:
         """
@@ -61,8 +64,14 @@ class Employee:
 
         # пиши свой код здесь
         if not isinstance(other, Employee):
-            return NotImplemented
-        return get_position_level(self.position) == get_position_level(other.position)
+            raise TypeError("The other object must be an instance of Employee")
+
+        try:
+            is_same_position_level = get_position_level(self.position) == get_position_level(other.position)
+        except NoSuchPositionError:
+            raise ValueError("Invalid position for the employee")
+
+        return is_same_position_level
 
     def __str__(self):
         """
@@ -71,7 +80,7 @@ class Employee:
         """
 
         # пиши свой код здесь
-        return f"name: {self.name} position {self.position}"
+        return f"name: {self.name} position: {self.position}"
 
     def __hash__(self):
         return id(self)
@@ -91,9 +100,10 @@ class Developer(Employee):
         """
 
         # пиши свой код здесь
+        if not isinstance(language, str):
+            raise ValueError("Invalid position for the employee")
         super().__init__(name, self.position, salary)
         self.language = language
-
 
 
 class Manager(Employee):
