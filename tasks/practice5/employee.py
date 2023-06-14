@@ -113,7 +113,3 @@ class Manager(Employee):
         # пиши свой код здесь
         Employee.__init__(self, name, 'manager', salary)
 
-
-employee_1 = Employee('name1', 'position1', 10)
-employee_2 = Employee('name2', 'position2', 30)
-print(employee_2 == employee_2)
