@@ -51,6 +51,7 @@ class Employee:
         """
 
         return self._salary
+
     def __eq__(self, other: object) -> bool:
         """
         Задача: реализовать метод сравнение двух сотрудников, чтобы все тесты проходили.
@@ -73,7 +74,7 @@ class Employee:
         Пример вывода: 'name: Ivan position manager'
         """
 
-        return f'name: {self.name} position {self.position}'
+        return f"name: {self.name} position: {self.position}"
 
     def __hash__(self):
         return id(self)
