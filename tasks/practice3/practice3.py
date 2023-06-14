@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+import csv
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -25,10 +26,18 @@ def count_words(text: str) -> Dict[str, int]:
              ключ - слово в нижнем регистре
              значение - количество вхождений слов в текст
     """
-
-    # пиши свой код здесь
-
-    return {}
+    res = {}
+    text = text.lower()
+    text = text.replace('.', '')
+    text = text.replace('...', '')
+    text = text.replace('-', '')
+    text = text.replace('!', '')
+    text = text.replace(',', '')
+    text = text.split()
+    for word in text:
+        if len(word) > 0 and word.isalpha():
+            res[word] = text.count(word)
+    return res
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -40,9 +49,8 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :return: список натуральных чисел
     """
 
-    # пиши свой код здесь
 
-    return []
+    return [el**exp for el in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -57,8 +65,13 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
-
-    return result
+    res = 0
+    for op in operations:
+        if op['category'] in special_category:
+            res += op['amount'] * 0.05
+        else:
+            res += op['amount'] * 0.01
+    return res
 
 
 def get_path_to_file() -> Optional[Path]:
@@ -98,7 +111,14 @@ def csv_reader(header: str) -> int:
     :param header: название заголовка
     :return: количество уникальных элементов в столбце
     """
+    variants = set()
+    with open(get_path_to_file()) as csv_file:
+        read = csv.DictReader(csv_file)
+        count = {head: 0 for head in read.fieldnames}
+        for row in read:
+            for head in read.fieldnames:
+                if row[head] not in variants:
+                    count[head] += 1
+                    variants.add(row[head])
 
-    # пиши свой код здесь
-
-    return 0
+    return count[header]
