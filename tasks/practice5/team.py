@@ -51,13 +51,13 @@ class Team:
         Если в команде нет такого участника поднимается исключение `NoSuchMemberError`
         """
 
-        if member in self.__members:
-            self.__members.remove(member)
-        else:
-            if isinstance(member, Employee):
-                raise NoSuchMemberError(self.name, member)
+        if isinstance(member, Employee):
+            if member in self.__members:
+                self.__members.remove(member)
             else:
-                raise TypeError()
+                raise NoSuchMemberError(self.name, member)
+        else:
+            raise TypeError()
 
     def get_members(self) -> Set[Employee]:
         """
@@ -65,8 +65,7 @@ class Team:
         чтобы из вне нельзя было поменять список участников внутри класса
         """
 
-        team_temp = set(list(self.__members)[:])
-        return team_temp
+        return self.__members.copy()
 
     def show(self) -> None:
         """
