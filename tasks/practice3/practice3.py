@@ -1,7 +1,6 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-import csv
-import string
+
 
 def count_words(text: str) -> Dict[str, int]:
     """
@@ -27,17 +26,23 @@ def count_words(text: str) -> Dict[str, int]:
              значение - количество вхождений слов в текст
     """
 
-    text_lowercase = text.lower()
-    text_no_punctuation = text_lowercase.translate(str.maketrans('', '', string.punctuation))
-    text_arr = text_no_punctuation.split()
-    words = {}
-    for word in text_arr:
-        if word.isalpha():
-            if word in words:
-                words[word] += 1
-            else:
-                words[word] = 1
-    return words
+    import string
+    text = text.lower()
+    text = text.translate(str.maketrans({key: None for key in string.punctuation}))
+    print(text)
+    text = text.split()
+    another_text = text
+    another_text = sorted(set(another_text), key=lambda d: another_text.index(d))
+    result = {}
+    for i in another_text:
+        count = 0
+        string = [s for s in i if s in '123456789']
+        if not string:
+            for j in text:
+                if i == j:
+                    count += 1
+            result[i] = count
+    return result
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -49,9 +54,9 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
     :return: список натуральных чисел
     """
 
-    # пиши свой код здесь
-
-    return [num ** exp for num in numbers]
+    for i in range(len(numbers)):
+        numbers[i] = numbers[i] ** exp
+    return numbers
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -66,16 +71,14 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :param special_category: список категорий повышенного кешбека
     :return: размер кешбека
     """
-
-    cashback = 0
-    for operation in operations:
-        amount = operation.get('amount', 0)
-        category = operation.get('category', '')
-        if category in special_category:
-            cashback += amount * 0.05
-        else:
-            cashback += amount * 0.01
-    return cashback
+    result = 0.00
+    for i in range(len(operations)):
+        percent = 0.01
+        for j in special_category:
+            if j == operations[i].get('category'):
+                percent = 0.05
+        result += float(operations[i].get("amount")) * percent
+    return result
 
 
 def get_path_to_file() -> Optional[Path]:
@@ -116,15 +119,20 @@ def csv_reader(header: str) -> int:
     :return: количество уникальных элементов в столбце
     """
 
-    file_path = get_path_to_file()
-    if file_path is None:
-        return 0
-
-    with open(file_path, 'r') as file:
-        csv_reader = csv.DictReader(file)
-        unique_values = set()
-        for row in csv_reader:
-            value = row.get(header)
-            if value:
-                unique_values.add(value)
-        return len(unique_values)
+    import csv
+    all_data = []
+    data = []
+    a = get_path_to_file()
+    with open(a) as f:
+        reader = csv.reader(f)
+        for row in reader:
+            all_data.append(row)
+    for i in range(len(all_data)):
+        if i == 0:
+            for j in range(len(all_data[i])):
+                if all_data[i][j] == header:
+                    need = j
+        else:
+            data.append(all_data[i][need])
+    result = len(set(data))
+    return result
