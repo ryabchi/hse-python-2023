@@ -1,4 +1,5 @@
 from typing import Iterable
+import random
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
@@ -12,7 +13,7 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    # пиши код здесь
+    greeting = "Welcome, " + name
     return greeting
 
 
@@ -28,7 +29,7 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    # пиши код здесь
+    amount = float("%0.2f" % random.uniform(100, 1000000))
     return amount
 
 
@@ -42,7 +43,15 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    # пиши код здесь
+    result = True
+    if (len(phone_number) != 12):
+        return False
+    if (phone_number[0] != "+" or phone_number[1] != "7"):
+        return False
+    for i in range(2, len(phone_number)):
+        if ord(phone_number[i]) < 48 or ord(phone_number[i]) > 57:
+            result = False
+            break
     return result
 
 
@@ -58,7 +67,10 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    # пиши код здесь
+    if current_amount >= float(transfer_amount):
+        result = True
+    else:
+        result = False
     return result
 
 
@@ -77,7 +89,18 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
-    # пиши код здесь
+    my = text.strip()
+    my = my[0:1].upper() + my[1:len(my)].lower()
+
+    my = my.replace("  ", " ")
+    my = my.replace('"', '')
+    my = my.replace("'", '')
+
+    for i in uncultured_words:
+        my = my.replace(i, "#" * len(i))
+
+    result = my
+
     return result
 
 
@@ -100,5 +123,7 @@ def create_request_for_loan(user_info: str) -> str:
     :return: текст кредитной заявки
     """
 
-    # пиши код здесь
+    info = user_info.split(",")
+    result = "Фамилия: " + info[0] + '\n' + "Имя: " + info[1] + '\n' + "Отчество: " + info[
+        2] + '\n' + "Дата рождения: " + info[3] + '\n' + "Запрошенная сумма: " + info[4]
     return result
