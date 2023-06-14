@@ -1,5 +1,5 @@
-from typing import Iterable
 import random
+from typing import Iterable
 
 UNCULTURED_WORDS = ('kotleta', 'pirog')
 
@@ -13,7 +13,8 @@ def greet_user(name: str) -> str:
     :return: приветствие
     """
 
-    greeting = 'Hello, ' + name + '!'
+    # пиши код здесь
+    greeting = "Привет " + name
     return greeting
 
 
@@ -29,7 +30,8 @@ def get_amount() -> float:
     :return: случайную сумму на счете
     """
 
-    amount = round(random.uniform(100, 1000000), 2)
+    # пиши код здесь
+    amount = round(random.uniform(100, 10 ** 6), 2)
     return amount
 
 
@@ -43,7 +45,14 @@ def is_phone_correct(phone_number: str) -> bool:
                                           False - если номер некорректный
     """
 
-    return phone_number.startswith("+7") and phone_number[1:].isdigit()
+    # пиши код здесь
+    import re
+    pattern = r'\+7\d{10}'
+    result = re.match(pattern, phone_number)
+    if result:
+        return True
+    else:
+        return False
 
 
 def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
@@ -58,7 +67,11 @@ def is_amount_correct(current_amount: float, transfer_amount: str) -> bool:
                                           False - если денег недостаточно
     """
 
-    return current_amount >= float(transfer_amount)
+    # пиши код здесь
+    if current_amount >= float(transfer_amount):
+        return True
+    else:
+        return False
 
 
 def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
@@ -76,12 +89,15 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     :return: текст, соответсвующий правилам
     """
 
+    # пиши код здесь
+    import re
+    text = re.sub(r"['\"]", "", text)
+    text = re.sub(r"\s+", " ", text.strip())
+
     for word in uncultured_words:
-        text = text.replace(word, "#" * len(word))
-    text = text.strip()
-    text = text.capitalize()
-    text = text.replace('"', "")
-    text = text.replace("'", "")
+        text = re.sub(r"\b{}\b".format(word), "#" * len(word), text, flags=re.IGNORECASE)
+    text = text.lower().capitalize()
+
     return text
 
 
@@ -89,25 +105,27 @@ def create_request_for_loan(user_info: str) -> str:
     """
     Генерирует заявку на кредит на основе входящей строки.
     Формат входящий строки:
-    
+
     Иванов,Петр,Сергеевич,01.01.1991,10000
-    
+
     Что должны вернуть на ее основе:
-    
+
     Фамилия: Иванов
     Имя: Петр
     Отчество: Сергеевич
     Дата рождения: 01.01.1991
     Запрошенная сумма: 10000
-    
+
     :param user_info: строка с информацией о клиенте
     :return: текст кредитной заявки
     """
 
-    parts = user_info.split(",")
-    if len(parts) == 5:
-        last_name, first_name, middle_name, birth_date, requested_amount = parts
-        request = f"Фамилия: {last_name}\nИмя: {first_name}\nОтчество: {middle_name}\nДата рождения: {birth_date}\nЗапрошенная сумма: {requested_amount}"
-        return request
-    else:
-        return "Invalid user information."
+    # пиши код здесь
+    last_name, first_name, patronymic, date, salary = user_info.split(',')
+
+    result = f'Фамилия: {last_name}\n' \
+             f'Имя: {first_name}\n' \
+             f'Отчество: {patronymic}\n' \
+             f'Дата рождения: {date}\n' \
+             f'Запрошенная сумма: {salary}'
+    return result
