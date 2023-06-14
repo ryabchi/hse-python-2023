@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-
+import re
+import csv
 
 def count_words(text: str) -> Dict[str, int]:
     """
@@ -28,7 +29,15 @@ def count_words(text: str) -> Dict[str, int]:
 
     # пиши свой код здесь
 
-    return {}
+    res = re.findall(r'\b[A-Za-z]+\b', text)
+    d = {}
+    for item in res:
+        item = item.lower()
+        if item not in d.keys():
+            d[item] = 1
+        else:
+            d[item] += 1
+    return d
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -42,7 +51,9 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
 
     # пиши свой код здесь
 
-    return []
+    for i in range(len(numbers)):
+        numbers[i] = numbers[i] ** exp
+    return numbers
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -58,6 +69,12 @@ def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) 
     :return: размер кешбека
     """
 
+    result = 0
+    for item in operations:
+        if item['category'] in special_category:
+            result += 0.05 * item['amount']
+        else:
+            result += 0.01 * item['amount']
     return result
 
 
@@ -101,4 +118,20 @@ def csv_reader(header: str) -> int:
 
     # пиши свой код здесь
 
-    return 0
+    file = open(get_path_to_file())
+    table = csv.reader(file)
+    mas = [item for item in table]
+    index = 0
+    for i in range(len(mas[0])):
+        if mas[0][i] == header:
+            index = i
+            break
+    d = {}
+    for i in range(1, len(mas)):
+        if mas[i][index] not in d.keys():
+            d[mas[i][index]] = 1
+        else:
+            d[mas[i][index]] += 1
+
+    count = len(d)
+    return count
