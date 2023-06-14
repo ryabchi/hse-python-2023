@@ -40,7 +40,10 @@ class Employee:
 
         self.name = name
         self.position = position
-        self._salary = salary
+        if type(salary) is not int:
+            raise ValueError()
+        else:
+            self._salary = salary
 
     def get_salary(self) -> int:
         """
@@ -56,9 +59,13 @@ class Employee:
         Если что-то идет не так - бросаются исключения. Смотрим что происходит в тестах.
         """
 
-        if isinstance(other, Employee):
-            return get_position_level(self.position) == get_position_level(other.position)
-        return False
+        try:
+            if isinstance(self, Employee) and isinstance(other, Employee):
+                return get_position_level(self.position) == get_position_level(other.position)
+            else:
+                raise TypeError()
+        except NoSuchPositionError:
+            raise ValueError()
 
     def __str__(self):
         """
