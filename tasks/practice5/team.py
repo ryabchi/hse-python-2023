@@ -33,7 +33,7 @@ class Team:
             self.manager = manager
             self.__members = set()
         else:
-            raise TypeError
+            raise ValueError("Invalid position for the employee")
 
     def add_member(self, member: Employee) -> None:
         """
@@ -44,7 +44,8 @@ class Team:
         # пиши свой код здесь
         if isinstance(member, Employee):
             self.__members.add(member)
-
+        else:
+            raise TypeError("The other object must be an instance of Employee")
 
     def remove_member(self, member: Employee) -> None:
         """
@@ -53,6 +54,8 @@ class Team:
         """
 
         # пиши свой код здесь
+        if not isinstance(member, Employee):
+            raise TypeError("The other object must be an instance of Employee")
         if member in self.__members:
             self.__members.remove(member)
         else:
@@ -66,15 +69,9 @@ class Team:
 
         # пиши свой код здесь
         return self.__members.copy()
-    def members_count(self):
-        return len(self.__members)
-    
-     def __str__(self):
-        """
-        Пример вывода: 'team: Team A manager: John number of members: 3'
-        """
 
-        return f"team: {self.name} manager: {self.manager.name} number of members: {self. members_count())}"
+    def __str__(self):
+        return f"team: {self.name} manager: {self.manager.name} number of members: {str(len(self.__members))}"
 
     def show(self) -> None:
         """
