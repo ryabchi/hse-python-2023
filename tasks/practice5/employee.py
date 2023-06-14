@@ -37,15 +37,19 @@ class Employee:
         """
         Задача: реализовать конструктор класса, чтобы все тесты проходили
         """
-
         # пиши свой код здесь
+        if type(name) != str or type(position) != str or type(salary) != int:
+            raise ValueError
+        self.name = name
+        self.position = position
+        self._salary = salary
 
     def get_salary(self) -> int:
         """
         Метод возвращает зарплату сотрудника.
         """
-
         # пиши свой код здесь
+        return self._salary
 
     def __eq__(self, other: object) -> bool:
         """
@@ -54,7 +58,15 @@ class Employee:
         Сравнение происходит по уровню позиции см. `get_position_level`.
         Если что-то идет не так - бросаются исключения. Смотрим что происходит в тестах.
         """
-
+        if type(self) != Employee:
+            raise TypeError
+        if type(other) != Employee:
+            raise TypeError
+        if self.position not in POSITIONS:
+            raise ValueError
+        if other.position not in POSITIONS:
+            raise ValueError
+        return get_position_level(self.position) == get_position_level(other.position)
         # пиши свой код здесь
 
     def __str__(self):
@@ -62,7 +74,7 @@ class Employee:
         Задача: реализовать строковое представление объекта.
         Пример вывода: 'name: Ivan position manager'
         """
-
+        return f"name: {self.name} position: {self.position}"
         # пиши свой код здесь
 
     def __hash__(self):
@@ -81,8 +93,12 @@ class Developer(Employee):
         """
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
-
-        # пиши свой код здесь
+        if type(name) != str or type(language) != str or type(salary) != int:
+            raise ValueError
+        self.name = name
+        self._salary = salary
+        self.language = language
+            # пиши свой код здесь
 
 
 class Manager(Employee):
@@ -96,5 +112,8 @@ class Manager(Employee):
         """
         Задача: реализовать конструктор класса, используя конструктор родителя
         """
-
+        if type(name) != str or type(salary) != int:
+            raise ValueError
+        self.name = name
+        self._salary = salary
         # пиши свой код здесь
