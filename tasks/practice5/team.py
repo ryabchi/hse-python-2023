@@ -28,9 +28,12 @@ class Team:
         """
 
         # пиши свой код здесь
-        self.name = name
-        self.manager = manager
-        self.__members = set()
+        if isinstance(name, str) and isinstance(manager, Manager):
+            self.name = name
+            self.manager = manager
+            self.__members = set()
+        else:
+            raise TypeError
 
     def add_member(self, member: Employee) -> None:
         """
@@ -63,13 +66,15 @@ class Team:
 
         # пиши свой код здесь
         return self.__members.copy()
+    def members_count(self):
+        return len(self.__members)
     
      def __str__(self):
         """
         Пример вывода: 'team: Team A manager: John number of members: 3'
         """
 
-        return f"team: {self.name} manager: {self.manager.name} number of members: {len(self.__members)}"
+        return f"team: {self.name} manager: {self.manager.name} number of members: {self. members_count())}"
 
     def show(self) -> None:
         """
